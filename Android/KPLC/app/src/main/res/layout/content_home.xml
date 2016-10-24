@@ -12,7 +12,7 @@
     android:paddingBottom="@dimen/activity_vertical_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:showIn="@layout/app_bar_home"
-    tools:context="gridwatch.kplc.HomeActivity">
+    tools:context="gridwatch.kplc.activities.HomeActivity">
 
     <TextView
         android:layout_width="wrap_content"

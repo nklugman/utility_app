@@ -1,10 +1,10 @@
-package gridwatch.kplc;
+package gridwatch.kplc.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.view.View;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -12,6 +12,18 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+
+import gridwatch.kplc.R;
+import gridwatch.kplc.activities.billing.PostPaidActivity;
+import gridwatch.kplc.activities.billing.PrepaidActivity;
+import gridwatch.kplc.activities.outage.OutageMapActivity;
+import gridwatch.kplc.activities.outage.ReportOutageActivity;
+import gridwatch.kplc.activities.outage.ReportRestorationActivity;
+import gridwatch.kplc.activities.social_media.FacebookActivity;
+import gridwatch.kplc.activities.social_media.GooglePlusActivity;
+import gridwatch.kplc.activities.social_media.LinkedInActivity;
+import gridwatch.kplc.activities.social_media.TwitterActivity;
 
 public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -80,22 +92,39 @@ public class HomeActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
 
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
+        if (id == R.id.nav_prepaid) {
+            launch_class(PrepaidActivity.class);
+        } else if (id == R.id.nav_postpaid) {
+            launch_class(PostPaidActivity.class);
+        } else if (id == R.id.nav_report_outage) {
+            launch_class(ReportOutageActivity.class);
+        } else if (id == R.id.nav_report_restoration) {
+            launch_class(ReportRestorationActivity.class);
+        } else if (id == R.id.nav_map) {
+            launch_class(OutageMapActivity.class);
+        } else if (id == R.id.nav_facebook) {
+            launch_class(FacebookActivity.class);
+        } else if (id == R.id.nav_twitter) {
+            launch_class(TwitterActivity.class);
+        } else if (id == R.id.nav_google_plus) {
+            launch_class(GooglePlusActivity.class);
+        } else if (id == R.id.nav_linkedin) {
+            launch_class(LinkedInActivity.class);
         } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
+            launch_class(ShareActivity.class);
+        } else if (id == R.id.nav_contact) {
+            launch_class(ContactActivity.class);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+    private void launch_class(Class to_launch) {
+        Intent e = new Intent(this, to_launch);
+        startActivity(e);
+    }
+
 }

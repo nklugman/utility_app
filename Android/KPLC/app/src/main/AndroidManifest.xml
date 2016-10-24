@@ -1,23 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="gridwatch.kplc" >
+    package="gridwatch.kplc">
 
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/AppTheme">
         <activity
-            android:name=".HomeActivity"
+            android:name=".activities.HomeActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar" >
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".activities.billing.PrepaidActivity"
+            android:label="@string/title_activity_prepaid" />
+        <activity
+            android:name=".activities.billing.PostPaidActivity"
+            android:label="@string/title_activity_post_paid" />
+        <activity android:name=".activities.outage.ReportOutageActivity" />
+        <activity android:name=".activities.outage.ReportRestorationActivity" />
+        <activity android:name=".activities.outage.OutageMapActivity" />
+        <activity android:name=".activities.social_media.FacebookActivity" />
+        <activity android:name=".activities.social_media.TwitterActivity" />
+        <activity android:name=".activities.social_media.GooglePlusActivity" />
+        <activity android:name=".activities.social_media.LinkedInActivity" />
+        <activity android:name=".activities.ContactActivity" />
+        <activity android:name=".activities.ShareActivity"></activity>
     </application>
 
 </manifest>
