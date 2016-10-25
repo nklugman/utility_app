@@ -21,4 +21,6 @@
     <string name="twitter">Twitter</string>
     <string name="android_studio">Android Studio</string>
     <string name="android_studio_android_com">android.studio@android.com</string>
+    <string name="postpaid_number">Enter your phone number</string>
+    <string name="postpaid_sms">Enter message</string>
 </resources>
