@@ -1,11 +1,26 @@
+buildscript {
+    repositories {
+        maven { url 'https://maven.fabric.io/public' }
+    }
+
+    dependencies {
+        classpath 'io.fabric.tools:gradle:1.+'
+    }
+}
 apply plugin: 'com.android.application'
+apply plugin: 'io.fabric'
+
+repositories {
+    maven { url 'https://maven.fabric.io/public' }
+}
+
 
 android {
     compileSdkVersion 24
     buildToolsVersion "24.0.1"
     defaultConfig {
         applicationId "gridwatch.kplc"
-        minSdkVersion 9
+        minSdkVersion 14 //It should be 9, but only 14 works for Twitter
         targetSdkVersion 24
         versionCode 1
         versionName "1.0"
@@ -27,4 +42,7 @@ dependencies {
     compile 'com.android.support:appcompat-v7:24.2.1'
     compile 'com.android.support:design:24.2.1'
     testCompile 'junit:junit:4.12'
+    compile('com.twitter.sdk.android:twitter:2.1.1@aar') {
+        transitive = true;
+    }
 }

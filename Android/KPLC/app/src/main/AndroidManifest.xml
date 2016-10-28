@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="gridwatch.kplc">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -28,11 +30,19 @@
         <activity android:name=".activities.outage.ReportRestorationActivity" />
         <activity android:name=".activities.outage.OutageMapActivity" />
         <activity android:name=".activities.social_media.FacebookActivity" />
-        <activity android:name=".activities.social_media.TwitterActivity" />
+        <activity android:name=".activities.social_media.Twitter.TwitterActivity" />
         <activity android:name=".activities.social_media.GooglePlusActivity" />
         <activity android:name=".activities.social_media.LinkedInActivity" />
         <activity android:name=".activities.ContactActivity" />
-        <activity android:name=".activities.ShareActivity"></activity>
+        <activity android:name=".activities.ShareActivity" />
+
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="849d305db8fded5536031a07edf7e8fdc0ac65b8" />
+
+        <activity
+            android:name=".activities.social_media.Twitter.TwitterTimeline"
+            android:label="@string/title_activity_twitter_timeline"></activity>
     </application>
 
 </manifest>
