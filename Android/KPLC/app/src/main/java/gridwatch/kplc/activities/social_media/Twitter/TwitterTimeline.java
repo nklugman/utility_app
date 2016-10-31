@@ -15,7 +15,7 @@ public class TwitterTimeline extends ListActivity {
         setContentView(R.layout.activity_twitter_timeline);
 
         final UserTimeline userTimeline = new UserTimeline.Builder()
-                .screenName("fabric")
+                .screenName("KenyaPower_Care")
                 .build();
         final TweetTimelineListAdapter adapter = new TweetTimelineListAdapter.Builder(this)
                 .setTimeline(userTimeline)

@@ -54,7 +54,6 @@ public class TwitterActivity extends AppCompatActivity {
                 Long  userid = session.getUserId();
                 textView.setText("Hi " + UserName);
                 launch_class(TwitterTimeline.class);
-//                launch_class(UserTweetActivity.class);
             }
             @Override
             public void failure(TwitterException exception) {
