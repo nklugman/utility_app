@@ -7,6 +7,8 @@ import gridwatch.kplc.R;
 
 public class OutageMapActivity extends AppCompatActivity {
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
