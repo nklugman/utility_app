@@ -1,5 +1,8 @@
 package gridwatch.kplc.activities.social_media.Twitter;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.app.ListActivity;
 import com.twitter.sdk.android.tweetui.TweetTimelineListAdapter;
@@ -14,6 +17,8 @@ public class TwitterTimeline extends ListActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_twitter_timeline);
 
+
+
         final UserTimeline userTimeline = new UserTimeline.Builder()
                 .screenName("KenyaPower_Care")
                 .build();
@@ -22,5 +27,6 @@ public class TwitterTimeline extends ListActivity {
                 .build();
         setListAdapter(adapter);
     }
+
 
 }

@@ -41,7 +41,6 @@ public class TwitterActivity extends AppCompatActivity {
         Fabric.with(this, new Twitter(authConfig));
         setContentView(R.layout.activity_twitter);
 
-
         textView = (TextView) findViewById(R.id.tv_username);
 
         loginButton = (TwitterLoginButton) findViewById(R.id.twitter_login_button);
@@ -50,9 +49,8 @@ public class TwitterActivity extends AppCompatActivity {
             @Override
             public void success(Result<TwitterSession> result) {
                 session = result.data;
-                UserName = session.getUserName();
-                Long  userid = session.getUserId();
-                textView.setText("Hi " + UserName);
+//                UserName = session.getUserName();
+//                textView.setText("Hi " + UserName);
                 launch_class(TwitterTimeline.class);
             }
             @Override

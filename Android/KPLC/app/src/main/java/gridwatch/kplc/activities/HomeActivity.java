@@ -16,8 +16,6 @@ import android.view.View;
 
 import java.util.Random;
 
-import com.twitter.sdk.android.Twitter;
-import com.twitter.sdk.android.core.TwitterAuthConfig;
 import gridwatch.kplc.R;
 import gridwatch.kplc.activities.billing.PostPaidActivity;
 import gridwatch.kplc.activities.billing.PrepaidActivity;
@@ -28,21 +26,14 @@ import gridwatch.kplc.activities.social_media.FacebookActivity;
 import gridwatch.kplc.activities.social_media.GooglePlusActivity;
 import gridwatch.kplc.activities.social_media.LinkedInActivity;
 import gridwatch.kplc.activities.social_media.Twitter.TwitterActivity;
-import io.fabric.sdk.android.Fabric;
 
 public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-
-    // Note: Your consumer key and secret should be obfuscated in your source code before shipping.
-    private static final String TWITTER_KEY = "DyAJEKsgPQ6L0is9rOlSzpWQb";
-    private static final String TWITTER_SECRET = "hsP2rm9qHhBhoXBJmQ23gQwjdFaafulPAzlPm84atc99cYP3KM";
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        TwitterAuthConfig authConfig = new TwitterAuthConfig(TWITTER_KEY, TWITTER_SECRET);
-        Fabric.with(this, new Twitter(authConfig));
         setContentView(R.layout.activity_home);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
