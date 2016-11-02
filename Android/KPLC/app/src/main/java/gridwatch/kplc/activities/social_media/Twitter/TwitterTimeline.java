@@ -11,22 +11,24 @@ import com.twitter.sdk.android.tweetui.UserTimeline;
 import gridwatch.kplc.R;
 
 public class TwitterTimeline extends ListActivity {
-
+    private static final String KPLCTwitter = "KenyaPower_Care";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_twitter_timeline);
-
-
-
+        showTargetTweet();
+    }
+    private void showTargetTweet(){
         final UserTimeline userTimeline = new UserTimeline.Builder()
-                .screenName("KenyaPower_Care")
+                .screenName(KPLCTwitter)//Kenya Power
+//                .screenName("KenyaPower")//Kenya Power Limited
                 .build();
         final TweetTimelineListAdapter adapter = new TweetTimelineListAdapter.Builder(this)
                 .setTimeline(userTimeline)
                 .build();
         setListAdapter(adapter);
     }
-
-
+    private boolean checkTarget(){
+        return KPLCTwitter == "KenyaPower_Care";
+    }
 }

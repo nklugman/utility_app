@@ -130,6 +130,10 @@ public class HomeActivity extends AppCompatActivity
         return r.nextBoolean();
     }
 
+    public void test() {
+
+    }
+
     private void launch_class(Class to_launch) {
         Intent e = new Intent(this, to_launch);
         startActivity(e);

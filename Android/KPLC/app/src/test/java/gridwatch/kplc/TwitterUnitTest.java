@@ -1,25 +1,41 @@
 package gridwatch.kplc;
 
-import android.app.Activity;
-import com.twitter.sdk.android.Twitter;
-import com.twitter.sdk.android.core.TwitterAuthConfig;
-
 import org.junit.Test;
-import io.fabric.sdk.android.Fabric;
+
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+
+import gridwatch.kplc.activities.social_media.Twitter.TwitterTimeline;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 
 
-public class TwitterUnitTest extends Activity {
-    private static final String TWITTER_KEY = "DyAJEKsgPQ6L0is9rOlSzpWQb";
-    private static final String TWITTER_SECRET = "hsP2rm9qHhBhoXBJmQ23gQwjdFaafulPAzlPm84atc99cYP3KM";
-    TwitterAuthConfig authConfig = new TwitterAuthConfig(TWITTER_KEY, TWITTER_SECRET);
+public class TwitterUnitTest{
+    private final static boolean TestPassed = true;
 
     @Test
-    public void TwitterConnected() throws Exception {
-        try{
-//            Fabric.with(this, new Twitter(authConfig));
-        }
-        catch(Exception e){
+    public void check_random_fail() {
+
+        try {
+            Method method = TwitterTimeline.class.getDeclaredMethod("checkTarget", null);
+            method.setAccessible(true);
+            Boolean result = (Boolean) method.invoke(TwitterTimeline.class.newInstance(), null);
+            assertEquals(result, TestPassed);
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+            assertNotNull(e.getMessage(), null);
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+            assertNotNull(e.getMessage(), null);
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+            assertNotNull(e.getMessage(), null);
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+            assertNotNull(e.getMessage(), null);
+        } catch (Exception e){
             e.printStackTrace();
         }
     }
