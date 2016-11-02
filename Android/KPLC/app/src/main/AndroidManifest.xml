@@ -15,7 +15,7 @@
         <activity
             android:name=".activities.HomeActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/Theme.AppCompat.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -28,6 +28,9 @@
         <activity
             android:name=".activities.billing.PostPaidActivity"
             android:label="@string/title_activity_post_paid" />
+        <activity
+            android:name=".activities.billing.PostPaidDetail"
+            android:label="@string/title_activity_postpaid_detail" />
         <activity android:name=".activities.outage.ReportOutageActivity" />
         <activity android:name=".activities.outage.ReportRestorationActivity" />
         <activity android:name=".activities.outage.OutageMapActivity" />

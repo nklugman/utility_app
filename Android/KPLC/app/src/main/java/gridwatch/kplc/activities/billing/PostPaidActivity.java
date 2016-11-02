@@ -18,7 +18,8 @@ public class PostPaidActivity extends Activity {
 
 
     Button sendBtn;
-    String number = "4084764087";
+    String number = "5554";
+    //String number = "4084764087";
     String message = "Dear <name withheld>,ACCOUNT NO:4369164-01, Curr bill dated 03-08-2016 is KShs:-5785.72 " +
             "Curr Read:0 Prev Read:8122,Estimated Units:154KWh,Amount:2726.7 Fuel Cost:356,Levies:255,Taxes:365. " +
             "Prev Balance is KShs -8512.42 Due date 09-08-2016. Currently no bill to pay , Thank You.";
@@ -26,7 +27,7 @@ public class PostPaidActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        //ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.SEND_SMS},1);
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post_paid);
         sendBtn = (Button) findViewById(R.id.button);
@@ -38,30 +39,26 @@ public class PostPaidActivity extends Activity {
     }
     protected void getPermission() {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.SEND_SMS)
-                != PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(this, Manifest.permission.RECEIVE_SMS)
                 != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.SEND_SMS},
                     1);
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.RECEIVE_SMS},
-                    2);
         }else{
             sendMessage();
         }
     }
-    public int sendMessage() {
+    private boolean sendMessage() {
 
         try {
             SmsManager smsManager = SmsManager.getDefault();
             smsManager.sendTextMessage(number, null, message, null, null);
-            Toast.makeText(getApplicationContext(), "SMS sent.", Toast.LENGTH_LONG).show();
-            return 1;
-
+            Toast.makeText(getBaseContext(), "SMS sent.", Toast.LENGTH_LONG).show();
+            return true;
         }
 
         catch (Exception e) {
-            Toast.makeText(getApplicationContext(), "SMS failed.", Toast.LENGTH_LONG).show();
+            Toast.makeText(getBaseContext(), "SMS failed.", Toast.LENGTH_LONG).show();
             e.printStackTrace();
-            return 0;
+            return false;
         }
     }
 

@@ -1,5 +1,7 @@
 package gridwatch.kplc.activities.billing;
 
+import android.app.Activity;
+import android.app.ActivityManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -19,6 +21,8 @@ import android.telephony.SmsMessage;
 import android.util.Log;
 import android.widget.Toast;
 
+import java.util.List;
+
 import gridwatch.kplc.R;
 
 /**
@@ -29,6 +33,7 @@ public class SMSListener extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
+
         Log.d("mylog","receive");
         if(intent.getAction().equals("android.provider.Telephony.SMS_RECEIVED")) {
             Bundle bundle = intent.getExtras();           //---get the SMS message passed in---
@@ -44,6 +49,14 @@ public class SMSListener extends BroadcastReceiver {
                         msg_from = msgs[i].getOriginatingAddress();
                         String msgBody = msgs[i].getMessageBody();
                         Toast.makeText(context, msgBody, Toast.LENGTH_LONG).show();
+                        Intent it =new Intent(context, PostPaidDetail.class);
+                        //it.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                        it.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        it.putExtra("msgBody", msgBody);
+                        context.startActivity(it);
+                        //parseMessage(msgBody);
+
+
                     }
                 } catch (Exception e) {
 //                            Log.d("Exception caught",e.getMessage());
@@ -51,75 +64,30 @@ public class SMSListener extends BroadcastReceiver {
             }
         }
     }
-    private void parseMessage(String msgBody){
-        msgBody = "Dear <name withheld>,ACCOUNT NO:4369164-01, Curr bill dated 03-08-2016 is KShs:-5785.72 " +
-                "Curr Read:0 Prev Read:8122,Estimated Units:154KWh,Amount:2726.7 Fuel Cost:356,Levies:255,Taxes:365. " +
-                "Prev Balance is KShs -8512.42 Due date 09-08-2016. Currently no bill to pay , Thank You.";
+    private static void openApplicationFromBackground(Context context, String msgBody) {
+        Intent intent;
+        ActivityManager am = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+        List<ActivityManager.RunningTaskInfo> list = am.getRunningTasks(100);
+        if (!list.isEmpty() && list.get(0).topActivity.getPackageName().equals(context.getPackageName())) {
 
-        String units;
-        String amount;
-        String fuel;
-        String levies;
-        String taxes;
-        String currB;
-        String prevB;
-        String currR;
-        String prevR;
-        int start = 0;
-        int end = 0;
-        start = msgBody.indexOf("is KShs:");
-        end = msgBody.indexOf("Curr Read");
-        if(start > 0 && end > start && end < msgBody.length()) {
-            currB = msgBody.substring(start + 8, end);
-            Log.d("Current Bill", currB);
+            return;
         }
-        start = end;
-        end = msgBody.indexOf("Prev Read");
-        if(start > 0 && end > start && end < msgBody.length()) {
-            currR = msgBody.substring(start + 10, end);
-            Log.d("Curr Read", currR);
+        for (ActivityManager.RunningTaskInfo info : list) {
+            if (info.topActivity.getPackageName().equals(context.getPackageName())) {
+                intent = new Intent();
+                intent.setComponent(info.topActivity);
+                intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                if (! (context instanceof Activity)) {
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                }
+                //intent.putExtra("msgBody",msgBody);
+                context.startActivity(intent);
+                return;
+            }
         }
-        start = end;
-        end = msgBody.indexOf("Estimated");
-        if(start > 0 && end > start && end < msgBody.length()) {
-            prevR = msgBody.substring(start + 10, end);
-            Log.d("Prev Read", prevR);
-        }
-        start = end;
-        end = msgBody.indexOf("Amount");
-        if(start > 0 && end > start && end < msgBody.length()) {
-            units = msgBody.substring(start + 16, end);
-            Log.d("Estimated units", units);
-        }
-        start = end;
-        end = msgBody.indexOf("Fuel");
-        if(start > 0 && end > start && end < msgBody.length()) {
-            amount = msgBody.substring(start + 7, end);
-            Log.d("Amount", amount);
-        }
-        start = end;
-        end = msgBody.indexOf("Levies");
-        if(start > 0 && end > start && end < msgBody.length()) {
-            fuel = msgBody.substring(start + 10, end);
-            Log.d("Fuel cost", fuel);
-        }
-        start = end;
-        end = msgBody.indexOf("Taxes");
-        if(start > 0 && end > start && end < msgBody.length()) {
-            levies = msgBody.substring(start + 7, end);
-            Log.d("Levies", levies);
-        }
-        start = end;
-        end = msgBody.indexOf("Prev Balance");
-        if(start > 0 && end > start && end < msgBody.length()) {
-            taxes = msgBody.substring(start + 6, end);
-            Log.d("Taxes", taxes);
-        }
-        start = end;
-        end = msgBody.indexOf("Due Date");
-        if(start > 0 && end > start && end < msgBody.length()) {
-            prevB = msgBody.substring(start + 13, end);
-            Log.d("Previous Balance", prevB);
-        }
+        intent = context.getPackageManager().getLaunchIntentForPackage(context.getPackageName());
+        context.startActivity(intent);
+
     }
+
 }
