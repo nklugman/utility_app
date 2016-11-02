@@ -16,19 +16,21 @@ import gridwatch.kplc.R;
 // only sending sms function
 public class PostPaidActivity extends Activity {
 
+
     Button sendBtn;
-    EditText number;
-    EditText message;
+    String number = "5554";
+    //String number = "4084764087";
+    String message = "Dear <name withheld>,ACCOUNT NO:4369164-01, Curr bill dated 03-08-2016 is KShs:-5785.72 " +
+            "Curr Read:0 Prev Read:8122,Estimated Units:154KWh,Amount:2726.7 Fuel Cost:356,Levies:255,Taxes:365. " +
+            "Prev Balance is KShs -8512.42 Due date 09-08-2016. Currently no bill to pay , Thank You.";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        //ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.SEND_SMS},1);
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post_paid);
-
         sendBtn = (Button) findViewById(R.id.button);
-        number = (EditText) findViewById(R.id.editText);
-        message = (EditText) findViewById(R.id.editText2);
         sendBtn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 getPermission();
@@ -44,20 +46,22 @@ public class PostPaidActivity extends Activity {
             sendMessage();
         }
     }
-    protected void sendMessage() {
-        String txtNumber = number.getText().toString();
-        String txtMessage = message.getText().toString();
+    private boolean sendMessage() {
+
         try {
             SmsManager smsManager = SmsManager.getDefault();
-            smsManager.sendTextMessage(txtNumber, null, txtMessage, null, null);
-            Toast.makeText(getApplicationContext(), "SMS sent.", Toast.LENGTH_LONG).show();
+            smsManager.sendTextMessage(number, null, message, null, null);
+            Toast.makeText(getBaseContext(), "SMS sent.", Toast.LENGTH_LONG).show();
+            return true;
         }
 
         catch (Exception e) {
-            Toast.makeText(getApplicationContext(), "SMS failed.", Toast.LENGTH_LONG).show();
+            Toast.makeText(getBaseContext(), "SMS failed.", Toast.LENGTH_LONG).show();
             e.printStackTrace();
+            return false;
         }
     }
+
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
