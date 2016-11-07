@@ -31,6 +31,18 @@ Thumbs.db
 #.idea/workspace.xml - remove # and delete .idea if it better suit your needs.
 .gradle
 build/
+<<<<<<< HEAD
 
 #NDK
 obj/
+=======
+*.gradle
+gradlew
+gradlew.bat
+/gradle
+proguard-rules.pro
+
+#NDK
+obj/
+
+>>>>>>> e5dd6c8510910bf87412a00c2020f46dc73d40ed
