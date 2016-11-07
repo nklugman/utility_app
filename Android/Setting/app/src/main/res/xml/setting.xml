@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <EditTextPreference android:title="Account"
+        android:key="Account"
+        android:summary="Please provide your account"
+        android:dialogTitle="Your Account"
+        android:dialogMessage="Enter Your account"
+        android:defaultValue=""
+        android:inputType="textCapWords" />
+    <EditTextPreference android:title="Meter"
+        android:key="Meter"
+        android:summary="Please enter your current meter"
+        android:inputType= "numberDecimal"/>
+</PreferenceScreen>
