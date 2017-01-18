@@ -2,15 +2,16 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
 
-    <item android:title="@string/billing">
+    <item android:title="@string/billing"
+        >
         <menu>
         <item
             android:id="@+id/nav_prepaid"
-            android:icon="@drawable/ic_menu_camera"
+
             android:title="@string/prepaid_balance" />
         <item
             android:id="@+id/nav_postpaid"
-            android:icon="@drawable/ic_menu_camera"
+
             android:title="@string/postpaid_balance" />
         </menu>
     </item>
@@ -20,15 +21,15 @@
 
         <item
             android:id="@+id/nav_report_outage"
-            android:icon="@drawable/ic_menu_camera"
+
             android:title="@string/report_outage" />
         <item
             android:id="@+id/nav_report_restoration"
-            android:icon="@drawable/ic_menu_camera"
+
             android:title="@string/report_restoration" />
         <item
             android:id="@+id/nav_map"
-            android:icon="@drawable/ic_menu_camera"
+
             android:title="@string/outage_map" />
         </menu>
     </item>
@@ -37,23 +38,23 @@
         <menu>
             <item
                 android:id="@+id/nav_facebook"
-                android:icon="@drawable/ic_menu_share"
+
                 android:title="@string/facebook" />
             <item
                 android:id="@+id/nav_twitter"
-                android:icon="@drawable/ic_menu_share"
+
                 android:title="@string/twitter" />
             <item
                 android:id="@+id/nav_google_plus"
-                android:icon="@drawable/ic_menu_share"
+
                 android:title="@string/google" />
             <item
                 android:id="@+id/nav_linkedin"
-                android:icon="@drawable/ic_menu_share"
+
                 android:title="@string/linkedin" />
             <item
                 android:id="@+id/nav_share"
-                android:icon="@drawable/ic_menu_share"
+
                 android:title="@string/share" />
         </menu>
     </item>
@@ -62,7 +63,7 @@
 
         <item
             android:id="@+id/nav_contact"
-            android:icon="@drawable/ic_menu_manage"
+
             android:title="@string/contact" />
     </group>
 
