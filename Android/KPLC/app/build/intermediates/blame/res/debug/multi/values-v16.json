@@ -1,0 +1,28 @@
+[
+    {
+        "outputFile": "/Users/guoxinyi/Documents/Capstone Project/utility_app/Android/KPLC/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-v16/values-v16.xml",
+        "map": [
+            {
+                "to": {
+                    "startLine": 2,
+                    "startColumn": 4,
+                    "startOffset": 55,
+                    "endLine": 6,
+                    "endColumn": 12,
+                    "endOffset": 305
+                },
+                "from": {
+                    "file": "/Users/guoxinyi/Documents/Capstone Project/utility_app/Android/KPLC/app/build/intermediates/exploded-aar/com.twitter.sdk.android/tweet-ui/2.1.1/res/values-v16/values-v16.xml",
+                    "position": {
+                        "startLine": 2,
+                        "startColumn": 4,
+                        "startOffset": 55,
+                        "endLine": 6,
+                        "endColumn": 12,
+                        "endOffset": 305
+                    }
+                }
+            }
+        ]
+    }
+]

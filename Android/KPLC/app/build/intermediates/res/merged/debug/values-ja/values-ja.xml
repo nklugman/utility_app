@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="tw__time_hours">
+        <item quantity="one">1時間</item>
+        <item quantity="other">%d時間</item>
+    </plurals>
+    <plurals name="tw__time_mins">
+        <item quantity="one">1分</item>
+        <item quantity="other">%d分</item>
+    </plurals>
+    <plurals name="tw__time_secs">
+        <item quantity="one">1秒</item>
+        <item quantity="other">%d秒</item>
+    </plurals>
+    <string msgid="4600421777120114993" name="abc_action_bar_home_description">"ホームへ移動"</string>
+    <string msgid="1397052879051804371" name="abc_action_bar_home_description_format">"%1$s、%2$s"</string>
+    <string msgid="6623331958280229229" name="abc_action_bar_home_subtitle_description_format">"%1$s、%2$s、%3$s"</string>
+    <string msgid="1594238315039666878" name="abc_action_bar_up_description">"上へ移動"</string>
+    <string msgid="3588849162933574182" name="abc_action_menu_overflow_description">"その他のオプション"</string>
+    <string msgid="4076576682505996667" name="abc_action_mode_done">"完了"</string>
+    <string msgid="7468859129482906941" name="abc_activity_chooser_view_see_all">"すべて表示"</string>
+    <string msgid="2031811694353399454" name="abc_activitychooserview_choose_application">"アプリの選択"</string>
+    <string msgid="121134116657445385" name="abc_capital_off">"OFF"</string>
+    <string msgid="3405795526292276155" name="abc_capital_on">"ON"</string>
+    <string msgid="7723749260725869598" name="abc_search_hint">"検索…"</string>
+    <string msgid="3691816814315814921" name="abc_searchview_description_clear">"検索キーワードを削除"</string>
+    <string msgid="2550479030709304392" name="abc_searchview_description_query">"検索キーワード"</string>
+    <string msgid="8264924765203268293" name="abc_searchview_description_search">"検索"</string>
+    <string msgid="8928215447528550784" name="abc_searchview_description_submit">"検索キーワードを送信"</string>
+    <string msgid="893419373245838918" name="abc_searchview_description_voice">"音声検索"</string>
+    <string msgid="3421042268587513524" name="abc_shareactionprovider_share_with">"共有"</string>
+    <string msgid="7165123711973476752" name="abc_shareactionprovider_share_with_application">"%sと共有"</string>
+    <string msgid="1603543279005712093" name="abc_toolbar_collapse_description">"折りたたむ"</string>
+    <string msgid="146198913615257606" name="search_menu_title">"検索"</string>
+    <string msgid="2869576371154716097" name="status_bar_notification_info_overflow">"999+"</string>
+    <string name="tw__allow_btn_txt">許可</string>
+    <string name="tw__composer_hint">いまどうしてる?</string>
+    <string name="tw__cta_text">Vineで開く</string>
+    <string name="tw__install">インストール</string>
+    <string name="tw__like_tweet">ツイートにいいねする</string>
+    <string name="tw__liked_tweet">いいねを取り消す</string>
+    <string name="tw__loading_tweet">ツイートを読込中</string>
+    <string name="tw__login_btn_txt">Twitterにログイン</string>
+    <string name="tw__max_tweet_chars">140</string>
+    <string name="tw__not_now_btn_txt">今はしない</string>
+    <string name="tw__pause">一時停止</string>
+    <string name="tw__play">再生</string>
+    <string name="tw__post_tweet">ツイート</string>
+    <string name="tw__relative_date_format_long">y/M/d</string>
+    <string name="tw__relative_date_format_short">M月d日</string>
+    <string name="tw__replay">リプレイ</string>
+    <string name="tw__retweeted_by_format">%1$sさんがリツイート</string>
+    <string name="tw__share_content_format">\@%1$sさんのツイートをチェックしましょう　 https://twitter.com/%1$s/status/%2$s</string>
+    <string name="tw__share_email_desc">あなたのTwitterアカウント\@%2$sに登録されているメールアドレスへのアクセスを%1$sに許可します。%1$sはそのメールアドレスをプライバシーポリシーに従って使用できるようになります。たとえば、%1$sはそのアドレス宛に更新情報などを送信することができます。</string>
+    <string name="tw__share_email_title">メールアドレスを共有</string>
+    <string name="tw__share_subject_format">%1$s (\@%2$s)さんからのツイート</string>
+    <string name="tw__share_tweet">ツイートを共有</string>
+    <string name="tw__tweet_content_description">%1$s、 %2$s、 %3$s。</string>
+    <string name="tw__tweet_media">画像/動画を投稿</string>
+</resources>

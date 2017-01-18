@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="gridwatch.kplc"
+    android:versionCode="1"
+    android:versionName="1.0" >
+
+    <uses-sdk
+        android:minSdkVersion="14"
+        android:targetSdkVersion="24" />
+
+    <uses-permission android:name="android.permission.SEND_SMS" />
+    <uses-permission android:name="android.permission.RECEIVE_SMS" />
+    <uses-permission android:name="android.permission.READ_SMS" />
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <application
+        android:name="com.android.tools.fd.runtime.BootstrapApplication"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme" >
+        <activity
+            android:name="gridwatch.kplc.activities.HomeActivity"
+            android:label="@string/app_name"
+            android:theme="@style/Theme.AppCompat.NoActionBar" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="gridwatch.kplc.activities.billing.PrepaidActivity"
+            android:label="@string/title_activity_prepaid" />
+        <activity
+            android:name="gridwatch.kplc.activities.billing.PostPaidActivity"
+            android:label="@string/title_activity_post_paid" />
+        <activity
+            android:name="gridwatch.kplc.activities.billing.PostPaidDetail"
+            android:label="@string/title_activity_postpaid_detail" />
+        <activity android:name="gridwatch.kplc.activities.outage.ReportOutageActivity" />
+        <activity android:name="gridwatch.kplc.activities.outage.ReportRestorationActivity" />
+        <activity android:name="gridwatch.kplc.activities.outage.OutageMapActivity" />
+        <activity android:name="gridwatch.kplc.activities.social_media.FacebookActivity" />
+        <activity android:name="gridwatch.kplc.activities.social_media.Twitter.TwitterActivity" />
+        <activity android:name="gridwatch.kplc.activities.social_media.GooglePlusActivity" />
+        <activity android:name="gridwatch.kplc.activities.social_media.LinkedInActivity" />
+        <activity android:name="gridwatch.kplc.activities.ContactActivity" />
+        <activity android:name="gridwatch.kplc.activities.ShareActivity" />
+
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="849d305db8fded5536031a07edf7e8fdc0ac65b8" />
+
+        <activity
+            android:name="gridwatch.kplc.activities.social_media.Twitter.TwitterTimeline"
+            android:label="@string/title_activity_twitter_timeline" />
+
+        <receiver android:name="gridwatch.kplc.activities.billing.SMSListener" >
+            <intent-filter android:priority="1000" >
+                <action android:name="android.provider.Telephony.SMS_RECEIVED" />
+            </intent-filter>
+        </receiver>
+
+        <activity
+            android:name="com.twitter.sdk.android.tweetui.PlayerActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:theme="@style/MediaTheme" />
+        <activity
+            android:name="com.twitter.sdk.android.tweetui.GalleryActivity"
+            android:theme="@style/MediaTheme" />
+        <activity
+            android:name="com.twitter.sdk.android.tweetcomposer.ComposerActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize|stateVisible" />
+
+        <service
+            android:name="com.twitter.sdk.android.tweetcomposer.TweetUploadService"
+            android:enabled="true"
+            android:exported="false" />
+
+        <activity
+            android:name="com.twitter.sdk.android.core.identity.OAuthActivity"
+            android:configChanges="orientation|screenSize"
+            android:excludeFromRecents="true"
+            android:exported="false" />
+        <activity
+            android:name="com.twitter.sdk.android.core.identity.ShareEmailActivity"
+            android:configChanges="orientation|screenSize"
+            android:excludeFromRecents="true"
+            android:exported="false"
+            android:icon="@drawable/tw__transparent"
+            android:label="@string/kit_name" />
+    </application>
+
+</manifest>
