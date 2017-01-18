@@ -1,7 +1,0 @@
-#Wed Jan 18 13:35:36 PST 2017
-base.0=/Users/guoxinyi/Documents/Capstone Project/utility_app/Android/KPLC/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run_0189001f07e6fcc289a57fe5134fd7318427b732
-renamed.1=classes.dex
-renamed.0=classes2.dex
-file.1=/Users/guoxinyi/Documents/Capstone Project/utility_app/Android/KPLC/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run-bootstrap_b5e7d6bf59ac5fd5d35aa0e929ee379975c25c96/classes.dex
-base.1=/Users/guoxinyi/Documents/Capstone Project/utility_app/Android/KPLC/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run-bootstrap_b5e7d6bf59ac5fd5d35aa0e929ee379975c25c96
-file.0=/Users/guoxinyi/Documents/Capstone Project/utility_app/Android/KPLC/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run_0189001f07e6fcc289a57fe5134fd7318427b732/classes.dex

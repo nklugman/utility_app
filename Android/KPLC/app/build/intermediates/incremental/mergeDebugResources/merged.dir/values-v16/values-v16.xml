@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <style name="tw__TweetFullName" parent="tw__TweetFullNameBase">
-        <item name="android:textStyle">bold</item>
-        <item name="android:fontFamily">sans-serif</item>
-        <item name="android:importantForAccessibility">no</item>
-    </style>
-</resources>
