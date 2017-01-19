@@ -8,12 +8,9 @@ Created on Mon Jan 16 16:48:25 2017
 @author: CHIAMAO_SHIH
 """
 
-"""
-
-"""
-
 import pandas as pd
 import tweepy
+import datetime
 
 #Twitter API credentials
 
@@ -61,20 +58,22 @@ def get_latest_tweets(screen_name):
 		#print oldest,since_Id,len(new_tweets)
 	print (latest_tweets[0].id)
 	print ("count: %s" % count)
+	time_now = datetime.datetime.now()
+	print("Now: %s" %time_now)
 	new_data=[[obj.user.screen_name, \
-            obj.created_at.year, \
-            obj.created_at.month, \
-            obj.created_at.day, \
-            "%s.%s"%(obj.created_at.hour,obj.created_at.minute), \
             obj.id_str, \
-            obj.text.encode("utf8")] for obj in latest_tweets ]
+            "%s/%s/%s" % (obj.created_at.year, obj.created_at.month, obj.created_at.day), \
+            "%s:%s:%s" % (obj.created_at.hour,obj.created_at.minute, obj.created_at.second), \
+            obj.text.encode("utf8"), \
+            "%s/%s/%s" % (time_now.year, time_now.month, time_now.day), \
+            "%s:%s:%s" % (time_now.hour, time_now.minute, time_now.second)] for obj in latest_tweets ]
 	dataframe=pd.DataFrame(new_data,columns=['screen_name', \
-                                          'year', \
-                                          'month', \
-                                          'date', \
-                                          'time', \
                                           'tweet_id', \
-                                          'tweet'])
+                                          'tweet_date', \
+                                          'tweet_time', \
+                                          'tweet', \
+                                          'collecting_date', \
+                                          'collecting_time'])
 	dataframe=[dataframe,data]
 	dataframe=pd.concat(dataframe)
 	dataframe.to_csv("%s_tweets.csv"%(screen_name),index=False)
