@@ -3,6 +3,8 @@
 """
 Created on Mon Jan 16 16:48:25 2017
 
+source: https://github.com/suraj-deshmukh/get_tweets
+
 @author: CHIAMAO_SHIH
 """
 
@@ -15,6 +17,9 @@ consumer_key = 'mtBURqiQRdYdpPmBFo0ebV3cA'
 consumer_secret = '7moNATGly2V2ZTlu2qxHMgjoYMIiiAurDTJ38Co7e2DtW6OX6f'
 access_key = '2836818390-VWP9SmNjiDrlO4GpY6TgWgTbYGbcqv0B754Uvn1'
 access_secret = 'Efsuu5Xwdjq6s915iBsEZZ3ns7m53mcmPyXUWJiQTRljp'
+twitter_GridWatch = 'GwScanner'
+twitter_TimesNow = 'TimesNow'
+twitter_KPLC = 'kenyapower_care'
 
 auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
 auth.set_access_token(access_key, access_secret)
@@ -33,25 +38,25 @@ def get_latest_tweets(screen_name):
 	#	exit()
 	try:
 		new_tweets=api.user_timeline(screen_name=screen_name,since_id=since_Id,count=200)
-		old = new_tweets[-1].id - 1
+		#200 is the maximum of count
+		oldest = new_tweets[-1].id - 1
 	except IndexError:
 		print ("No new tweets")
 		exit()
 	count=len(new_tweets)
-	print ("%s tweets downloaded so far"%(count))
 	latest_tweets.extend(new_tweets)
 	print (latest_tweets[0].id)
- 	
-	while len(new_tweets) <= 200:
+	while len(new_tweets) > 0:
 		#print "getting latest tweets\n"
-		new_tweets=api.user_timeline(screen_name=screen_name,max_id=old,since_id=since_Id,count=200)
+		new_tweets=api.user_timeline(screen_name=screen_name,max_id=oldest,since_id=since_Id,count=200)
 		count = count + len(new_tweets)
 		print ("in loop %s tweets downloaded so far"%(len(new_tweets)))
 		#print new_tweets[0].id
 		latest_tweets.extend(new_tweets)
-		old=latest_tweets[-1].id - 1
-		#print old,since_Id,len(new_tweets)
+		oldest=latest_tweets[-1].id - 1
+		#print oldest,since_Id,len(new_tweets)
 	print (latest_tweets[0].id)
+	print ("count: %s" % count)
 	new_data=[[obj.user.screen_name,obj.user.name,obj.user.id_str,obj.user.description.encode("utf8"),obj.created_at.year,obj.created_at.month,obj.created_at.day,"%s.%s"%(obj.created_at.hour,obj.created_at.minute),obj.id_str,obj.text.encode("utf8")] for obj in latest_tweets ]
 	dataframe=pd.DataFrame(new_data,columns=['screen_name','name','twitter_id','description','year','month','date','time','tweet_id','tweet'])
 	dataframe=[dataframe,data]
@@ -59,4 +64,4 @@ def get_latest_tweets(screen_name):
 	dataframe.to_csv("%s_tweets.csv"%(screen_name),index=False)
 
 if __name__=='__main__':
-	get_latest_tweets("GwScanner")
+	get_latest_tweets(twitter_KPLC)
