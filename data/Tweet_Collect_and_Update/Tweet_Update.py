@@ -2,10 +2,14 @@
 # -*- coding: utf-8 -*-
 """
 Created on Mon Jan 16 16:48:25 2017
-
-source: https://github.com/suraj-deshmukh/get_tweets
-
+1.Frame source: https://github.com/suraj-deshmukh/get_tweets
+2.For object of user: https://dev.twitter.com/overview/api/users
+3.For object of tweet: https://dev.twitter.com/overview/api/tweets
 @author: CHIAMAO_SHIH
+"""
+
+"""
+
 """
 
 import pandas as pd
@@ -57,8 +61,20 @@ def get_latest_tweets(screen_name):
 		#print oldest,since_Id,len(new_tweets)
 	print (latest_tweets[0].id)
 	print ("count: %s" % count)
-	new_data=[[obj.user.screen_name,obj.user.name,obj.user.id_str,obj.user.description.encode("utf8"),obj.created_at.year,obj.created_at.month,obj.created_at.day,"%s.%s"%(obj.created_at.hour,obj.created_at.minute),obj.id_str,obj.text.encode("utf8")] for obj in latest_tweets ]
-	dataframe=pd.DataFrame(new_data,columns=['screen_name','name','twitter_id','description','year','month','date','time','tweet_id','tweet'])
+	new_data=[[obj.user.screen_name, \
+            obj.created_at.year, \
+            obj.created_at.month, \
+            obj.created_at.day, \
+            "%s.%s"%(obj.created_at.hour,obj.created_at.minute), \
+            obj.id_str, \
+            obj.text.encode("utf8")] for obj in latest_tweets ]
+	dataframe=pd.DataFrame(new_data,columns=['screen_name', \
+                                          'year', \
+                                          'month', \
+                                          'date', \
+                                          'time', \
+                                          'tweet_id', \
+                                          'tweet'])
 	dataframe=[dataframe,data]
 	dataframe=pd.concat(dataframe)
 	dataframe.to_csv("%s_tweets.csv"%(screen_name),index=False)

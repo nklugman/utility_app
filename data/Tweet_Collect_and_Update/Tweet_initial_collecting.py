@@ -5,11 +5,9 @@ Created on Mon Jan 16 18:19:30 2017
 
 1.Download all tweets of a user.
 2.Into a csv
-3.Data include: screen_name, name, twitter_id, descritption, year, month, data, time, tweet_id, tweet
+3.Data include: screen_name, name, year, month, data, time, tweet_id, tweet
 4.Still need: Time of collecting
-5.Using this code is too redundant to update.
-6.Need addtional update program.
-
+5.Use Tweet_Update.py to update, and this one for initializing.
 @author: CHIAMAO_SHIH
 """
 
@@ -43,8 +41,19 @@ def get_all_tweets(screen_name):
 		alltweets.extend(new_tweets)
 		oldest = alltweets[-1].id - 1
 		print ("...%s tweets downloaded so far" % (len(alltweets)))
-	data=[[obj.user.screen_name,obj.user.name,obj.user.id_str,obj.user.description.encode("utf8"),obj.created_at.year,obj.created_at.month,obj.created_at.day,"%s.%s"%(obj.created_at.hour,obj.created_at.minute),obj.id_str,obj.text.encode("utf8")] for obj in alltweets ]
-	dataframe=pd.DataFrame(data,columns=['screen_name','name','twitter_id','description','year','month','date','time','tweet_id','tweet'])
+	data=[[obj.user.screen_name, \
+        obj.created_at.year, \
+        obj.created_at.month,obj.created_at.day, \
+        "%s.%s"%(obj.created_at.hour,obj.created_at.minute), 
+        obj.id_str, \
+        obj.text.encode("utf8")] for obj in alltweets ]
+	dataframe=pd.DataFrame(data,columns=['screen_name', \
+                                      'year', \
+                                      'month', \
+                                      'date', \
+                                      'time', \
+                                      'tweet_id', \
+                                      'tweet'])
 	dataframe.to_csv("%s_tweets.csv"%(screen_name),index=False)
 
 	
