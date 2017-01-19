@@ -1,29 +1,80 @@
+
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/cardview_light_background"
-    android:orientation="horizontal">
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:background="@color/cardview_light_background"
+        android:orientation="vertical">
 
-    <TextView
-        android:text="Your last balance was"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/textView"
-        android:layout_weight="1"
-        android:textColor="@color/tw__composer_black"
-        android:gravity="center"
-        android:paddingTop="40dp" />
 
-    <TextView
-        android:text="$"
-        android:layout_width="wrap_content"
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="134dp"
+            android:text="Your Current Balance is"
+            android:textColor="@color/tw__composer_black"
+            android:gravity="top|bottom|center"
+            android:textSize="25sp"
+            android:fontFamily="sans-serif"
+            android:paddingTop="80dp"
+           />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="$30"
+            android:textColor="@color/tw__composer_black"
+            android:gravity="center"
+            android:textSize="30sp"
+            android:fontFamily="sans-serif"
+
+            />
+
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/textView"
-        android:layout_weight="1"
-        android:textColor="@color/tw__composer_black"
-        android:gravity="left"
-        android:paddingTop="40dp" />
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp">
+
+        <TextView
+            android:text="Last Updated on:  "
+            android:textColor="@color/tw__composer_black"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:layout_weight="1"
+            android:gravity="right|center" />
+
+        <TextView
+            android:text="1/1/2017"
+            android:textColor="@color/tw__composer_black"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:layout_weight="1" />
+
+
+    </LinearLayout>
+
+    <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="top|center"
+            android:weightSum="1">
+
+            <Button
+                android:text="   Check New Balanace   "
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/button2"
+                android:textSize="20sp"
+                android:background="@color/colorPrimary"
+                android:layout_marginTop="15dp" />
+
+    </LinearLayout>
 
 
 </LinearLayout>
