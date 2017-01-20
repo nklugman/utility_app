@@ -25,21 +25,15 @@ twitter_KPLC = 'kenyapower_care'
 auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
 auth.set_access_token(access_key, access_secret)
 api = tweepy.API(auth)
+max_count = 200 ##200 is the maximum of count
 
 def get_latest_tweets(screen_name):
 	count=0
 	latest_tweets=[]
 	data=pd.read_csv("%s_tweets.csv"%(screen_name))
 	since_Id=data['tweet_id'].loc[0]
-	#print since_Id
-	#try:
-	#	tweet=api.get_status(since_Id).text
-	#except tweepy.error.TweepError:
-	#	print "No tweet found on id %s.\nCode Terminated\n"%(since_id)
-	#	exit()
 	try:
-		new_tweets=api.user_timeline(screen_name=screen_name,since_id=since_Id,count=200)
-		#200 is the maximum of count
+		new_tweets=api.user_timeline(screen_name=screen_name,since_id=since_Id,count=max_count)
 		oldest = new_tweets[-1].id - 1
 	except IndexError:
 		print ("No new tweets")
@@ -48,14 +42,11 @@ def get_latest_tweets(screen_name):
 	latest_tweets.extend(new_tweets)
 	print (latest_tweets[0].id)
 	while len(new_tweets) > 0:
-		#print "getting latest tweets\n"
-		new_tweets=api.user_timeline(screen_name=screen_name,max_id=oldest,since_id=since_Id,count=200)
+		new_tweets=api.user_timeline(screen_name=screen_name,max_id=oldest,since_id=since_Id,count=max_count)
 		count = count + len(new_tweets)
 		print ("in loop %s tweets downloaded so far"%(len(new_tweets)))
-		#print new_tweets[0].id
 		latest_tweets.extend(new_tweets)
 		oldest=latest_tweets[-1].id - 1
-		#print oldest,since_Id,len(new_tweets)
 	print (latest_tweets[0].id)
 	print ("count: %s" % count)
 	time_now = datetime.datetime.now()

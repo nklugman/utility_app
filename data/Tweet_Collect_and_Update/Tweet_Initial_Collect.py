@@ -27,15 +27,16 @@ twitter_KPLC = 'kenyapower_care'
 auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
 auth.set_access_token(access_key, access_secret)
 api = tweepy.API(auth)
+max_count = 200 ##200 is the maximum of count
 
 def get_all_tweets(screen_name):
 	alltweets = []	
-	new_tweets = api.user_timeline(screen_name = screen_name,count=200)
+	new_tweets = api.user_timeline(screen_name = screen_name,count=max_count) 
 	alltweets.extend(new_tweets)
 	oldest = alltweets[-1].id - 1
 	while len(new_tweets) > 0:
 		print ("getting tweets before %s" % (oldest))
-		new_tweets = api.user_timeline(screen_name = screen_name,count=200,max_id=oldest)
+		new_tweets = api.user_timeline(screen_name = screen_name,count=max_count,max_id=oldest)
 		alltweets.extend(new_tweets)
 		oldest = alltweets[-1].id - 1
 		print ("...%s tweets downloaded so far" % (len(alltweets)))
