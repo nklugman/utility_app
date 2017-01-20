@@ -17,14 +17,19 @@ import android.view.View;
 import java.util.Random;
 
 import gridwatch.kplc.R;
+import gridwatch.kplc.activities.billing.BalanceHistoryActivity;
 import gridwatch.kplc.activities.billing.PostPaidActivity;
 import gridwatch.kplc.activities.billing.PrepaidActivity;
+import gridwatch.kplc.activities.billing.StatementHistoryActivity;
 import gridwatch.kplc.activities.outage.OutageMapActivity;
 import gridwatch.kplc.activities.outage.ReportOutageActivity;
 import gridwatch.kplc.activities.outage.ReportRestorationActivity;
+import gridwatch.kplc.activities.payment.BuyTokensActivity;
+import gridwatch.kplc.activities.payment.MakePaymentActivity;
 import gridwatch.kplc.activities.social_media.FacebookActivity;
 import gridwatch.kplc.activities.social_media.GooglePlusActivity;
 import gridwatch.kplc.activities.social_media.LinkedInActivity;
+import gridwatch.kplc.activities.social_media.SettingsActivity;
 import gridwatch.kplc.activities.social_media.Twitter.TwitterActivity;
 
 public class HomeActivity extends AppCompatActivity
@@ -96,26 +101,20 @@ public class HomeActivity extends AppCompatActivity
         int id = item.getItemId();
 
 
-        if (id == R.id.nav_prepaid) {
-            launch_class(PrepaidActivity.class);
-        } else if (id == R.id.nav_postpaid) {
-            launch_class(PostPaidActivity.class);
-        } else if (id == R.id.nav_report_outage) {
-            launch_class(ReportOutageActivity.class);
-        } else if (id == R.id.nav_report_restoration) {
-            launch_class(ReportRestorationActivity.class);
-        } else if (id == R.id.nav_map) {
+        if (id == R.id.nav_balance) {
+            launch_class(BalanceHistoryActivity.class);
+        } else if (id == R.id.nav_statement) {
+            launch_class(StatementHistoryActivity.class);
+        } else if (id == R.id.nav_payment) {
+            launch_class(MakePaymentActivity.class);
+        } else if (id == R.id.nav_token) {
+            launch_class(BuyTokensActivity.class);
+        } else if (id == R.id.nav_outage_map) {
             launch_class(OutageMapActivity.class);
-        } else if (id == R.id.nav_facebook) {
-            launch_class(FacebookActivity.class);
-        } else if (id == R.id.nav_twitter) {
-            launch_class(TwitterActivity.class);
-        } else if (id == R.id.nav_google_plus) {
-            launch_class(GooglePlusActivity.class);
-        } else if (id == R.id.nav_linkedin) {
-            launch_class(LinkedInActivity.class);
-        } else if (id == R.id.nav_share) {
-            launch_class(ShareActivity.class);
+        } else if (id == R.id.nav_newsfeed) {
+            launch_class(NewsfeedActivity.class);
+        } else if (id == R.id.nav_settings) {
+            launch_class(SettingsActivity.class);
         } else if (id == R.id.nav_contact) {
             launch_class(ContactActivity.class);
         }
