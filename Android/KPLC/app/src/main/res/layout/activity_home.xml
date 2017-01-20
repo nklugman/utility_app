@@ -26,7 +26,7 @@
         app:headerLayout="@layout/nav_header_home"
         app:menu="@menu/activity_home_drawer"
         android:background="@color/cardview_light_background"
-        app:itemTextColor="@color/tw__composer_black"
+        app:itemTextColor="@color/colorPrimary"
 
         />
 
