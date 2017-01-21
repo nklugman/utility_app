@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.app.Activity;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.telephony.SmsManager;
 import android.view.View;
 import android.widget.Button;
@@ -14,7 +15,7 @@ import android.widget.Toast;
 
 import gridwatch.kplc.R;
 // only sending sms function
-public class PostPaidActivity extends Activity {
+public class PostPaidActivity extends AppCompatActivity {
 
 
     Button sendBtn;

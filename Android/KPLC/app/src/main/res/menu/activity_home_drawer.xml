@@ -3,69 +3,59 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
 
-    <item android:title="@string/billing"
-        >
-        <menu>
-        <item
-            android:id="@+id/nav_prepaid"
-
-            android:title="@string/prepaid_balance" />
-        <item
-            android:id="@+id/nav_postpaid"
-
-            android:title="@string/postpaid_balance" />
-        </menu>
-    </item>
-
-    <item android:title="@string/outages">
-        <menu>
-
-        <item
-            android:id="@+id/nav_report_outage"
-
-            android:title="@string/report_outage" />
-        <item
-            android:id="@+id/nav_report_restoration"
-
-            android:title="@string/report_restoration" />
-        <item
-            android:id="@+id/nav_map"
-
-            android:title="@string/outage_map" />
-        </menu>
-    </item>
-
-    <item android:title="@string/social_media">
+    <item android:title="@string/billing">
         <menu>
             <item
-                android:id="@+id/nav_facebook"
+            android:id="@+id/nav_balance"
 
-                android:title="@string/facebook" />
+            android:title="Balance Histories" />
             <item
-                android:id="@+id/nav_twitter"
+            android:id="@+id/nav_statement"
 
-                android:title="@string/twitter" />
+            android:title="Statement Histories" />
             <item
-                android:id="@+id/nav_google_plus"
+                android:id="@+id/nav_usage"
 
-                android:title="@string/google" />
-            <item
-                android:id="@+id/nav_linkedin"
+                android:title="Usage Charts" />
 
-                android:title="@string/linkedin" />
-            <item
-                android:id="@+id/nav_share"
-
-                android:title="@string/share" />
         </menu>
+
+    </item>
+    <item android:title="@string/payment">
+        <menu>
+            <item
+                android:id="@+id/nav_payment"
+
+                android:title="Make the payment" />
+            <item
+                android:id="@+id/nav_token"
+
+                android:title="Buy tokens" />
+
+
+        </menu>
+
+    </item>
+    <item
+        android:id="@+id/nav_outage_map"
+        android:title="@string/outage_map">
     </item>
 
+    <item
+        android:id="@+id/nav_newsfeed"
+        android:title="@string/social_media">
+    </item>
+    <item
+    android:id="@+id/nav_settings"
+
+    android:title="@string/settings" />
+    <item
+        android:id="@+id/nav_contact"
+
+        android:title="@string/contact" />
     <group android:checkableBehavior="single">
 
-        <item
-            android:id="@+id/nav_contact"
 
-            android:title="@string/contact" />
     </group>
 
 
