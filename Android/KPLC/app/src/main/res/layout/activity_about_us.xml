@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/blue"
+    android:orientation="vertical">
+
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:text="About Us"
+            android:textColor="@color/tw__solid_white"
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView5"
+            android:paddingLeft="20dp"
+            android:paddingTop="20dp"
+            android:textSize="30sp"
+            android:textStyle="normal|bold"
+            android:fontFamily="casual" />
+
+        <TextView
+            android:text="We are GridWatch team, located in California, USA. We are continously trying to improve electricity accessibility in every single country. "
+            android:textColor="@color/tw__solid_white"
+            android:textSize="20sp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView6"
+            android:paddingLeft="15dp"
+            android:paddingTop="5dp"
+            android:fontFamily="casual"
+            android:paddingRight="15dp" />
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center">
+
+            <ImageView
+                android:layout_width="114dp"
+                android:layout_height="119dp"
+                app:srcCompat="@drawable/gridwatchlogo"
+                android:id="@+id/imageView2"
+                android:paddingLeft="15dp"
+                android:paddingRight="10dp" />
+
+            <TextView
+                android:text="If you have any questions with the app, please email us through contactus@gridwatch.com. Or click the following button to send us feedback."
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView7"
+                android:layout_weight="1"
+                android:fontFamily="casual"
+                android:textColor="@color/tw__composer_white"
+                android:textSize="15sp"
+                android:paddingTop="15dp"
+                android:paddingRight="10dp" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:paddingTop="15dp">
+
+        <Button
+
+            android:text="  SEND US FEEDBACK  "
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/button3"
+            android:layout_weight="1"
+            android:textColor="@color/tw__composer_white"
+            android:fontFamily="casual"
+            android:textSize="15sp"
+            android:background="@color/colorPrimary"
+
+
+            />
+    </LinearLayout>
+
+</LinearLayout>
