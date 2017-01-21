@@ -53,6 +53,7 @@
             android:id="@+id/login_submit"
             android:textSize="20sp"
             android:background="@color/colorPrimary"
+            android:textColor="@color/tw__solid_white"
             android:layout_marginTop="15dp"
                    />
     </LinearLayout>
