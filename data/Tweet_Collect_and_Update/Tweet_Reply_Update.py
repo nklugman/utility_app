@@ -42,8 +42,8 @@ def get_latest_replies(target):
     print (latest_replies[0].id)
     
     while len(new_replies) > 0:
-        time.sleep(10)
         print("10 seconds time delay start now.")
+        time.sleep(10)
         print ("getting replies before %s" % (oldest))
         new_replies = [status for status in tweepy.Cursor(api.search, q=twitter_KPLC,max_id=oldest,since_id=since_ID).items(max_replies)]
         count = count + len(new_replies)
