@@ -1,3 +1,4 @@
 .DS_Store
 data/Tweet_Collect_and_Update/.DS_Store
 data/.DS_Store
+outage_map/__pycache__/
