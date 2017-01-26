@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/blue"
+    android:background="@color/cardview_light_background"
     android:orientation="vertical">
 
 
@@ -14,7 +14,7 @@
 
         <TextView
             android:text="About Us"
-            android:textColor="@color/tw__solid_white"
+            android:textColor="@color/cardview_dark_background"
 
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -23,18 +23,18 @@
             android:paddingTop="20dp"
             android:textSize="30sp"
             android:textStyle="normal|bold"
-            android:fontFamily="casual" />
+            android:fontFamily="sans-serif" />
 
         <TextView
             android:text="We are GridWatch team, located in California, USA. We are continously trying to improve electricity accessibility in every single country. "
-            android:textColor="@color/tw__solid_white"
+            android:textColor="@color/cardview_dark_background"
             android:textSize="20sp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/textView6"
             android:paddingLeft="15dp"
             android:paddingTop="5dp"
-            android:fontFamily="casual"
+            android:fontFamily="sans-serif"
             android:paddingRight="15dp" />
 
         <LinearLayout
@@ -57,8 +57,8 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/textView7"
                 android:layout_weight="1"
-                android:fontFamily="casual"
-                android:textColor="@color/tw__composer_white"
+                android:fontFamily="sans-serif"
+                android:textColor="@color/cardview_dark_background"
                 android:textSize="15sp"
                 android:paddingTop="15dp"
                 android:paddingRight="10dp" />
@@ -69,25 +69,42 @@
 
     <LinearLayout
         android:orientation="vertical"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:paddingTop="15dp">
+        android:paddingTop="15dp"
+        android:gravity="center_vertical|center_horizontal">
+
+        <EditText
+            android:layout_width="match_parent"
+            android:inputType="textPersonName"
+            android:text="Tell Us Anything ..."
+
+            android:ems="10"
+            android:id="@+id/editText2"
+            android:layout_weight="6.38"
+            android:layout_marginBottom="20dp"
+            android:layout_marginLeft="55dp"
+            android:layout_marginRight="55dp"
+            android:layout_height="90dp"
+            android:background="@drawable/tw__install_button_border"
+             />
 
         <Button
 
             android:text="  SEND US FEEDBACK  "
+
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/button3"
             android:layout_weight="1"
             android:textColor="@color/tw__composer_white"
-            android:fontFamily="casual"
+            android:fontFamily="sans-serif"
             android:textSize="15sp"
             android:background="@color/colorPrimary"
 
 
-            />
+            android:gravity="center_vertical" />
     </LinearLayout>
 
 </LinearLayout>
