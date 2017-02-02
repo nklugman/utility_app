@@ -82,7 +82,7 @@
             android:text="  View Statement  "
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/button4"
+            android:id="@+id/viewstatementbutton"
             android:layout_weight="1"
             android:textSize="20sp"
             android:background="@color/colorPrimary"

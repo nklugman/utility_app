@@ -26,7 +26,7 @@
             <item
                 android:id="@+id/nav_payment"
 
-                android:title="Make the payment" />
+                android:title="Make a payment" />
             <item
                 android:id="@+id/nav_token"
 
