@@ -33,4 +33,10 @@
     </style>
 
 
+    <style name="AppTheme.NavigationView">
+        <item name="android:textColorSecondary">@color/colorYellow</item>
+
+    </style>
+
+
 </resources>

@@ -13,7 +13,7 @@
         android:text="Welcome"
         android:textColor="@color/tw__composer_white"
         android:gravity="top|center"
-        android:textSize="30sp"
+        android:textSize="@dimen/home_welcome_font_size"
         android:fontFamily="sans-serif"
         android:paddingTop="80dp"
         android:background="@drawable/background" />
@@ -24,7 +24,6 @@
         android:text="Please Enter Your Meter Number"
         android:textColor="@color/tw__composer_black"
         android:gravity="center"
-        android:textSize="22sp"
         android:fontFamily="sans-serif"
         android:paddingTop="30dp"
         />
@@ -56,7 +55,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/login_submit"
-            android:textSize="20sp"
             android:background="@color/colorPrimary"
             android:textColor="@color/tw__solid_white"
             android:layout_marginTop="15dp"

@@ -41,7 +41,6 @@
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-<<<<<<< HEAD
             android:paddingBottom="10dp"
             android:layout_weight="1">
             <TextView
@@ -114,34 +113,8 @@
                 android:id="@+id/spinner4"
                 android:gravity="center"/>
         </LinearLayout>
-=======
-
-            android:layout_weight="1"
-            android:gravity="center"
-            android:paddingTop="10dp" />
-
-        <TextView
-            android:text="Month"
-            android:textSize="20sp"
-            android:textColor="@color/tw__composer_black"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-
-            android:layout_weight="1"
-            android:gravity="center" />
-        <TextView
-            android:text="Balance"
-            android:textSize="20sp"
-            android:textColor="@color/tw__composer_black"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-
-            android:layout_weight="1"
-            android:gravity="center" />
 
 
-
->>>>>>> d762bd833546f9e3d88df8831a5323026b8b63d2
     </LinearLayout>
     <LinearLayout
         android:orientation="vertical"

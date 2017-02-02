@@ -116,17 +116,10 @@
         <ListView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-<<<<<<< HEAD
+            android:id="@+id/listView">
 
-            android:id="@+id/listView"/>
-=======
-            android:id="@+id/viewstatementbutton"
-            android:layout_weight="1"
-            android:textSize="20sp"
-            android:background="@color/colorPrimary"
-            android:textColor="@color/tw__composer_white"
-            android:layout_marginTop="10dp"/>
->>>>>>> d762bd833546f9e3d88df8831a5323026b8b63d2
+        </ListView>
+
     </LinearLayout>
 
 </LinearLayout>

@@ -1,15 +1,18 @@
-package gridwatch.kplc.activities.outage;
+package gridwatch.kplc.activities;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
 import gridwatch.kplc.R;
 
-public class ReportRestorationActivity extends AppCompatActivity {
+/**
+ * Created by guoxinyi on 2/2/17.
+ */
 
+public class SettingsActivity extends AppCompatActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_report_restoration);
+        setContentView(R.layout.activity_settings);
     }
 }

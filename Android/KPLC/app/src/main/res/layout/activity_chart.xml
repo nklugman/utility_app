@@ -109,11 +109,14 @@
 
     </LinearLayout>
 
-    <RelativeLayout
+    <LinearLayout
+        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:id="@+id/chart"
+        android:background="@color/cardview_light_background">
 
-    </RelativeLayout>
+    </LinearLayout>
 
 
 </LinearLayout>
