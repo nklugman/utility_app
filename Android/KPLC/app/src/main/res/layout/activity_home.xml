@@ -27,6 +27,8 @@
         app:menu="@menu/activity_home_drawer"
         android:background="@color/cardview_light_background"
         app:itemTextColor="@color/colorPrimary"
+        app:itemIconTint="@color/colorPrimary"
+        android:theme="@style/AppTheme.NavigationView"
 
         />
 

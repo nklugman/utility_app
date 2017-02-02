@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
-
-
     <item android:title="@string/billing">
         <menu>
             <item
@@ -19,14 +17,13 @@
                 android:title="Usage Charts" />
 
         </menu>
-
     </item>
     <item android:title="@string/payment">
         <menu>
             <item
                 android:id="@+id/nav_payment"
 
-                android:title="Make the payment" />
+                android:title="Make a payment" />
             <item
                 android:id="@+id/nav_token"
 
@@ -53,10 +50,10 @@
         android:id="@+id/nav_contact"
 
         android:title="@string/contact" />
-    <group android:checkableBehavior="single">
 
 
-    </group>
+
+
 
 
 </menu>

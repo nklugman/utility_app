@@ -6,88 +6,120 @@
     android:orientation="vertical">
 
 
-    <TextView
-        android:text="Please select the time range:"
-        android:textSize="20sp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/textView3"
-        android:textColor="@color/tw__composer_black"
-        android:paddingTop="20dp"
-        android:paddingBottom="10dp"
-        android:gravity="center" />
-
     <LinearLayout
         android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="5">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="10dp"
+            android:layout_weight="1">
+
+            <TextView
+                android:text="Year"
+                android:textColor="@color/tw__composer_black"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView"
+                android:gravity="center" />
+
+            <Spinner
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/spinner1" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="10dp"
+            android:layout_weight="1">
+            <TextView
+                android:text="Month"
+                android:textColor="@color/tw__composer_black"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center" />
+            <Spinner
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/spinner2" />
+        </LinearLayout>
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="10dp"
+            android:layout_weight="1">
+            <TextView
+                android:text="-"
+                android:textColor="@color/tw__composer_black"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                />
+
+        </LinearLayout>
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="10dp"
+            android:layout_weight="1">
+            <TextView
+                android:text="Year"
+                android:textColor="@color/tw__composer_black"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center" />
+            <Spinner
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/spinner3" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="10dp"
+            android:layout_weight="1">
+            <TextView
+                android:text="Month"
+                android:textColor="@color/tw__composer_black"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView2"
+                android:layout_weight="1"
+                android:gravity="center" />
+            <Spinner
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/spinner4" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-
-        <TextView
-            android:text="Year"
-            android:textSize="20sp"
-            android:textColor="@color/tw__composer_black"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/textView"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:paddingTop="10dp" />
-
-        <TextView
-            android:text="Month"
-            android:textSize="20sp"
-            android:textColor="@color/tw__composer_black"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/textView2"
-            android:layout_weight="1"
-            android:gravity="center" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingBottom="10dp"
-        android:paddingTop="10dp">
-
-
-        <Spinner
+        <ListView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/spinner1"
-            android:layout_weight="1"
-            android:paddingBottom="10dp"
-            android:textSize="25sp"/>
+            android:id="@+id/listView">
 
-        <Spinner
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/spinner2"
-            android:layout_weight="1"
-            android:textSize="25sp"/>
+        </ListView>
 
-    </LinearLayout>
-
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-
-        android:layout_gravity="center"
-        android:paddingBottom="15dp">
-
-        <Button
-            android:text="  View Statement  "
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/button4"
-            android:layout_weight="1"
-            android:textSize="20sp"
-            android:background="@color/colorPrimary"
-            android:textColor="@color/tw__composer_white"
-            android:layout_marginTop="10dp"/>
     </LinearLayout>
 
 </LinearLayout>
