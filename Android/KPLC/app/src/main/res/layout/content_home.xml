@@ -57,13 +57,14 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_marginTop="13dp" />
-    <EditText
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:text="Name"
+        android:inputType="numberDecimal"
+        android:text="20"
         android:ems="10"
         android:id="@+id/balance"
+        android:clickable="false"
         android:contextClickable="false"
         android:cursorVisible="false"
         android:textSize="@dimen/text_size"
@@ -72,12 +73,20 @@
         android:layout_alignStart="@+id/current_balance"
         android:layout_marginRight="@dimen/activity_horizontal_margin"
         android:textColor="@color/colorGrey"
-        android:clickable="false" />
+         />
+    <View
+        android:layout_width="match_parent"
+        android:layout_below="@+id/balance"
+        android:id="@+id/border1"
+        android:layout_height="1dp"
+        android:layout_alignLeft="@+id/current_balance"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:background="@android:color/black" />
     <TextView
         android:text="Last Update"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/balance"
+        android:layout_below="@+id/border1"
         android:id="@+id/last_update"
         android:textSize="@dimen/text_size"
         android:layout_alignLeft="@+id/balance"
@@ -115,29 +124,34 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_marginTop="13dp" />
-
-    <EditText
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:inputType="textPersonName"
+        android:inputType="numberDecimal"
         android:text="Name"
         android:ems="10"
         android:id="@+id/payment"
         android:contextClickable="false"
         android:cursorVisible="false"
         android:textSize="@dimen/text_size"
-        android:layout_below="@+id/current_payment"
-        android:layout_alignLeft="@+id/current_balance"
-        android:layout_alignStart="@+id/current_balance"
-        android:layout_marginRight="@dimen/activity_horizontal_margin"
         android:textColor="@color/colorGrey"
-        android:clickable="false" />
-
+        android:clickable="false"
+        android:layout_below="@+id/current_payment"
+        android:layout_alignLeft="@+id/current_payment"
+        android:layout_alignStart="@+id/current_payment" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_below="@+id/payment"
+        android:id="@+id/border2"
+        android:layout_height="1dp"
+        android:layout_alignLeft="@+id/current_balance"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:background="@android:color/black" />
     <TextView
         android:text="Payment Due:"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/payment"
+        android:layout_below="@+id/border2"
         android:id="@+id/payment_due"
         android:textSize="@dimen/text_size"
         android:layout_alignLeft="@+id/balance"
@@ -156,6 +170,8 @@
         android:layout_alignStart="@+id/last_update"
         android:layout_marginTop="15dp"
         android:layout_marginRight="@dimen/activity_horizontal_margin" />
+
+
 
 
 </RelativeLayout>

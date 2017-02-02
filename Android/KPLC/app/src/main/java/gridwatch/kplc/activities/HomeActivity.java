@@ -18,19 +18,11 @@ import java.util.Random;
 
 import gridwatch.kplc.R;
 import gridwatch.kplc.activities.billing.BalanceHistoryActivity;
-import gridwatch.kplc.activities.billing.PostPaidActivity;
-import gridwatch.kplc.activities.billing.PrepaidActivity;
 import gridwatch.kplc.activities.billing.StatementHistoryActivity;
 import gridwatch.kplc.activities.outage.OutageMapActivity;
-import gridwatch.kplc.activities.outage.ReportOutageActivity;
-import gridwatch.kplc.activities.outage.ReportRestorationActivity;
 import gridwatch.kplc.activities.payment.BuyTokensActivity;
 import gridwatch.kplc.activities.payment.MakePaymentActivity;
-import gridwatch.kplc.activities.social_media.FacebookActivity;
-import gridwatch.kplc.activities.social_media.GooglePlusActivity;
-import gridwatch.kplc.activities.social_media.LinkedInActivity;
 import gridwatch.kplc.activities.social_media.SettingsActivity;
-import gridwatch.kplc.activities.social_media.Twitter.TwitterActivity;
 
 public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {

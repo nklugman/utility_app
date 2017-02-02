@@ -9,72 +9,110 @@
 
 
 
-
-
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/tw__blue_pressed_light">
-
-
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-
-        >
-
-
-        <TextView
-            android:text="    Historical Balance:"
-            android:textSize="20sp"
-            android:textColor="@color/tw__composer_black"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/textView4"
-            android:paddingTop="10dp" />
-
-    </LinearLayout>
-
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingBottom="10dp">
+        android:weightSum="5">
 
-        <TextView
-            android:text="Year"
-            android:textSize="20sp"
-            android:textColor="@color/tw__composer_black"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/textView"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:paddingTop="10dp" />
+            android:paddingBottom="10dp"
+            android:layout_weight="1">
 
-        <TextView
-            android:text="Month"
-            android:textSize="20sp"
-            android:textColor="@color/tw__composer_black"
-            android:layout_width="wrap_content"
+            <TextView
+                android:text="Year"
+                android:textColor="@color/tw__composer_black"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView"
+                android:gravity="center" />
+
+            <Spinner
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/spinner1"
+                android:gravity="center"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/textView2"
-            android:layout_weight="1"
-            android:gravity="center" />
-        <TextView
-            android:text="Balance"
-            android:textSize="20sp"
-            android:textColor="@color/tw__composer_black"
-            android:layout_width="wrap_content"
+            android:paddingBottom="10dp"
+            android:layout_weight="1">
+            <TextView
+                android:text="Month"
+                android:textColor="@color/tw__composer_black"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center" />
+            <Spinner
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/spinner2"
+                android:gravity="center"/>
+        </LinearLayout>
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/textView2"
-            android:layout_weight="1"
-            android:gravity="center" />
+            android:paddingBottom="10dp"
+            android:layout_weight="1">
+            <TextView
+                android:text="-"
+                android:textColor="@color/tw__composer_black"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                />
 
+        </LinearLayout>
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="10dp"
+            android:layout_weight="1">
+            <TextView
+                android:text="Year"
+                android:textColor="@color/tw__composer_black"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center" />
+            <Spinner
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/spinner3"
+                android:gravity="center"/>
 
+        </LinearLayout>
 
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="10dp"
+            android:layout_weight="1">
+            <TextView
+                android:text="Month"
+                android:textColor="@color/tw__composer_black"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView2"
+                android:layout_weight="1"
+                android:gravity="center" />
+            <Spinner
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/spinner4"
+                android:gravity="center"/>
+        </LinearLayout>
     </LinearLayout>
     <LinearLayout
         android:orientation="vertical"
@@ -82,8 +120,10 @@
         android:layout_height="wrap_content">
     <ListView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+
+        android:id="@+id/listView"/>
     </LinearLayout>
-</LinearLayout>
+
 
 </LinearLayout>

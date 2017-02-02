@@ -25,14 +25,13 @@
             android:label="@string/app_name"
             android:theme="@style/Theme.AppCompat.NoActionBar"/>
         <activity
-            android:name=".activities.billing.PrepaidActivity"
-            android:label="@string/title_activity_prepaid" />
+            android:name=".activities.billing.BalanceHistoryActivity"
+            android:label="Balance Histories"
+            />
         <activity
-            android:name=".activities.billing.PostPaidActivity" />
-
-        <activity
-            android:name=".activities.billing.PostPaidDetail"
-            android:label="@string/title_activity_postpaid_detail" />
+            android:name=".activities.billing.StatementHistoryActivity"
+            android:label="Statement Histories"
+            />
         <activity android:name=".activities.outage.ReportOutageActivity" />
         <activity android:name=".activities.outage.ReportRestorationActivity" />
         <activity android:name=".activities.outage.OutageMapActivity" />
@@ -50,11 +49,6 @@
         <activity
             android:name=".activities.social_media.Twitter.TwitterTimeline"
             android:label="@string/title_activity_twitter_timeline"></activity>
-        <receiver android:name=".activities.billing.SMSListener" >
-            <intent-filter android:priority="1000">
-                <action android:name="android.provider.Telephony.SMS_RECEIVED" />
-            </intent-filter>
-        </receiver>
     </application>
 
 </manifest>
