@@ -20,7 +20,7 @@ android {
     buildToolsVersion "24.0.1"
     defaultConfig {
         applicationId "gridwatch.kplc"
-        minSdkVersion 14 //It should be 9, but only 14 works for Twitter
+        minSdkVersion 9 //It should be 9, but only 14 works for Twitter
         targetSdkVersion 24
         versionCode 1
         versionName "1.0"
@@ -42,9 +42,6 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    compile('com.twitter.sdk.android:twitter:2.1.1@aar') {
-        transitive = true;
-    }
     compile fileTree(dir: 'libs', include:['*.jar'])
 
     // Realm
