@@ -67,7 +67,7 @@
         android:background="@color/colorGrey" />
 
     <Button
-        android:text="Check the Balance"
+        android:text="Check my Balance"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/check_balance"
@@ -128,7 +128,7 @@
         android:textColor="@color/cardview_dark_background" />
 
     <Button
-        android:text="Make the Payment"
+        android:text="Make A Payment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/make_payment"
