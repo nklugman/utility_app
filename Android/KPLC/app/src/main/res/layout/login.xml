@@ -34,14 +34,13 @@
         android:inputType="number"
         android:ems="10"
         android:id="@+id/editText"
-        android:paddingTop="30dp"
         android:layout_gravity="center"
         android:gravity="bottom|center_vertical|center_horizontal"
         android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp"
         android:layout_marginBottom="5dp"
         android:layout_marginTop="20dp"
-        android:background="@drawable/tw__install_button_border" />
+        android:background="@android:drawable/editbox_background_normal" />
 
     <LinearLayout
         android:orientation="vertical"

@@ -4,16 +4,42 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/cardview_light_background"
-    android:orientation="vertical">
-
-
+    android:orientation="vertical"
+    android:paddingBottom="10dp"
+    android:paddingTop="10dp"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp">
 
 
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:weightSum="5">
+        android:gravity="center_vertical|center_horizontal"
+        android:paddingBottom="10dp">
+
+        <TextView
+            android:text="From"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView8"
+            android:layout_weight="1"
+            android:gravity="center_horizontal" />
+
+        <TextView
+            android:text="To"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView5"
+            android:layout_weight="1"
+            android:gravity="center_horizontal" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical|center_horizontal">
 
         <LinearLayout
             android:orientation="vertical"
@@ -56,28 +82,34 @@
                 android:id="@+id/spinner2"
                 android:gravity="center"/>
         </LinearLayout>
+
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingBottom="10dp"
-            android:layout_weight="1">
+            android:layout_weight="1.2">
+
             <TextView
-                android:text="-"
+                android:text="--"
                 android:textColor="@color/tw__composer_black"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:gravity="center"
-                />
+                android:gravity="center" />
+
+
 
         </LinearLayout>
+
+
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingBottom="10dp"
             android:layout_weight="1">
+
             <TextView
                 android:text="Year"
                 android:textColor="@color/tw__composer_black"
@@ -116,15 +148,17 @@
 
 
     </LinearLayout>
+
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-    <ListView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
 
-        android:id="@+id/listView"/>
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:id="@+id/listView"/>
     </LinearLayout>
 
 

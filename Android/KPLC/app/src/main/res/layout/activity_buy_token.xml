@@ -3,61 +3,85 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    >
+    android:layout_marginLeft="20dp"
+    android:layout_marginRight="20dp"
+    android:layout_marginBottom="20dp"
+    android:layout_marginTop="20dp"
+    android:gravity="center_horizontal">
+
 
     <TextView
-        android:text="Token Purchase"
-        android:layout_width="wrap_content"
+        android:text="For Account:"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/tokenpurchase"
-        android:textColor="@color/cardview_dark_background"
-        android:textSize="24sp"
-        android:paddingBottom="10dp"
-        android:paddingTop="20dp"
-        android:paddingLeft="20dp" />
+        android:id="@+id/textView3"
+        android:layout_marginBottom="10dp" />
 
+    <Spinner
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/accountspinner"
+        android:background="@android:drawable/editbox_dropdown_light_frame" />
 
     <TextView
-        android:text="Please enter the amount your want to purchase:"
+        android:text="Please enter the amount you want to purchase:"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/textView9"
-        android:paddingLeft="20dp"
-        android:paddingBottom="10dp" />
+        android:paddingBottom="10dp"
+        android:paddingTop="10dp" />
 
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:gravity="left|center_vertical">
 
-
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
+        <TextView
+            android:text="KSh    "
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center_vertical|center_horizontal">
+            android:id="@+id/textView10"
+            android:layout_weight="0.17"
+            android:gravity="right" />
 
-            <TextView
-                android:text="KSh    "
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/textView10"
-                android:layout_weight="1"
-                android:gravity="right|center" />
-
-            <EditText
-                android:layout_width="30dp"
-                android:textColor="@color/cardview_dark_background"
-                android:layout_height="wrap_content"
-                android:inputType="numberDecimal"
-                android:ems="10"
-                android:id="@+id/buytokenamount"
-                android:background="@drawable/tw__install_button_border"
-                android:layout_marginRight="50dp"
-                android:layout_weight="1" />
-
-        </LinearLayout>
+        <EditText
+            android:layout_width="30dp"
+            android:textColor="@color/cardview_dark_background"
+            android:layout_height="wrap_content"
+            android:inputType="numberDecimal"
+            android:ems="10"
+            android:id="@+id/buytokenamount"
+            android:layout_weight="1"
+            android:background="@android:drawable/editbox_background_normal"/>
 
     </LinearLayout>
+
+    <TextView
+        android:text="Enter your M-PESA PIN:"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="numberPassword"
+        android:ems="10"
+        android:id="@+id/pin"
+        android:background="@android:drawable/editbox_background_normal"
+        android:layout_marginBottom="20dp" />
+
+    <Button
+        android:text="Confirm"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tokenconfirm"
+        android:paddingBottom="10dp"
+        android:paddingTop="10dp"
+        android:textColor="@color/tw__composer_white"
+        android:background="@color/colorPrimary"/>
+
 
 </LinearLayout>

@@ -2,8 +2,23 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:paddingLeft="20dp"
+    android:paddingRight="20dp"
+    android:paddingBottom="10dp"
+    android:paddingTop="10dp">
+    <TextView
+        android:text="For Account:"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView3"
+        android:layout_marginBottom="10dp" />
 
+    <Spinner
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/accountspinner"
+        android:background="@android:drawable/editbox_dropdown_light_frame" />
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
@@ -15,8 +30,8 @@
             android:layout_height="wrap_content"
             android:id="@+id/radioButton"
             android:textColor="@color/cardview_dark_background"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp" />
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="10dp" />
 
         <LinearLayout
             android:orientation="horizontal"
@@ -31,7 +46,8 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/textView17"
                 android:layout_weight="1"
-                android:gravity="right" />
+                android:gravity="right"
+                android:paddingTop="10dp" />
 
             <TextView
                 android:text="33.33"
@@ -41,7 +57,8 @@
                 android:id="@+id/currentbalance"
                 android:layout_weight="1"
                 android:gravity="center_horizontal"
-                android:paddingRight="50dp" />
+                android:paddingRight="50dp"
+                android:paddingTop="10dp" />
         </LinearLayout>
 
     </LinearLayout>
@@ -69,14 +86,27 @@
             android:layout_weight="1" />
     </LinearLayout>
 
+    <TextView
+        android:text="Enter your M-PESA PIN:"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp" />
 
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="numberPassword"
+        android:ems="10"
+        android:id="@+id/pin"
+        android:background="@android:drawable/editbox_background_normal" />
 
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
-        android:paddingTop="20dp">
+        android:layout_marginTop="20dp">
 
         <Button
             android:text="Confirm"
