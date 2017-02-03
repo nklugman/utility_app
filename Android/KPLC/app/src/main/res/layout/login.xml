@@ -26,7 +26,7 @@
         android:gravity="center"
         android:fontFamily="sans-serif"
         android:paddingTop="30dp"
-        />
+        android:textSize="18sp" />
 
     <EditText
         android:layout_width="match_parent"
