@@ -23,11 +23,11 @@
             <item
                 android:id="@+id/nav_payment"
 
-                android:title="Make a payment" />
+                android:title="Make A Payment" />
             <item
                 android:id="@+id/nav_token"
 
-                android:title="Buy tokens" />
+                android:title="Buy Tokens" />
 
 
         </menu>
