@@ -4,17 +4,6 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <TextView
-        android:text="Payment Amount"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/textView8"
-        android:textColor="@color/cardview_dark_background"
-        android:textSize="24sp"
-        android:paddingBottom="10dp"
-        android:paddingTop="20dp"
-        android:paddingLeft="20dp" />
-
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
@@ -63,13 +52,13 @@
         android:layout_height="wrap_content">
 
         <TextView
-            android:text="       as of  "
+            android:text="Due on "
             android:textColor="@color/cardview_dark_background"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/textView11"
             android:layout_weight="1"
-            android:paddingLeft="20dp" />
+            android:paddingLeft="30dp" />
 
         <TextView
             android:text="1/1/2017"
@@ -80,50 +69,7 @@
             android:layout_weight="1" />
     </LinearLayout>
 
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
 
-        <RadioButton
-            android:text="Other Amount"
-            android:textColor="@color/cardview_dark_background"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/radioButton"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp" />
-
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="right|center_vertical|center_horizontal">
-
-            <TextView
-                android:text="KSh  "
-                android:textColor="@color/cardview_dark_background"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/textView13"
-                android:layout_weight="1"
-                android:gravity="right" />
-
-            <EditText
-                android:layout_width="30dp"
-                android:textColor="@color/cardview_dark_background"
-                android:layout_height="wrap_content"
-                android:inputType="numberDecimal"
-                android:ems="10"
-                android:id="@+id/paymentamount"
-                android:background="@drawable/tw__install_button_border"
-                android:layout_marginRight="50dp"
-                android:layout_weight="1" />
-
-        </LinearLayout>
-
-
-    </LinearLayout>
 
     <LinearLayout
         android:orientation="vertical"
@@ -133,10 +79,10 @@
         android:paddingTop="20dp">
 
         <Button
-            android:text="Continue"
+            android:text="Confirm"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/continuebutton"
+            android:id="@+id/confirm_button"
             android:layout_weight="1"
             android:textColor="@color/tw__composer_white"
             android:background="@color/colorPrimary"/>

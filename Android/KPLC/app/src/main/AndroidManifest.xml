@@ -25,24 +25,34 @@
             android:label="@string/app_name"
             android:theme="@style/Theme.AppCompat.NoActionBar"/>
         <activity
-            android:name=".activities.billing.PrepaidActivity"
-            android:label="@string/title_activity_prepaid" />
+            android:name=".activities.billing.BalanceHistoryActivity"
+            android:label="Balance Histories"
+            />
         <activity
-            android:name=".activities.billing.PostPaidActivity" />
-
+            android:name=".activities.billing.StatementHistoryActivity"
+            android:label="Statement Histories"
+            />
         <activity
-            android:name=".activities.billing.PostPaidDetail"
-            android:label="@string/title_activity_postpaid_detail" />
-        <activity android:name=".activities.outage.ReportOutageActivity" />
-        <activity android:name=".activities.outage.ReportRestorationActivity" />
-        <activity android:name=".activities.outage.OutageMapActivity" />
-        <activity android:name=".activities.social_media.FacebookActivity" />
+            android:name=".activities.payment.BuyTokensActivity"
+            android:label="Buy Tokens"
+            />
+        <activity
+            android:name=".activities.payment.MakePaymentActivity"
+            android:label="Make A Payment"
+            />
+        <activity
+            android:name=".activities.billing.UsageChartsActivity"
+            android:label="Usage Charts"
+            />
+        <activity android:name=".activities.outage.OutageMapActivity"
+            android:label="OutageMap"/>
         <activity android:name=".activities.social_media.Twitter.TwitterActivity" />
-        <activity android:name=".activities.social_media.GooglePlusActivity" />
-        <activity android:name=".activities.social_media.LinkedInActivity" />
-        <activity android:name=".activities.ContactActivity" />
-        <activity android:name=".activities.ShareActivity" />
-
+        <activity android:name=".activities.ContactActivity"
+            android:label="Contact"
+            />
+        <activity android:name=".activities.SettingsActivity"
+            android:label="Settings"
+            />
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="849d305db8fded5536031a07edf7e8fdc0ac65b8" />
@@ -50,11 +60,6 @@
         <activity
             android:name=".activities.social_media.Twitter.TwitterTimeline"
             android:label="@string/title_activity_twitter_timeline"></activity>
-        <receiver android:name=".activities.billing.SMSListener" >
-            <intent-filter android:priority="1000">
-                <action android:name="android.provider.Telephony.SMS_RECEIVED" />
-            </intent-filter>
-        </receiver>
     </application>
 
 </manifest>

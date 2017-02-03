@@ -51,45 +51,26 @@
         android:layout_height="wrap_content"
         android:id="@+id/current_balance"
         android:layout_marginLeft="@dimen/activity_horizontal_margin"
-        android:textSize="@dimen/text_size"
-        android:textColor="@color/colorGrey"
+        android:textColor="@color/cardview_dark_background"
         android:layout_below="@+id/background"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_marginTop="13dp" />
-    <EditText
+
+    <View
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:text="Name"
-        android:ems="10"
-        android:id="@+id/balance"
-        android:contextClickable="false"
-        android:cursorVisible="false"
-        android:textSize="@dimen/text_size"
-        android:layout_below="@+id/current_balance"
-        android:layout_alignLeft="@+id/current_balance"
-        android:layout_alignStart="@+id/current_balance"
-        android:layout_marginRight="@dimen/activity_horizontal_margin"
-        android:textColor="@color/colorGrey"
-        android:clickable="false" />
-    <TextView
-        android:text="Last Update"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:layout_below="@+id/balance"
-        android:id="@+id/last_update"
-        android:textSize="@dimen/text_size"
-        android:layout_alignLeft="@+id/balance"
-        android:layout_alignStart="@+id/balance"
-        android:textColor="@color/colorGrey" />
+        android:id="@+id/border1"
+        android:layout_height="1dp"
+        android:layout_alignLeft="@+id/current_balance"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:background="@color/colorGrey" />
 
     <Button
         android:text="Check the Balance"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/check_balance"
-        android:textSize="@dimen/text_size"
         android:background="@color/colorPrimary"
         android:layout_below="@+id/last_update"
         android:layout_alignLeft="@+id/last_update"
@@ -109,53 +90,79 @@
         android:layout_height="wrap_content"
         android:id="@+id/current_payment"
         android:layout_marginLeft="@dimen/activity_horizontal_margin"
-        android:textSize="@dimen/text_size"
-        android:textColor="@color/colorGrey"
+        android:textColor="@color/cardview_dark_background"
         android:layout_below="@+id/divider"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_marginTop="13dp" />
-
-    <EditText
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:text="Name"
+        android:inputType="numberDecimal"
+        android:text="33"
         android:ems="10"
         android:id="@+id/payment"
         android:contextClickable="false"
         android:cursorVisible="false"
-        android:textSize="@dimen/text_size"
+        android:textColor="@color/cardview_dark_background"
+        android:clickable="false"
         android:layout_below="@+id/current_payment"
+        android:layout_alignLeft="@+id/current_payment"
+        android:layout_alignStart="@+id/current_payment" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_below="@+id/payment"
+        android:id="@+id/border2"
+        android:layout_height="1dp"
         android:layout_alignLeft="@+id/current_balance"
-        android:layout_alignStart="@+id/current_balance"
         android:layout_marginRight="@dimen/activity_horizontal_margin"
-        android:textColor="@color/colorGrey"
-        android:clickable="false" />
-
+        android:background="@color/colorGrey" />
     <TextView
         android:text="Payment Due:"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/payment"
+        android:layout_below="@+id/border2"
         android:id="@+id/payment_due"
-        android:textSize="@dimen/text_size"
         android:layout_alignLeft="@+id/balance"
         android:layout_alignStart="@+id/balance"
-        android:textColor="@color/colorGrey" />
+        android:textColor="@color/cardview_dark_background" />
 
     <Button
         android:text="Make the Payment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/make_payment"
-        android:textSize="@dimen/text_size"
         android:background="@color/colorPrimary"
         android:layout_below="@+id/payment_due"
         android:layout_alignLeft="@+id/last_update"
         android:layout_alignStart="@+id/last_update"
         android:layout_marginTop="15dp"
         android:layout_marginRight="@dimen/activity_horizontal_margin" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="numberDecimal"
+        android:text="20"
+        android:ems="10"
+        android:id="@+id/balance"
+        android:clickable="false"
+        android:contextClickable="false"
+        android:cursorVisible="false"
+        android:textColor="@color/cardview_dark_background"
+        android:layout_below="@+id/current_balance"
+        android:layout_alignLeft="@+id/current_balance"
+        android:layout_alignStart="@+id/current_balance" />
+
+    <TextView
+        android:text="Last Update:"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/last_update"
+        android:textColor="@color/cardview_dark_background"
+        android:layout_below="@+id/border1"
+        android:layout_alignLeft="@+id/border1"
+        android:layout_alignStart="@+id/border1" />
 
 
 </RelativeLayout>

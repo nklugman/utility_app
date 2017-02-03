@@ -3,8 +3,6 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="action_settings">Settings</string>
-    <string name="title_activity_prepaid">Prepaid</string>
-    <string name="title_activity_post_paid">PostPaidActivity</string>
     <string name="billing">Billing</string>
     <string name="payment">Payment</string>
     <string name="settings">Settings</string>
