@@ -11,11 +11,13 @@ import shapely.geometry
 
 fc = fiona.open("AC_All_Final_April_2012/AC_All_Final.shp")
 ##shapefile_record = fc.next() ##Original but buggy
+
 for shapefile_rec in fc:
     print(shapefile_rec['properties'])
-    
 
 shapefile_record = next(iter(fc))
+##print(shapefile_record['properties']['DIST_NAME'])
+print(shapefile_record)
 polygon = shapefile_record['geometry']
 shape = shapely.geometry.asShape(polygon)
 def is_constituency(lat,lng):
