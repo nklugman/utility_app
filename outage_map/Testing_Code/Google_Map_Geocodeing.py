@@ -19,5 +19,5 @@ gmap.scatter(marker_lats, marker_lngs, 'k', marker=True)
 gmap.heatmap(heat_lats, heat_lngs)
 """
 
-gmap = gmplot.GoogleMapPlotter.from_geocode("San Francisco")
+gmap = gmplot.GoogleMapPlotter.from_geocode("KPLC")
 gmap.draw("mymap.html")

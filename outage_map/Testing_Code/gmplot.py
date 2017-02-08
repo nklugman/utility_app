@@ -378,6 +378,7 @@ if __name__ == "__main__":
     mymap.marker(37.428, -122.146, "cornflowerblue")
     mymap.marker(37.429, -122.144, "k")
     lat, lng = mymap.geocode("Stanford University")
+    print("-------", mymap.geocode("Euclid and Hearst Ave"))
     mymap.marker(lat, lng, "red")
     mymap.circle(37.429, -122.145, 100, "#FF0000", ew=2)
     path = [(37.429, 37.428, 37.427, 37.427, 37.427),
