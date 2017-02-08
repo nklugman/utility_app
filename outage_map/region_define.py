@@ -8,10 +8,16 @@ Created on Thu Feb  2 20:51:15 2017
 
 import fiona 
 import shapely.geometry
+from display_logic import GoogleMapPlotter
 
 kenya_shape = fiona.open("Kenya_sublocations/kenya_sublocations.shp")
 
-def region_check(points_list):
+def region_check(area_list):
+    points_list = []
+    id_list = []
+    for area in area_list:
+        points_list.append(GoogleMapPlotter.geocode(area))
+        print("The coordinates of ", area, "is: ",GoogleMapPlotter.geocode(area))
     count = 0
     for point in points_list:
         this_point = shapely.geometry.Point(point[1],point[0])
@@ -19,19 +25,20 @@ def region_check(points_list):
         ##Longtitude goes first in shapely
         for shapefile_rec in kenya_shape:
             if(shapely.geometry.asShape(shapefile_rec['geometry']).contains(this_point)):
-                print("\nPoint %s is in Kenya with region id =" %(count) ,shapefile_rec['id'], ".")
-                pointsx_num = 0
+                print("%s is in Kenya with region id =" %(area_list[count]) ,shapefile_rec['id'], ".")
+                id_list.append(shapefile_rec['id'])
+                points_num = 0
                 for lat_and_long in shapefile_rec['geometry']['coordinates'][0]:
-                    print("---",lat_and_long)
                     points_num += 1
-                ##print(shapefile_rec['geometry'])
                 print("number of points is: ", points_num)
                 break;
             if(shapefile_rec['id'] == str(len(kenya_shape)-1)):
-                print("\nPoint %s is not in Kenya." %(count))
+                print("%s is not in Kenya." %(area_list[count]))
         count += 1;
+    print(id_list)
 
 if __name__ == '__main__':
     ##(lat, long) of Nairobi = (1.2921° S, 36.8219° E)
-    points_list = [(36.8219, -1.2921),(-1.2920, 36.8218), (500, 500)]
-    region_check(points_list);
+    area_list = ["Nairobi", "UC Berkeley", "Houston", "Kenya Power"]
+    ##area_list = [(36.8219, -1.2921),(-1.2920, 36.8218), (500, 500)]
+    region_check(area_list);

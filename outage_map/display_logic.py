@@ -11,8 +11,8 @@ This is a temporary script file.
 
 import requests
 import json
+import fiona 
 
-default_blue = '#00008B'
 def safe_iter(var):
     try:
         return iter(var)
@@ -64,8 +64,7 @@ class GoogleMapPlotter(object):
         shape = zip(lats, lngs)
         self.shapes.append((shape, settings))
 
-    # create the html file which include one google map and all points and
-    # paths
+    # create the html file which include one google map and all points and paths
     def draw(self, htmlfile):
         f = open(htmlfile, 'w')
         f.write('<html>\n')
@@ -134,20 +133,29 @@ class GoogleMapPlotter(object):
         f.write('\n')
         f.write('polygon.setMap(map);\n')
         f.write('\n\n')
+        
+def get_lat_path(areaID):
+    lat_path = []
+    for shapefile_rec in kenya_shape:
+        if(areaID == shapefile_rec['id']):
+            for point in shapefile_rec['geometry']['coordinates'][0]:
+                lat_path.append(point[0])
+    return lat_path
+
+def get_long_path(areaID):
+    long_path = []
+    for shapefile_rec in kenya_shape:
+        if(areaID == shapefile_rec['id']):
+            for point in shapefile_rec['geometry']['coordinates'][0]:
+                long_path.append(point[1])
+    return long_path
 
 if __name__ == "__main__":
-
-    mymap = GoogleMapPlotter(37.428, -122.145, 16)
-    #mymap = GoogleMapPlotter.from_geocode("Stanford University")
-
-    print("-------", mymap.geocode("Euclid and Hearst Ave"))
-
-    path = [(37.429, 37.428, 37.427, 37.427, 37.427),
-             (-122.145, -122.145, -122.145, -122.146, -122.146)]
-    path2 = [[i+.01 for i in path[0]], [i+.02 for i in path[1]]]
-    path3 = [(37.433302 , 37.431257 , 37.427644 , 37.430303),
-             (-122.14488, -122.133121, -122.137799, -122.148743)]
-    path4 = [(37.423074, 37.422700, 37.422410, 37.422188, 37.422274, 37.422495, 37.422962, 37.423552, 37.424387, 37.425920, 37.425937),
-         (-122.150288, -122.149794, -122.148936, -122.148142, -122.146747, -122.14561, -122.144773, -122.143936, -122.142992, -122.147863, -122.145953)]
-    mymap.polygon(path3[0], path3[1], edge_color="cyan", edge_width=5, face_color="blue", face_alpha=0.1)
+    id_list = ['3029','2964']
+    default_blue = '#00008B'
+    kenya_shape = fiona.open("Kenya_sublocations/kenya_sublocations.shp")
+    mymap = GoogleMapPlotter(-1.2921, 36.8219, 16)
+    #mymap = GoogleMapPlotter.from_geocode("Nairobi")
+    for point in id_list:
+        mymap.polygon(get_long_path(point), get_lat_path(point), edge_color="cyan", edge_width=5, face_color="blue", face_alpha=0.1)
     mymap.draw('./outage_map.html')
