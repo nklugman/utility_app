@@ -21,7 +21,7 @@
             android:layout_weight="1"
             android:gravity="center_horizontal"
             android:background="@color/colorPrimary"
-            android:textColor="@color/tw__composer_white"
+            android:textColor="@color/cardview_light_background"
             android:paddingTop="2dp"
             android:paddingBottom="2dp" />
 
@@ -33,7 +33,7 @@
             android:layout_weight="1"
             android:gravity="center_horizontal"
             android:background="@color/colorPrimary"
-            android:textColor="@color/tw__composer_white"
+            android:textColor="@color/cardview_light_background"
             android:paddingTop="2dp"
             android:paddingBottom="2dp" />
     </LinearLayout>
@@ -53,7 +53,7 @@
 
             <TextView
                 android:text="Year"
-                android:textColor="@color/tw__composer_black"
+                android:textColor="@color/colorGrey"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/textView"
@@ -72,7 +72,7 @@
             android:layout_weight="1">
             <TextView
                 android:text="Month"
-                android:textColor="@color/tw__composer_black"
+                android:textColor="@color/colorGrey"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -89,7 +89,7 @@
             android:layout_weight="1.2">
             <TextView
                 android:text="--"
-                android:textColor="@color/tw__composer_black"
+                android:textColor="@color/colorGrey"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -104,7 +104,7 @@
             android:layout_weight="1">
             <TextView
                 android:text="Year"
-                android:textColor="@color/tw__composer_black"
+                android:textColor="@color/colorGrey"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -123,7 +123,7 @@
             android:layout_weight="1">
             <TextView
                 android:text="Month"
-                android:textColor="@color/tw__composer_black"
+                android:textColor="@color/colorGrey"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/textView2"

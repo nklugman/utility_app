@@ -1,3 +1,4 @@
+/*
 package gridwatch.kplc.activities.social_media.Twitter;
 
 import android.content.BroadcastReceiver;
@@ -32,3 +33,4 @@ public class TwitterTimeline extends ListActivity {
         return KPLCTwitter == "KenyaPower_Care";
     }
 }
+*/

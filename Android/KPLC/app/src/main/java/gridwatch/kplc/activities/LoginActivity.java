@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 
 import gridwatch.kplc.R;
+import io.realm.Realm;
 
 /**
  * Created by guoxinyi on 1/18/17.
@@ -18,6 +19,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
         Button submit = (Button) findViewById(R.id.login_submit);
+        Realm.init(this);
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

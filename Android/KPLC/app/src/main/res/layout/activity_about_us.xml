@@ -72,7 +72,6 @@
             android:layout_marginLeft="55dp"
             android:layout_marginRight="55dp"
             android:layout_height="90dp"
-            android:background="@drawable/tw__install_button_border"
              />
 
         <Button
@@ -83,7 +82,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/feedbackbutton"
 
-            android:textColor="@color/tw__composer_white"
+            android:textColor="@color/cardview_light_background"
             android:background="@color/colorPrimary"
 
 
