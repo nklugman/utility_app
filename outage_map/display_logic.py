@@ -140,6 +140,7 @@ def get_lat_path(areaID):
         if(areaID == shapefile_rec['id']):
             for point in shapefile_rec['geometry']['coordinates'][0]:
                 lat_path.append(point[0])
+                
     return lat_path
 
 def get_long_path(areaID):
@@ -151,11 +152,16 @@ def get_long_path(areaID):
     return long_path
 
 if __name__ == "__main__":
-    id_list = ['3029','2964']
-    default_blue = '#00008B'
     kenya_shape = fiona.open("Kenya_sublocations/kenya_sublocations.shp")
+    id_list = ['3029','2964']
+    all_id_list = []
+    for shapefile_rec in kenya_shape:
+        all_id_list.append(shapefile_rec['id'])
+    default_blue = '#00008B'
     mymap = GoogleMapPlotter(-1.2921, 36.8219, 16)
-    #mymap = GoogleMapPlotter.from_geocode("Nairobi")
-    for point in id_list:
+    mymap = GoogleMapPlotter.from_geocode("Nairobi")
+    for point in all_id_list:
         mymap.polygon(get_long_path(point), get_lat_path(point), edge_color="cyan", edge_width=5, face_color="blue", face_alpha=0.1)
-    mymap.draw('./outage_map.html')
+    ##for point in id_list:
+        mymap.polygon(get_long_path(point), get_lat_path(point), edge_color="cyan", edge_width=5, face_color="blue", face_alpha=0.1)
+    mymap.draw('./all_Kenya_map.html')
