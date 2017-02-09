@@ -4,18 +4,14 @@
     android:layout_height="match_parent"
     android:background="@color/cardview_light_background"
     android:orientation="vertical"
-    android:paddingBottom="10dp"
-    android:paddingTop="10dp"
-    android:paddingLeft="10dp"
-    android:paddingRight="10dp">
+    android:paddingBottom="5dp">
 
 
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_vertical|center_horizontal"
-        android:paddingBottom="10dp">
+        android:gravity="center_vertical|center_horizontal">
 
         <TextView
             android:text="From"
@@ -23,7 +19,11 @@
             android:layout_height="wrap_content"
             android:id="@+id/textView8"
             android:layout_weight="1"
-            android:gravity="center_horizontal" />
+            android:gravity="center_horizontal"
+            android:background="@color/colorPrimary"
+            android:textColor="@color/tw__composer_white"
+            android:paddingTop="2dp"
+            android:paddingBottom="2dp" />
 
         <TextView
             android:text="To"
@@ -31,7 +31,11 @@
             android:layout_height="wrap_content"
             android:id="@+id/textView5"
             android:layout_weight="1"
-            android:gravity="center_horizontal" />
+            android:gravity="center_horizontal"
+            android:background="@color/colorPrimary"
+            android:textColor="@color/tw__composer_white"
+            android:paddingTop="2dp"
+            android:paddingBottom="2dp" />
     </LinearLayout>
 
     <LinearLayout
