@@ -57,7 +57,7 @@
 
             <Spinner
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:id="@+id/spinner1" />
         </LinearLayout>
 
@@ -76,7 +76,7 @@
                 android:gravity="center" />
             <Spinner
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:id="@+id/spinner2" />
         </LinearLayout>
         <LinearLayout
@@ -110,7 +110,7 @@
                 android:gravity="center" />
             <Spinner
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:id="@+id/spinner3" />
 
         </LinearLayout>
@@ -131,7 +131,7 @@
                 android:gravity="center" />
             <Spinner
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:id="@+id/spinner4" />
         </LinearLayout>
 
