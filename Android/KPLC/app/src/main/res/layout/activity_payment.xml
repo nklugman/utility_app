@@ -23,7 +23,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/currentbalance"
-                android:textColor="@color/tw__composer_black"
+                android:textColor="@color/colorGrey"
                 android:layout_weight="1" />
 
             <LinearLayout
@@ -33,7 +33,7 @@
 
                 <TextView
                     android:text="Due on"
-                    android:textColor="@color/tw__composer_black"
+                    android:textColor="@color/colorGrey"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/textView11"
@@ -42,7 +42,7 @@
 
                 <TextView
                     android:text="1/1/2017"
-                    android:textColor="@color/tw__composer_black"
+                    android:textColor="@color/colorGrey"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/currentdate"
@@ -55,7 +55,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/otheramount"
-                android:textColor="@color/cardview_dark_background"
+                android:textColor="@color/colorGrey"
                 android:layout_weight="1" />
 
         </LinearLayout>
@@ -68,7 +68,7 @@
             <TextView
                 android:text="KSh "
                 android:layout_width="match_parent"
-                android:textColor="@color/tw__composer_black"
+                android:textColor="@color/colorGrey"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.46"
                 android:paddingTop="9dp" />
@@ -76,7 +76,7 @@
             <TextView
                 android:text="KSh "
                 android:layout_width="wrap_content"
-                android:textColor="@color/tw__composer_black"
+                android:textColor="@color/colorGrey"
                 android:layout_height="wrap_content"
                 android:id="@+id/textView17"
                 android:gravity="right"
@@ -92,11 +92,12 @@
             <TextView
                 android:text="33.33"
                 android:layout_width="wrap_content"
-                android:textColor="@color/tw__composer_black"
+                android:textColor="@color/colorGrey"
                 android:layout_height="wrap_content"
                 android:id="@+id/currentbalancenumber"
                 android:layout_weight="0.74"
-                android:paddingTop="9dp" />
+                android:paddingTop="9dp"
+                android:paddingLeft="4dp" />
 
             <EditText
                 android:layout_width="match_parent"
@@ -117,7 +118,7 @@
         android:layout_height="wrap_content"
         android:paddingTop="10dp"
         android:paddingBottom="10dp"
-        android:textColor="@color/tw__composer_black" />
+        android:textColor="@color/colorGrey" />
 
     <EditText
         android:layout_width="match_parent"
@@ -140,7 +141,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/confirm_button"
             android:layout_weight="1"
-            android:textColor="@color/tw__composer_white"
+            android:textColor="@color/cardview_light_background"
             android:background="@color/colorPrimary"/>
     </LinearLayout>
 

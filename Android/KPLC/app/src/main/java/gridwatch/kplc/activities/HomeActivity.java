@@ -23,6 +23,8 @@ import gridwatch.kplc.activities.billing.UsageChartsActivity;
 import gridwatch.kplc.activities.outage.OutageMapActivity;
 import gridwatch.kplc.activities.payment.BuyTokensActivity;
 import gridwatch.kplc.activities.payment.MakePaymentActivity;
+import io.realm.Realm;
+import io.realm.RealmConfiguration;
 
 public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -81,12 +83,7 @@ public class HomeActivity extends AppCompatActivity
         }
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.home, menu);
-        return true;
-    }
+
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override

@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="134dp"
         android:text="Welcome"
-        android:textColor="@color/tw__composer_white"
+        android:textColor="@color/cardview_light_background"
         android:gravity="top|center"
         android:textSize="@dimen/home_welcome_font_size"
         android:fontFamily="sans-serif"
@@ -30,7 +30,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Please choose your account type and enter your information:"
-            android:textColor="@color/tw__composer_black"
+            android:textColor="@color/colorGrey"
             android:fontFamily="sans-serif"
             android:paddingTop="20dp"
             android:textSize="14sp"
@@ -95,12 +95,12 @@
         </LinearLayout>
 
         <Button
-            android:text="Submit"
+            android:text="Enter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/login_submit"
             android:background="@color/colorPrimary"
-            android:textColor="@color/tw__solid_white"
+            android:textColor="@color/cardview_light_background"
             android:layout_marginTop="15dp"
                    />
     </LinearLayout>
