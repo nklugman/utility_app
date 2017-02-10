@@ -96,7 +96,8 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/currentbalancenumber"
                 android:layout_weight="0.74"
-                android:paddingTop="9dp" />
+                android:paddingTop="9dp"
+                android:paddingLeft="4dp" />
 
             <EditText
                 android:layout_width="match_parent"
