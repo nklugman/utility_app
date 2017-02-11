@@ -36,9 +36,10 @@ def region_check(area_list):
                 print("%s is not in Kenya." %(area_list[count]))
         count += 1;
     print(id_list)
+    return id_list
 
 if __name__ == '__main__':
     ##(lat, long) of Nairobi = (1.2921° S, 36.8219° E)
-    area_list = ["Nairobi", "UC Berkeley", "Houston", "Kenya Power"]
+    area_list = ["Nairobi", "UC Berkeley", "Bamburi", "Mazeras, Coast Region, Kenya"]
     ##area_list = [(36.8219, -1.2921),(-1.2920, 36.8218), (500, 500)]
     region_check(area_list);
