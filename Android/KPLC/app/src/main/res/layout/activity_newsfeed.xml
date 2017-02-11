@@ -12,7 +12,7 @@
         android:layout_marginTop="5dp"
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
-        android:dividerHeight="4dp"
+        android:dividerHeight="5dp"
 
         ></ListView>
 </LinearLayout>
