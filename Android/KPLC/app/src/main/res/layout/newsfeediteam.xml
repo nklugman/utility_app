@@ -60,7 +60,7 @@
         >
 
         <TextView
-            android:text="There will be power outage in area 1 on this Monday! Please be careful :D"
+            android:text="There will be power outage in area 1 on this Monday! Please be careful."
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/newsfeedcontent"
