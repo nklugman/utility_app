@@ -36,6 +36,7 @@ def region_check(area_list):
                 print("%s is not in Kenya." %(area_list[count]))
         count += 1;
     print(id_list)
+    return id_list
 
 if __name__ == '__main__':
     ##(lat, long) of Nairobi = (1.2921° S, 36.8219° E)
