@@ -30,7 +30,7 @@ def region_check(area_list):
                 points_num = 0
                 for lat_and_long in shapefile_rec['geometry']['coordinates'][0]:
                     points_num += 1
-                print("number of points is: ", points_num)
+                #print("number of points is: ", points_num)
                 break;
             if(shapefile_rec['id'] == str(len(kenya_shape)-1)):
                 print("%s is not in Kenya." %(area_list[count]))
@@ -39,7 +39,5 @@ def region_check(area_list):
     return id_list
 
 if __name__ == '__main__':
-    ##(lat, long) of Nairobi = (1.2921° S, 36.8219° E)
     area_list = ["Nairobi", "UC Berkeley", "Bamburi", "Mazeras, Coast Region, Kenya"]
-    ##area_list = [(36.8219, -1.2921),(-1.2920, 36.8218), (500, 500)]
     region_check(area_list);

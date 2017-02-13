@@ -14,7 +14,9 @@ import json
 import fiona 
 
 kenya_shape = fiona.open("Kenya_sublocations/kenya_sublocations.shp")
-default_blue = '#00008B'
+color_blue = '#00008B'
+color_red = '#FF0000'
+outage_color = color_red
 
 def safe_iter(var):
     try:
@@ -48,16 +50,16 @@ class GoogleMapPlotter(object):
 
     def _process_kwargs(self, kwargs):
         settings = dict()
-        settings["edge_color"] = default_blue
+        settings["edge_color"] = outage_color
         settings["edge_alpha"] = 1.0
         settings["edge_width"] = 1.0
         settings["face_alpha"] = 0.3
-        settings["face_color"] = default_blue
-        settings["color"] = default_blue
+        settings["face_color"] = outage_color
+        settings["color"] = outage_color
 
         for key, color in settings.items():
             if 'color' in key:
-                settings[key] = default_blue
+                settings[key] = outage_color
 
         settings["closed"] = kwargs.get("closed", None)
         return settings
@@ -111,10 +113,10 @@ class GoogleMapPlotter(object):
     def write_polygon(self, f, path, settings):
         clickable = False
         geodesic = True
-        strokeColor = settings.get('edge_color') or settings.get('color')
+        strokeColor = settings.get('edge_color')
         strokeOpacity = settings.get('edge_alpha')
         strokeWeight = settings.get('edge_width')
-        fillColor = settings.get('face_color') or settings.get('color')
+        fillColor = settings.get('face_color')
         fillOpacity= settings.get('face_alpha')
         f.write('var coords = [\n')
         for coordinate in path:
@@ -161,8 +163,6 @@ if __name__ == "__main__":
         all_id_list.append(shapefile_rec['id'])
     mymap = GoogleMapPlotter(-1.2921, 36.8219, 16)
     mymap = GoogleMapPlotter.from_geocode("Nairobi")
-    for point in all_id_list:
-        mymap.polygon(get_long_path(point, kenya_shape), get_lat_path(point, kenya_shape), edge_color="cyan", edge_width=5, face_color="blue", face_alpha=0.1)
-    ##for point in id_list:
-        mymap.polygon(get_long_path(point), get_lat_path(point), edge_color="cyan", edge_width=5, face_color="blue", face_alpha=0.1)
+    for point in id_list:
+        mymap.polygon(get_long_path(point), get_lat_path(point))
     mymap.draw('./all_Kenya_map.html')
