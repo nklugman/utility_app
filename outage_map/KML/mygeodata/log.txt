@@ -1,2 +1,0 @@
-Warning 1: The output driver does not seem to natively support Integer64 type for field KENSL89G_. Converting it to Real instead. -mapFieldType can be used to control field type conversion.
-Warning 1: The output driver does not seem to natively support Integer64 type for field KENSL89G_I. Converting it to Real instead. -mapFieldType can be used to control field type conversion.
