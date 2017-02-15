@@ -23,7 +23,7 @@
             android:id="@+id/textView8"
             android:layout_weight="1"
             android:gravity="center_horizontal"
-            android:textColor="@color/tw__composer_white" />
+            android:textColor="@color/cardview_light_background" />
 
         <TextView
             android:text="To"
@@ -32,7 +32,7 @@
             android:id="@+id/textView5"
             android:layout_weight="1"
             android:gravity="center_horizontal"
-            android:textColor="@color/tw__composer_white" />
+            android:textColor="@color/cardview_light_background" />
     </LinearLayout>
     <LinearLayout
         android:orientation="horizontal"
@@ -49,7 +49,7 @@
 
             <TextView
                 android:text="Year"
-                android:textColor="@color/tw__composer_black"
+                android:textColor="@color/colorGrey"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/textView"
@@ -57,7 +57,7 @@
 
             <Spinner
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:id="@+id/spinner1" />
         </LinearLayout>
 
@@ -69,14 +69,14 @@
             android:layout_weight="1">
             <TextView
                 android:text="Month"
-                android:textColor="@color/tw__composer_black"
+                android:textColor="@color/colorGrey"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center" />
             <Spinner
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:id="@+id/spinner2" />
         </LinearLayout>
         <LinearLayout
@@ -87,7 +87,7 @@
             android:layout_weight="1.2">
             <TextView
                 android:text="--"
-                android:textColor="@color/tw__composer_black"
+                android:textColor="@color/colorGrey"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -103,14 +103,14 @@
             android:layout_weight="1">
             <TextView
                 android:text="Year"
-                android:textColor="@color/tw__composer_black"
+                android:textColor="@color/colorGrey"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center" />
             <Spinner
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:id="@+id/spinner3" />
 
         </LinearLayout>
@@ -123,7 +123,7 @@
             android:layout_weight="1">
             <TextView
                 android:text="Month"
-                android:textColor="@color/tw__composer_black"
+                android:textColor="@color/colorGrey"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/textView2"
@@ -131,7 +131,7 @@
                 android:gravity="center" />
             <Spinner
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:id="@+id/spinner4" />
         </LinearLayout>
 
