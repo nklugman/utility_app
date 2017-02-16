@@ -62,7 +62,8 @@
             <Spinner
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:id="@+id/spinner1" />
+                android:id="@+id/spinner1"
+                android:gravity="center_vertical|start" />
         </LinearLayout>
 
         <LinearLayout
