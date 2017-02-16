@@ -1,0 +1,72 @@
+{\rtf1\ansi\ansicpg950\cocoartf1404\cocoasubrtf470
+{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+\paperw11900\paperh16840\margl1440\margr1440\vieww16200\viewh8400\viewkind0
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f0\fs30 \cf0 Created by Max. \
+chiamao_shih@berkeley.edu\
+\
+Flow in 
+\i\b /Map_Main
+\i0\b0  :\
+
+\i\b\fs28 /map_main.py
+\i0\b0\fs30 \
+1. 	
+\i\b /shape_allocate.py:\
+		
+\i0\b0 1-1.Get centre of lower shape\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+\cf0 		1-2.Use which to define the upper shape contains it.
+\i\b \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+\cf0 	
+\i0\b0 Allocate lower shapefile to upper shapefile.\
+   	Allocation is returned.\
+       Allocation = [lower ID in upper[0], lower ID in upper[1], lower ID in upper[2]\'85\'85\'85]\
+	This takes 30~ minutes\
+2. 	Fetch outage list from database.\
+       A string list is returned.\
+3. 	
+\i\b /region_define.py:\
+	
+\i0\b0 Use the outage list from 
+\i\b Step 2
+\i0\b0  to find the shape contains it, corresponding IDs are returned.\
+       An IDs list is returned.\
+	\
+4.    Use the IDs list along with the allocation in 
+\i\b Step 1
+\i0\b0  to create outage maps of different upper level.\
+	
+\i\b /google_map_plotter.py\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\i0\b0 \cf0 	4-1Draw the polygons on google map using given list of points.\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+\cf0 \'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\
+
+\i\b \
+/Geocoding_Example
+\i0\b0 :\
+This folder contains useful code found on Google.\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+\cf0 \'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\i\b \cf0 /Kenya_Shapefiles:
+\i0\b0 \
+This folder contains shapefiles of different administrative level.\
+Kenya just switched from 8-province-based  to 47-county-based administrative level.\
+It\'92s now kind of transition period. Very hard to final the shapefiles before talk to KPLC.\
+
+\i\b /shapefile_display.py 
+\i0\b0 is to see the property of .shp file.\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+\cf0 \'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\i\b \cf0 /Map_Main/outage_maps:\
+
+\i0\b0 This folder contains the maps generated from map_main.py}

@@ -13,7 +13,10 @@ import requests
 import json
 import fiona 
 
-kenya_shape = fiona.open("Kenya_sublocations/kenya_sublocations.shp")
+kenya_subloc = fiona.open("../Kenya_Shapefiles/5th_level_sublocations/kenya_sublocations.shp") # num = 3715
+#kenya_loc = fiona.open("../Kenya_Shapefiles/4th_level_locations/kenya_locations.shp") # num = 1143
+kenya_divisions = fiona.open("../Kenya_Shapefiles/3rd_level_divisions_II/kenya_divisions.shp") # num = 300
+#kenya_county = fiona.open("../Kenya_Shapefiles/County/County.shp") # num = 47
 color_blue = '#00008B'
 color_red = '#FF0000'
 outage_color = color_red
@@ -139,29 +142,28 @@ class GoogleMapPlotter(object):
         f.write('polygon.setMap(map);\n')
         f.write('\n\n')
         
-def get_lat_path(areaID):
+def get_lat_path(areaID, shpfile):
     lat_path = []
-    for shapefile_rec in kenya_shape:
+    for shapefile_rec in shpfile:
         if(areaID == shapefile_rec['id']):
             for point in shapefile_rec['geometry']['coordinates'][0]:
                 lat_path.append(point[0])
                 
     return lat_path
 
-def get_long_path(areaID):
+def get_long_path(areaID, shpfile):
     long_path = []
-    for shapefile_rec in kenya_shape:
+    for shapefile_rec in shpfile:
         if(areaID == shapefile_rec['id']):
             for point in shapefile_rec['geometry']['coordinates'][0]:
                 long_path.append(point[1])
     return long_path
 
 if __name__ == "__main__":
-    id_list = ['3029','2964']
-    all_id_list = []
-    #for shapefile_rec in kenya_shape:
-        #all_id_list.append(shapefile_rec['id'])
-    #mymap = GoogleMapPlotter.from_geocode("Nairobi")
-    for point in id_list:
-        mymap.polygon(get_long_path(point), get_lat_path(point))
-    mymap.draw('./map_display.html')
+    id_list = ['3029','2964', '2222']
+    mymap = GoogleMapPlotter.from_geocode("Nairobi")
+    shpfile = kenya_subloc
+    #shpfile = kenya_divisions
+    for point in range(0,len(shpfile)):
+        mymap.polygon(get_long_path('%s'%point, shpfile), get_lat_path('%s'%point, shpfile))
+    mymap.draw('./subloc.html')
