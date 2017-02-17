@@ -26,7 +26,7 @@ app.get('/newsfeed', function (req, res) {
    });
 });
 
-// Start up server on port 3000 on host localhost or Heroku
-var server = app.listen(3000, "192.168.1.5", function () {
+// Start up server on port 3000 on host localhost
+var server = app.listen(3000, "10.142.35.167", function () {
   console.log('Server on localhost listening on port 3000');
 });
