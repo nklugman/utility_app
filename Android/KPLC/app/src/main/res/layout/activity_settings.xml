@@ -3,4 +3,287 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/bannerblue"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:paddingTop="5dp"
+        android:layout_marginLeft="2dp"
+        android:layout_marginRight="2dp"
+        android:layout_marginTop="2dp">
+
+        <TextView
+            android:text="Account Information"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView33"
+            android:layout_weight="1"
+            android:paddingRight="60dp"
+            android:textStyle="normal|bold"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="18sp" />
+
+        <Button
+            android:text="Edit"
+            android:layout_width="61dp"
+            android:layout_height="26dp"
+            android:id="@+id/accountinfoedit"
+            android:background="@color/colorPrimary"
+            android:textColor="@android:color/white" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/bannerblue"
+        android:padding="5dp"
+        android:weightSum="1"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="2dp"
+        android:layout_marginRight="2dp">
+
+        <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingRight="10dp">
+
+        <TextView
+            android:text="Account Type"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView20"
+            android:textStyle="normal|bold" />
+
+        <TextView
+            android:text="Meter Number"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView21"
+            android:textStyle="normal|bold" />
+
+        <TextView
+            android:text="Account Number"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView18"
+            android:textStyle="normal|bold" />
+
+            <TextView
+            android:text="Address"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView29"
+            android:textStyle="normal|bold" />
+
+            <TextView
+                android:text="City"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView37"
+                android:layout_weight="1"
+                android:textStyle="normal|bold" />
+
+        </LinearLayout>
+
+        <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="10dp">
+
+        <TextView
+            android:text="Pre-paid"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/accounttype" />
+
+        <TextView
+            android:text="123456"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/meternumber" />
+
+        <TextView
+            android:text="NA"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/accountnumber" />
+
+            <TextView
+            android:text="apt 302, 1200st."
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/address" />
+
+            <TextView
+                android:text="TextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/city" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/bannerblue"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:paddingTop="5dp"
+        android:layout_marginLeft="2dp"
+        android:layout_marginRight="2dp">
+
+        <TextView
+            android:text="Payment Information"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView35"
+            android:layout_weight="1"
+            android:paddingRight="60dp"
+            android:textStyle="normal|bold"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="18sp"/>
+
+        <Button
+            android:text="Edit"
+            android:layout_width="61dp"
+            android:layout_height="26dp"
+            android:id="@+id/paymentinfoedit"
+            android:background="@color/colorPrimary"
+            android:textColor="@android:color/white" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/bannerblue"
+        android:padding="5dp"
+        android:weightSum="1"
+        android:layout_marginLeft="2dp"
+        android:layout_marginRight="2dp">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingRight="10dp"
+            android:layout_weight="0.10">
+
+            <TextView
+                android:text="Contact"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView25"
+                android:textStyle="normal|bold" />
+
+            <TextView
+                android:text="Phone Number"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView27"
+                android:textStyle="normal|bold" />
+
+            <TextView
+                android:text="M-PESA PIN"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView34"
+                android:textStyle="normal|bold" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="10dp">
+
+            <TextView
+                android:text="Peter Lee"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/contact" />
+
+            <TextView
+                android:text="12423242"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/phonenumber" />
+
+            <TextView
+                android:text="**********"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/pin" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <TextView
+        android:text="Other Settings"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView41"
+        android:textStyle="normal|bold"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="18sp"
+        android:background="@color/bannerblue"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:paddingTop="5dp"
+        android:layout_marginLeft="2dp"
+        android:layout_marginRight="2dp"
+        android:layout_marginTop="5dp"/>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:layout_marginLeft="2dp"
+        android:layout_marginRight="2dp"
+        android:background="@color/bannerblue">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <Switch
+                android:text="0 Token Reminder"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/switch1" />
+
+            <Switch
+                android:text="Payment Reminder"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/switch2" />
+
+            <Switch
+                android:text="Power Outage Alerts"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/switch3" />
+
+            <Switch
+                android:text="KPLC Notifications"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/switch4" />
+
+        </LinearLayout>
+    </LinearLayout>
 </LinearLayout>

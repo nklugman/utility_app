@@ -46,7 +46,8 @@
             />
         <activity android:name=".activities.outage.OutageMapActivity"
             android:label="OutageMap"/>
-        <activity android:name=".activities.social_media.Twitter.TwitterActivity" />
+        <activity android:name=".activities.NewsfeedActivity"
+            android:label="Newsfeed"/>
         <activity android:name=".activities.ContactActivity"
             android:label="Contact"
             />
