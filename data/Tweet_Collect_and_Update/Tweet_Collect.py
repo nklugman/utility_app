@@ -9,7 +9,7 @@ Created on Mon Jan 16 18:19:30 2017
 @author: CHIAMAO_SHIH
 """
 
-import pandas as pd  #to store tweets into csv
+import pandas as pd
 import tweepy
 import datetime
 

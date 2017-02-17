@@ -8,13 +8,14 @@ Created on Thu Feb  2 20:51:15 2017
 
 import fiona 
 import shapely.geometry
+import pandas as pd
 from google_map_plotter import GoogleMapPlotter
 
 kenya_subloc = fiona.open("../Kenya_Shapefiles/5th_level_sublocations/kenya_sublocations.shp") # num = 3715
 #kenya_loc = fiona.open("../Kenya_Shapefiles/4th_level_locations/kenya_locations.shp") # num = 1143
 #kenya_divisions = fiona.open("../Kenya_Shapefiles/3rd_level_divisions_II/kenya_divisions.shp") # num = 300
 #kenya_county = fiona.open("../Kenya_Shapefiles/County/County.shp") # num = 47
-
+unknown_csv_file = 'unknown_area'
 def region_check(area_list, shpfile):
     points_list = []
     id_list = []
@@ -42,9 +43,29 @@ def region_check(area_list, shpfile):
                 print("%s is not in Kenya." %(area_list[count]))
         count += 1;
     print("Areas google map don't recognize: ", location_undefined)
+    
+    new_data=[[obj]for obj in location_undefined]
+    try:
+        data=pd.read_csv("%s.csv"%(unknown_csv_file))
+        count = 0
+        for count in range(0,len(data)):
+            for new in new_data:
+                if(data[unknown_csv_file].loc[count] == new[0]):
+                    new_data.remove(new)
+        dataframe=pd.DataFrame(new_data,columns=[unknown_csv_file])
+        dataframe=[dataframe,data]
+        dataframe=pd.concat(dataframe)
+        dataframe.to_csv("unknown_area.csv",index=False)
+    except OSError:
+        dataframe=pd.DataFrame(new_data,columns=[unknown_csv_file])
+        dataframe.to_csv("%s.csv"%(unknown_csv_file))
+    
+    print("new_data: ", new_data)
+    
+    
     print("id_list: ", id_list)
     return id_list
 
 if __name__ == '__main__':
-    area_list = ["Nairobi", "UC Berkeley", "Bamburi", "Mazeras, Coast Region, Kenya", "aaappelsdk"]
+    area_list = ["Nairobi", "UC Berkeley", "Bamburi", "Mazeras, Coast Region, Kenya", "aaaapek", "oooppqqq"]
     region_check(area_list, kenya_subloc);
