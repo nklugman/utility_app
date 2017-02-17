@@ -53,17 +53,12 @@ class GoogleMapPlotter(object):
 
     def _process_kwargs(self, kwargs):
         settings = dict()
-        settings["edge_color"] = outage_color
-        settings["edge_alpha"] = 1.0
-        settings["edge_width"] = 1.0
-        settings["face_alpha"] = 0.3
-        settings["face_color"] = outage_color
-        settings["color"] = outage_color
-
-        for key, color in settings.items():
-            if 'color' in key:
-                settings[key] = outage_color
-
+        settings["edge_color"] = kwargs.get("color", None) or outage_color
+        settings["edge_alpha"] = kwargs.get("alpha", None) or 1.0
+        settings["edge_width"] = kwargs.get("edge_width", None) or 1.0
+        settings["face_alpha"] = kwargs.get("alpha", None) or 0.3
+        settings["face_color"] = kwargs.get("face_color") or outage_color
+        settings["color"] = kwargs.get("color", None) or outage_color
         settings["closed"] = kwargs.get("closed", None)
         return settings
 
@@ -160,10 +155,17 @@ def get_long_path(areaID, shpfile):
     return long_path
 
 if __name__ == "__main__":
-    id_list = ['3029','2964', '2222']
+    id_list = ['3029','2964', '2222', '1123']
     mymap = GoogleMapPlotter.from_geocode("Nairobi")
     shpfile = kenya_subloc
     #shpfile = kenya_divisions
-    for point in range(0,len(shpfile)):
-        mymap.polygon(get_long_path('%s'%point, shpfile), get_lat_path('%s'%point, shpfile))
+    #for point in range(0,len(shpfile)):
+    for point in id_list:
+        mymap.polygon(get_long_path(point, shpfile),
+                      get_lat_path(point, shpfile),
+                      alpha = 0.5,
+                      edge_width = 3.5,
+                      face_color = "#8B0000",
+                      color = outage_color,
+                      face_alpha=0.1)
     mymap.draw('./subloc.html')
