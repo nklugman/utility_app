@@ -11,6 +11,8 @@ Created on Mon Jan 16 16:48:25 2017
 import pandas as pd
 import tweepy
 import datetime
+import re
+import psycopg2
 
 #Twitter API credentials
 
@@ -28,11 +30,9 @@ api = tweepy.API(auth)
 max_count = 200 ##200 is the maximum of count
 
 def get_latest_tweets(screen_name):
-    count=0
     latest_tweets=[]
     data=pd.read_csv("%s_tweets.csv"%(screen_name))
     since_Id=data['tweet_id'].loc[0]
-	
     try:
         new_tweets=api.user_timeline(screen_name=screen_name,since_id=since_Id,count=max_count)
         oldest = new_tweets[-1].id - 1
@@ -50,7 +50,7 @@ def get_latest_tweets(screen_name):
         print ("...%s tweets downloaded so far"%(len(latest_tweets)))
         latest_tweets.extend(new_tweets)
         oldest=latest_tweets[-1].id - 1
-    
+
     print (latest_tweets[0].id)
     print ("count: %s" % count)
     time_now = datetime.datetime.now()
@@ -73,6 +73,25 @@ def get_latest_tweets(screen_name):
     dataframe=[dataframe,data] 
     dataframe=pd.concat(dataframe)
     dataframe.to_csv("%s_tweets.csv"%(screen_name),index=False)
-
+    ##parsing_to_news_feed(dataframe)
+    ###The following function is still buggy.  
+'''
+def parsing_to_news_feed(tweets):
+    con = psycopg2.connect(database='capstone', user='capstone', password='capstone', host='141.212.11.206', port='5432')
+    con.autocommit = True
+    cur = con.cursor()
+    outages=[]
+    for i in range(len(tweets)):
+        time = 'January 8 04:05:06 1999 PST'
+        #time = tweets.iloc[i]['tweet_time']
+        source = 1
+        tweet = tweets.iloc[i]['tweet']
+        #print(tweet)
+        outages.append([time,source,tweet])
+        cur.execute("INSERT INTO news_feed (time,source,content) VALUES ('%s','%s','%s')" % (time,source,tweet))
+    #dataText = ', '.join(map(bytes.decode,(cur.mogrify('(%s,%s,%s)',outage) for outage in outages)))
+    #cur.execute('INSERT INTO news_feed (time,source,content) VALUES ' + dataText)
+'''
+    
 if __name__=='__main__':
     get_latest_tweets(twitter_KPLC)

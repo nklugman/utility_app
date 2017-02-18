@@ -24,12 +24,21 @@ def fetch_outage_list():
     con = psycopg2.connect(database='capstone', user='capstone', password='capstone', host='141.212.11.206', port='5432')
     con.autocommit = True
     cur = con.cursor()
-    cur.execute("SELECT area FROM outages WHERE index>=1 and index <=30")
+    
+    cur.execute("SELECT area FROM outages WHERE index>=1 and index <=9")
     rows = cur.fetchall()
     area_list =[]
     for row in rows:
         area_list.append(row[0]+", Kenya") ##Add ", Kenya" increases accuracy of finding coordinate.
-    print("-----Area list fetched.")
+    print("-----Area list from PDF file on database is fetched.")
+    
+    cur.execute("SELECT area FROM social_media WHERE index>=2 and index <=6") 
+    rows = cur.fetchall()
+    for row in rows:
+        area_list.append(row[0]+", Kenya")
+    print("-----Area list from social media on database is fetched.")
+    
+    print("-----All area list fetched.")
     return area_list
 
 def locate_area_to_shpID(area_list):

@@ -5,9 +5,11 @@
 """
 
 import tweepy
-import pandas as pd  #to store tweets into csv
+import pandas as pd
 import time
 import datetime
+import parsing_to_server
+
 
 consumer_key = 'mtBURqiQRdYdpPmBFo0ebV3cA'
 consumer_secret = '7moNATGly2V2ZTlu2qxHMgjoYMIiiAurDTJ38Co7e2DtW6OX6f'
@@ -33,17 +35,16 @@ def get_latest_replies(target):
     try:
         new_replies = [status for status in tweepy.Cursor(api.search, q=target, since_id=since_ID).items(max_replies)]
         oldest = new_replies[-1].id - 1
+        latest_replies.extend(new_replies)
+        print (latest_replies[0].id)
     except IndexError:
         print ("No new replies")
         exit()
-    
         count = len(new_replies)
-    latest_replies.extend(new_replies)
-    print (latest_replies[0].id)
     
     while len(new_replies) > 0:
-        print("10 seconds time delay start now.")
-        time.sleep(10)
+        print("Time delay")
+        time.sleep(5)
         print ("getting replies before %s" % (oldest))
         new_replies = [status for status in tweepy.Cursor(api.search, q=twitter_KPLC,max_id=oldest,since_id=since_ID).items(max_replies)]
         count = count + len(new_replies)
@@ -72,9 +73,9 @@ def get_latest_replies(target):
                                          'collecting_time'])
     dataframe=[dataframe,data]
     dataframe=pd.concat(dataframe)
-    dataframe.to_csv("%s_all_replies.csv"%(target),index=False)
-
-	
+    #dataframe.to_csv("%s_all_replies.csv"%(target),index=False)
+    return dataframe
+    
 if __name__ == '__main__':
-    #pass in the username of the account you want to download
-    get_latest_replies(twitter_KPLC)
+    dataframe = get_latest_replies(twitter_KPLC)
+    parsing_to_server.parsing_to_db(dataframe, 'reply');
