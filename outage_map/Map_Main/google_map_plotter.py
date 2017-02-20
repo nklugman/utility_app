@@ -122,7 +122,6 @@ class GoogleMapPlotter(object):
                     (coordinate[0], coordinate[1]))
         f.write('];\n')
         f.write('\n')
-
         f.write('var polygon = new google.maps.Polygon({\n')
         f.write('clickable: %s,\n' % (str(clickable).lower()))
         f.write('geodesic: %s,\n' % (str(geodesic).lower()))

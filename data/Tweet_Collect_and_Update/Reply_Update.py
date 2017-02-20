@@ -24,7 +24,7 @@ twitter_TimesNow = 'TimesNow'
 twitter_KPLC = 'kenyapower_care'
 
 api = tweepy.API(auth)
-max_replies = 1000 ##1000 is the maximum when replies collecting
+max_replies = 8 ##1000 is the maximum when replies collecting
 
 def get_latest_replies(target):
     count=0
