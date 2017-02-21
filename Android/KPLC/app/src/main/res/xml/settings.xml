@@ -1,14 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-    <EditTextPreference android:title="Account"
+
+
+    <EditTextPreference android:title="Account Number"
         android:key="Account"
-        android:summary="Please provide your account"
+        android:summary="Please provide your Account Number."
         android:dialogTitle="Your Account"
-        android:dialogMessage="Enter Your account"
+        android:dialogMessage="Enter Your Account Number"
         android:defaultValue=""
         android:inputType="textCapWords" />
-    <EditTextPreference android:title="Meter"
+
+
+    <EditTextPreference android:title="Meter Number"
         android:key="Meter"
-        android:summary="Please enter your current meter"
+        android:summary="Please enter your Meter Number."
         android:inputType= "numberDecimal"/>
+
+
+    <EditTextPreference
+        android:defaultValue="Default value"
+        android:selectAllOnFocus="true"
+        android:singleLine="true"
+        android:title="Contact Name"
+        android:key="Contact"
+        android:summary="Please enter your full name." />
+    <EditTextPreference
+        android:defaultValue="Default value"
+        android:selectAllOnFocus="true"
+        android:singleLine="true"
+        android:title="Contact Phone Number"
+        android:key="Phone"
+        android:summary="Please enter your phone number."
+        android:phoneNumber="true" />
+    <EditTextPreference
+        android:defaultValue="Default value"
+        android:selectAllOnFocus="true"
+        android:singleLine="true"
+        android:title="Address"
+        android:key="Address"
+        android:summary="Plase enter the address associated with this account." />
+    <EditTextPreference
+        android:defaultValue="Default value"
+        android:selectAllOnFocus="true"
+        android:singleLine="true"
+        android:title="M-PESA PIN"
+        android:key="PIN"
+        android:summary="Please enter your M-PESA PIN. "
+        android:password="true" />
+    <SwitchPreference
+        android:defaultValue="true"
+        android:title="0 Token Notification"
+        android:key="Token" />
+    <SwitchPreference
+        android:defaultValue="true"
+        android:title="Power Outage Alerts"
+        android:key="Power Outage Alerts" />
 </PreferenceScreen>
