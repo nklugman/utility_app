@@ -20,6 +20,7 @@ import java.util.List;
 
 import gridwatch.kplc.R;
 import io.realm.Realm;
+import io.realm.RealmConfiguration;
 import io.realm.RealmResults;
 
 /**
@@ -28,16 +29,26 @@ import io.realm.RealmResults;
 
 public class BalanceHistoryActivity extends AppCompatActivity {
     private Realm realm;
+    private Spinner spinner1;
+    private Spinner spinner2;
+    private Spinner spinner3;
+    private Spinner spinner4;
+    private Button enter;
+    private ListView list;
+    private ArrayList<HashMap<String, String>> mylist;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_balance_history);
-        ListView list = (ListView) findViewById(R.id.listView);
+        list = (ListView) findViewById(R.id.listView);
+        RealmConfiguration config = new RealmConfiguration
+                .Builder()
+                .deleteRealmIfMigrationNeeded()
+                .build();
+        realm = Realm.getInstance(config);
 
-        realm = Realm.getDefaultInstance();
-
-        /*realm.beginTransaction();
+        realm.beginTransaction();
 
         realm.deleteAll();
         realm.commitTransaction();
@@ -50,12 +61,17 @@ public class BalanceHistoryActivity extends AppCompatActivity {
             cal.set(Calendar.YEAR, 2016);
             cal.set(Calendar.MONTH, i);
             cal.set(Calendar.DAY_OF_MONTH, 1);
+            cal.set(Calendar.HOUR_OF_DAY, 0);
+            cal.set(Calendar.MINUTE, 0);
+            cal.set(Calendar.SECOND, 0);
+            cal.set(Calendar.MILLISECOND, 0);
+            Log.i("cal", cal.toString());
             item.setDate(cal.getTime());
             item.setBalance(Math.random()*30);
             item.setUsage(Math.random()*200);
         }
         realm.commitTransaction();
-        */
+
         Log.i("MIN_YEAR", "start");
         Date min = realm.where(BalanceHistory.class).minimumDate("date");
         Date max = realm.where(BalanceHistory.class).maximumDate("date");
@@ -71,10 +87,29 @@ public class BalanceHistoryActivity extends AppCompatActivity {
         for (int i = 0; i < interval; i++) {
             year_spinner[i] = String.valueOf(i + MIN_YEAR);
         }
-        Spinner spinner1 = (Spinner) findViewById(R.id.spinner1);
-        Spinner spinner3 = (Spinner) findViewById(R.id.spinner3);
-        Spinner spinner2 = (Spinner) findViewById(R.id.spinner2);
-        Spinner spinner4 = (Spinner) findViewById(R.id.spinner4);
+        spinner1 = (Spinner) findViewById(R.id.spinner1);
+        spinner3 = (Spinner) findViewById(R.id.spinner3);
+        spinner2 = (Spinner) findViewById(R.id.spinner2);
+        spinner4 = (Spinner) findViewById(R.id.spinner4);
+        enter = (Button) findViewById(R.id.balance_enter);
+        enter.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Log.i("SPINNER", "1");
+                int year1 = spinner1.getSelectedItemPosition();
+                int month1 = spinner2.getSelectedItemPosition();
+                int year2 = spinner3.getSelectedItemPosition();
+                int month2 = spinner4.getSelectedItemPosition();
+                if (checkDateInput(year1, month1, year2, month2)) {
+                    mylist=requestFromRealm(MIN_YEAR + year1, month1, MIN_YEAR + year2, month2);
+                    Log.i("YEAR1", String.valueOf(year1));
+                    Log.i("month2", String.valueOf(month2));
+                    SimpleAdapter mSchedule = new SimpleAdapter(getBaseContext(), mylist, R.layout.listitem,
+                            new String[]{"history_date", "history_balance"},
+                            new int[]{R.id.history_date, R.id.history_balance});
+                    list.setAdapter(mSchedule);
+                }
+            }
+        });
         ArrayAdapter<CharSequence> year_adapter = new ArrayAdapter(this,
                 android.R.layout.simple_spinner_item, year_spinner);
         year_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -86,64 +121,47 @@ public class BalanceHistoryActivity extends AppCompatActivity {
         spinner2.setAdapter(month_adapter);
         spinner4.setAdapter(month_adapter);
 
-
-        ArrayList<HashMap<String, String>> mylist = requestFromRealm(MIN_YEAR, 0, MAX_YEAR, 11);
+        mylist = requestFromRealm(MIN_YEAR, 0, MAX_YEAR, 11);
 
         SimpleAdapter mSchedule = new SimpleAdapter(this, mylist, R.layout.listitem,
                 new String[] {"history_date", "history_balance"},
                 new int[] {R.id.history_date,R.id.history_balance});
         list.setAdapter(mSchedule);
 
-        spinner4.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
-                // your code here
-                Log.i("SPINNER", "1");
-                Spinner spinner1 = (Spinner) findViewById(R.id.spinner1);
-                Spinner spinner3 = (Spinner) findViewById(R.id.spinner3);
-                Spinner spinner2 = (Spinner) findViewById(R.id.spinner2);
-                int year1 = spinner1.getSelectedItemPosition();
-                int month1 = spinner2.getSelectedItemPosition();
-                int year2 = spinner3.getSelectedItemPosition();
-                int month2 = position;
-                ListView list = (ListView) findViewById(R.id.listView);
 
-                ArrayList<HashMap<String, String>> mylist = requestFromRealm(MIN_YEAR + year1, month1, MIN_YEAR + year2, month2);
-                Log.i("YEAR1", String.valueOf(year1));
-                Log.i("month2", String.valueOf(month2));
 
-                SimpleAdapter mSchedule = new SimpleAdapter(getBaseContext(), mylist, R.layout.listitem,
-                        new String[] {"history_date", "history_balance"},
-                        new int[] {R.id.history_date,R.id.history_balance});
-                list.setAdapter(mSchedule);
-
-            }
-            @Override
-            public void onNothingSelected(AdapterView<?> parentView) {
-                ListView list = (ListView) findViewById(R.id.listView);
-                ArrayList<HashMap<String, String>> mylist = requestFromRealm(MIN_YEAR, 0, MAX_YEAR, 11);
-
-                SimpleAdapter mSchedule = new SimpleAdapter(getBaseContext(), mylist, R.layout.listitem,
-                        new String[] {"history_date", "history_balance"},
-                        new int[] {R.id.history_date,R.id.history_balance});
-                list.setAdapter(mSchedule);
-            }
-
-        });
-
+    }
+    private boolean checkDateInput(int year1, int month1, int year2, int month2) {
+        if (year1 > year2) {
+            return false;
+        }
+        if (year1 == year2 && month1 > month2) {
+            return false;
+        }
+        return true;
     }
     private ArrayList<HashMap<String, String>> requestFromRealm(int year1, int month1, int year2, int month2) {
         Calendar cal1 = Calendar.getInstance();
         cal1.set(Calendar.YEAR, year1);
         cal1.set(Calendar.MONTH, month1);
         cal1.set(Calendar.DAY_OF_MONTH, 1);
+        cal1.set(Calendar.HOUR_OF_DAY, 0);
+        cal1.set(Calendar.HOUR_OF_DAY, 0);
+        cal1.set(Calendar.MINUTE, 0);
+        cal1.set(Calendar.SECOND, 0);
+        cal1.set(Calendar.MILLISECOND, 0);
         Calendar cal2 = Calendar.getInstance();
         cal2.set(Calendar.YEAR, year2);
         cal2.set(Calendar.MONTH, month2);
         cal2.set(Calendar.DAY_OF_MONTH, 1);
+        cal2.set(Calendar.HOUR_OF_DAY, 0);
+        cal2.set(Calendar.HOUR_OF_DAY, 0);
+        cal2.set(Calendar.MINUTE, 0);
+        cal2.set(Calendar.SECOND, 0);
+        cal2.set(Calendar.MILLISECOND, 0);
         Log.i("YEAR1", String.valueOf(cal2));
         Log.i("month2", String.valueOf(cal2));
-        RealmResults<BalanceHistory> items = realm.where(BalanceHistory.class).lessThan("date", cal2.getTime()).greaterThanOrEqualTo("date", cal1.getTime()).findAllSorted("date");
+        RealmResults<BalanceHistory> items = realm.where(BalanceHistory.class).lessThanOrEqualTo("date", cal2.getTime()).greaterThanOrEqualTo("date", cal1.getTime()).findAllSorted("date");
         ArrayList<HashMap<String, String>> mylist = new ArrayList<HashMap<String, String>>();
         for(BalanceHistory item : items) {
             HashMap<String, String> map = new HashMap<String, String>();
