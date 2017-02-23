@@ -11,7 +11,6 @@ Created on Mon Jan 16 16:48:25 2017
 import pandas as pd
 import tweepy
 import datetime
-import re
 import psycopg2
 
 #Twitter API credentials
@@ -27,12 +26,13 @@ twitter_KPLC = 'kenyapower_care'
 auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
 auth.set_access_token(access_key, access_secret)
 api = tweepy.API(auth)
-max_count = 200 ##200 is the maximum of count
+max_count = 20 ##200 is the maximum of count
 
 def get_latest_tweets(screen_name):
     latest_tweets=[]
-    data=pd.read_csv("%s_tweets.csv"%(screen_name))
-    since_Id=data['tweet_id'].loc[0]
+    #data = pd.read_csv("%s_tweets.csv"%(screen_name))
+    #since_Id=data['tweet_id'].loc[0]
+    since_Id = 834536583705587000
     try:
         new_tweets=api.user_timeline(screen_name=screen_name,since_id=since_Id,count=max_count)
         oldest = new_tweets[-1].id - 1
@@ -40,19 +40,25 @@ def get_latest_tweets(screen_name):
         print ("No new tweets")
         exit()
     
-    count=len(new_tweets)
+    counting = len(new_tweets)
     latest_tweets.extend(new_tweets)
     print (latest_tweets[0].id)
-    
+    '''
     while len(new_tweets) > 0:
         new_tweets=api.user_timeline(screen_name=screen_name,max_id=oldest,since_id=since_Id,count=max_count)
-        count = count + len(new_tweets)
+        counting = counting + len(new_tweets)
         print ("...%s tweets downloaded so far"%(len(latest_tweets)))
         latest_tweets.extend(new_tweets)
         oldest=latest_tweets[-1].id - 1
+    '''
+    new_tweets=api.user_timeline(screen_name=screen_name,max_id=oldest,since_id=since_Id,count=max_count)
+    counting = counting + len(new_tweets)
+    print ("...%s tweets downloaded so far"%(len(latest_tweets)))
+    latest_tweets.extend(new_tweets)
+    oldest=latest_tweets[-1].id - 1
 
     print (latest_tweets[0].id)
-    print ("count: %s" % count)
+    print ("count: %s" % counting)
     time_now = datetime.datetime.now()
     print("Now: %s" %time_now)
     
@@ -70,28 +76,34 @@ def get_latest_tweets(screen_name):
                                              'tweet', \
                                              'collecting_date', \
                                              'collecting_time'])
-    dataframe=[dataframe,data] 
-    dataframe=pd.concat(dataframe)
-    dataframe.to_csv("%s_tweets.csv"%(screen_name),index=False)
-    ##parsing_to_news_feed(dataframe)
+    #dataframe=[dataframe,data] 
+    #dataframe=pd.concat(dataframe)
+    #dataframe.to_csv("%s_tweets.csv"%(screen_name),index=False)
+    parsing_to_news_feed(dataframe)
     ###The following function is still buggy.  
-'''
+
 def parsing_to_news_feed(tweets):
     con = psycopg2.connect(database='capstone', user='capstone', password='capstone', host='141.212.11.206', port='5432')
     con.autocommit = True
     cur = con.cursor()
     outages=[]
+    print(len(tweets))
     for i in range(len(tweets)):
-        time = 'January 8 04:05:06 1999 PST'
-        #time = tweets.iloc[i]['tweet_time']
+        tweets['tweet_timestamp']=tweets['tweet_date']+" "+tweets['tweet_time']+"+03"
+        time = tweets.iloc[i]['tweet_timestamp']
         source = 1
-        tweet = tweets.iloc[i]['tweet']
-        #print(tweet)
+        tweet = str(tweets.iloc[i]['tweet'])
+        print(tweet)
         outages.append([time,source,tweet])
-        cur.execute("INSERT INTO news_feed (time,source,content) VALUES ('%s','%s','%s')" % (time,source,tweet))
-    #dataText = ', '.join(map(bytes.decode,(cur.mogrify('(%s,%s,%s)',outage) for outage in outages)))
-    #cur.execute('INSERT INTO news_feed (time,source,content) VALUES ' + dataText)
-'''
+        #cur.execute("INSERT INTO news_feed (time,source,content) VALUES ('%s','%s','%s')" % (time,source,tweet))
+    for outage in outages:
+        print(outage)
+    dataText = ', '.join(map(bytes.decode,(cur.mogrify('(%s,%s,%s)',outage) for outage in outages)))
+
+    query_str = 'INSERT INTO news_feed (time,source,content) VALUES ' + dataText
+    print(query_str)
+    cur.execute(query_str)
+
     
 if __name__=='__main__':
     get_latest_tweets(twitter_KPLC)

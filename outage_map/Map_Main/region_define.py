@@ -11,40 +11,44 @@ import shapely.geometry
 import pandas as pd
 from google_map_plotter import GoogleMapPlotter
 
-kenya_subloc = fiona.open("../Kenya_Shapefiles/5th_level_sublocations/kenya_sublocations.shp") # num = 3715
-#kenya_loc = fiona.open("../Kenya_Shapefiles/4th_level_locations/kenya_locations.shp") # num = 1143
-#kenya_divisions = fiona.open("../Kenya_Shapefiles/3rd_level_divisions_II/kenya_divisions.shp") # num = 300
-#kenya_county = fiona.open("../Kenya_Shapefiles/County/County.shp") # num = 47
+#kenya_constituency = fiona.open("../Kenya_Shapefiles/Constituency Boundaries/constituencies.shp") #Suggested by Jay
+kenya_constituency = fiona.open("../Kenya_Shapefiles/Constituency_Simplified/constituencies_simplified.shp") #Simplified by QFIS
 unknown_csv_file = 'unknown_area'
 def region_check(area_list, shpfile):
-    points_list = []
-    id_list = []
     location_undefined = []
+    points_list = []
+    effect_area = []
+    ##Find the Lat & Long of a given string.
     for area in area_list:
         try:
             points_list.append(GoogleMapPlotter.geocode(area)) ##(lat, lng)
+            effect_area.append(area)
             print("The coordinates of ", area, "is: ",points_list[-1])
         except IndexError:
             location_undefined.append(area)
-    count = 0
-    for point in points_list:
-        this_point = shapely.geometry.Point(point[1],point[0])
-        ##Longtitude goes first in shapely, while others have Latitude goes first.
-        for shapefile_rec in shpfile:
-            if(shapely.geometry.asShape(shapefile_rec['geometry']).contains(this_point)):
-                print("%s is in Kenya with region id =" %(area_list[count]) ,shapefile_rec['id'], ".")
-                if(shapefile_rec['id'] not in id_list):
-                    id_list.append(shapefile_rec['id'])
-                points_num = 0
-                for lat_and_long in shapefile_rec['geometry']['coordinates'][0]:
-                    points_num += 1
-                break;
-            if(shapefile_rec['id'] == str(len(shpfile)-1)):
-                print("%s is not in Kenya." %(area_list[count]))
-        count += 1;
     print("Areas google map don't recognize: ", location_undefined)
     
+    ##Check which pieces of shapefile contain points given   
+    shp_idx = 0
+    effect_id = []
+    outage_info = []
+    for shapefile_rec in shpfile:
+        effect_list = []
+        count = 0
+        for point in points_list:
+            this_point = shapely.geometry.Point(point[1],point[0])
+            if(shapely.geometry.asShape(shapefile_rec['geometry']).contains(this_point)):
+                effect_list.append(effect_area[count])
+                if(count not in effect_id):
+                    effect_id.append(shp_idx)
+            count += 1
+        if(len(effect_list)!= 0):
+            outage_info.append([shp_idx, len(effect_list), effect_list])
+        shp_idx += 1
+    print(outage_info)
     new_data=[[obj]for obj in location_undefined]
+    
+    ##Documents the unkonwn area.
     try:
         data=pd.read_csv("%s.csv"%(unknown_csv_file))
         count = 0
@@ -59,13 +63,9 @@ def region_check(area_list, shpfile):
     except OSError:
         dataframe=pd.DataFrame(new_data,columns=[unknown_csv_file])
         dataframe.to_csv("%s.csv"%(unknown_csv_file))
-    
-    print("new_data: ", new_data)
-    
-    
-    print("id_list: ", id_list)
-    return id_list
+
+    return outage_info
 
 if __name__ == '__main__':
-    area_list = ["Nairobi", "UC Berkeley", "Bamburi", "Mazeras, Coast Region, Kenya", "aaaapek", "oooppqqq"]
-    region_check(area_list, kenya_subloc);
+    area_list = ["Nairobi", "University of Nairobi", "Mazeras, Coast Region, Kenya", "aaaapek", "UC Berkeley", "oooppqqq"]
+    region_check(area_list, kenya_constituency);

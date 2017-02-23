@@ -11,12 +11,11 @@ This is a temporary script file.
 
 import requests
 import json
-import fiona 
+import fiona
+import datetime
 
-kenya_subloc = fiona.open("../Kenya_Shapefiles/5th_level_sublocations/kenya_sublocations.shp") # num = 3715
-#kenya_loc = fiona.open("../Kenya_Shapefiles/4th_level_locations/kenya_locations.shp") # num = 1143
-kenya_divisions = fiona.open("../Kenya_Shapefiles/3rd_level_divisions_II/kenya_divisions.shp") # num = 300
-#kenya_county = fiona.open("../Kenya_Shapefiles/County/County.shp") # num = 47
+#kenya_constituency = fiona.open("../Kenya_Shapefiles/Constituency Boundaries/constituencies.shp") #Suggested by Jay
+kenya_constituency = fiona.open("../Kenya_Shapefiles/Constituency_Simplified/constituencies_simplified.shp") #Simplified by QFIS
 color_blue = '#00008B'
 color_red = '#FF0000'
 outage_color = color_red
@@ -53,12 +52,21 @@ class GoogleMapPlotter(object):
 
     def _process_kwargs(self, kwargs):
         settings = dict()
-        settings["edge_color"] = kwargs.get("color", None) or outage_color
-        settings["edge_alpha"] = kwargs.get("alpha", None) or 1.0
-        settings["edge_width"] = kwargs.get("edge_width", None) or 1.0
-        settings["face_alpha"] = kwargs.get("alpha", None) or 0.3
-        settings["face_color"] = kwargs.get("face_color") or outage_color
-        settings["color"] = kwargs.get("color", None) or outage_color
+        settings["edge_color"] = kwargs.get("color", None) \
+                                or kwargs.get("color") \
+                                or outage_color
+        settings["edge_alpha"] = kwargs.get("alpha", None) \
+                                or 1.0
+        settings["edge_width"] = kwargs.get("edge_width", None) \
+                                or 1.0
+        settings["face_alpha"] = kwargs.get("alpha", None) \
+                                or 0.3
+        settings["face_color"] = kwargs.get("face_color") \
+                                or kwargs.get("color") \
+                                or outage_color
+        settings["color"] = kwargs.get("color", None) \
+                                or kwargs.get("color") \
+                                or outage_color
         settings["closed"] = kwargs.get("closed", None)
         return settings
 
@@ -154,12 +162,13 @@ def get_long_path(areaID, shpfile):
     return long_path
 
 if __name__ == "__main__":
-    id_list = ['3029','2964', '2222', '1123']
+    id_list_1 = ['30','26', '122', '223']
+    id_list_2 = ['8', '252', '199', '46']
     mymap = GoogleMapPlotter.from_geocode("Nairobi")
-    shpfile = kenya_subloc
+    shpfile = kenya_constituency
     #shpfile = kenya_divisions
     #for point in range(0,len(shpfile)):
-    for point in id_list:
+    for point in id_list_1:
         mymap.polygon(get_long_path(point, shpfile),
                       get_lat_path(point, shpfile),
                       alpha = 0.5,
@@ -167,4 +176,13 @@ if __name__ == "__main__":
                       face_color = "#8B0000",
                       color = outage_color,
                       face_alpha=0.1)
-    mymap.draw('./subloc.html')
+    
+    for point in id_list_2:
+        mymap.polygon(get_long_path(point, shpfile),
+                      get_lat_path(point, shpfile),
+                      alpha = 0.5,
+                      edge_width = 3.5,
+                      face_color = "#000000",
+                      color = outage_color,
+                      face_alpha=0.1)
+    mymap.draw('./maps_html/%s.html' %datetime.datetime.now())
