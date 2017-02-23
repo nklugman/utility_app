@@ -1,0 +1,141 @@
+import PyPDF2
+import re
+import psycopg2
+import datetime
+
+dir = r'C:\GridWatch\Parsing service interruptions\test\test.pdf' #dir of the file
+
+def parseTime(_time):
+    hour_break=re.search('(?=[0-9]+)',_time).end()
+    _time=_time[hour_break:]
+    hour_break=re.search('[0-9]+',_time).end()
+    hour=_time[:hour_break].strip()
+    _time=_time[hour_break+1:]
+    minute_break=re.search('[0-9]+',_time).end()
+    minute=_time[:minute_break].strip()
+    _time=_time[minute_break:]
+    time=hour+':'+minute+' '
+    if _time.find("A")!=-1:
+        time+='AM'
+    else:
+        time+='PM'
+    return time
+            
+def parse(directory):
+    lists=[]
+    r = ""
+    start_time=""
+    end_time=""
+    pdfFileObj = open(directory, 'rb')
+    pdfReader = PyPDF2.PdfFileReader(pdfFileObj)
+    num_pages = pdfReader.numPages
+    for i in range(num_pages):
+        pageObj = pdfReader.getPage(i)
+        text = pageObj.extractText()
+
+        text = text.replace("\n","")
+        text = text.replace("Œ","-")
+        text = text.replace("™","'")
+        text = text.replace("˚","ffi")
+        text = text.replace("˛","ff")
+        text = text.replace("˜","fi")
+        text = text.replace("˝","fl")
+
+        content=text.split("Notice is hereby ")
+        for j in range(len(content)):
+            if j == 0:
+                regions  = re.split("((?:[A-Z])(?:[A-Z|\.]+\s)+(?:REGION))", content[0])
+            else:
+                content=content[1].split("etc.)")
+                regions  = re.split("((?:[A-Z])(?:[A-Z|\.]+\s)+(?:REGION))", content[1])
+
+            for region in regions:
+               if region.find("REGION")!=-1:
+                   r = str(region)
+               else:
+                  area_ints = re.split("AREA:",region)
+                  for area_int in area_ints:
+                      areas = area_int.split("& adjacent customers.")
+                      for area in areas:
+                         area=area.strip()
+                         if area.find("COUNTY")==-1 and len(area)>1:
+                            try:
+                                data = area
+                                a=""
+                                date=""
+                                time=""
+
+                                area_break = data.index("DATE")
+                                a = data[:area_break].strip()
+                                data = data[area_break+len("DATE:"):]
+
+                                date_break = data.index("TIME")
+                                date = data[:date_break].strip()
+                                data = data[date_break+len("TIME:"):]
+
+                                day_break=re.search('(?=[0-9]+)',date).end()
+                                date=date[day_break:]
+                                date_=date.split(".")
+                                day = date_[0].strip()
+                                month = date_[1].strip()
+                                year = date_[2].strip()
+                                year_break=re.search('[0-9]+',year).end()
+                                year = year[:year_break].strip()
+                                date=year+'-'+month+'-'+day
+
+                                time_break = re.search('(A\.M|P\.M).*(A\.M|P\.M(\.)?)', data).end()
+                                times = data[:time_break].strip()
+                                data = data[time_break:]
+                                start_time=""
+                                end_time=""
+                                
+                                time=re.split("-|Š",times)
+                                start_time=parseTime(time[0])
+                                end_time=parseTime(time[1])
+                                
+                                areas_=a.split(",")
+                                for area_ in areas_:
+                                     if re.search('PART OF|PARTS OF|WHOLE OF',area_):
+                                            area__break=re.search('PART OF|PARTS OF|WHOLE OF',area_).end()
+                                            area_=area_[area__break:].strip()
+                                     list = []
+                                     list.append(date)
+                                     list.append(start_time)
+                                     list.append(end_time)
+                                     list.append(r)
+                                     list.append(area_.strip())
+                                     for j in range(len(list)):
+                                         if list[j]=="":
+                                            list[j]=None
+                                     
+                                     length=""
+                                     date_time=date+" "+start_time
+                                     start=datetime.datetime.strptime(date_time,"%Y-%m-%d %I:%M %p")
+                                     date_time=date+" "+end_time
+                                     end=datetime.datetime.strptime(date_time,"%Y-%m-%d %I:%M %p")
+                                     length=end-start
+                                     list.append(length)
+                                     lists.append(list)
+
+                            except Exception as e:
+                                print(e)
+                                print(directory)
+                                print(area)
+                                print("----------------------------")
+    pdfFileObj.close()
+    return lists
+
+con = psycopg2.connect(database='capstone', user='capstone', password='capstone', host='141.212.11.206', port='5432')
+con.autocommit = True
+cur = con.cursor()
+
+lists = parse(dir)
+try:
+    dataText = ', '.join(map(bytes.decode,(cur.mogrify('(%s, %s, %s, %s, %s, %s)', element) for element in lists)))
+    cur.execute('INSERT INTO outages (date,start_time,end_time,region,area,length) VALUES ' + dataText)
+except Exception as e:
+    print(e)
+    print("----------------------------")
+
+con.commit()
+print("parsing_finish")
