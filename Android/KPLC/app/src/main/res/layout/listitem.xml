@@ -19,6 +19,8 @@
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
         android:gravity = "right"
+        android:autoLink="web"
+        android:linksClickable="true"
         android:id="@+id/history_balance"
         android:layout_marginLeft="@dimen/activity_horizontal_margin"
         android:layout_marginRight="@dimen/activity_horizontal_margin"

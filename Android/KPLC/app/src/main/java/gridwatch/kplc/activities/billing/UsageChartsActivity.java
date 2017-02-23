@@ -27,6 +27,7 @@ import io.realm.RealmResults;
  */
 
 public class UsageChartsActivity extends AppCompatActivity {
+
     private Realm realm;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +36,7 @@ public class UsageChartsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_chart);
         realm = Realm.getDefaultInstance();
         LinearLayout chart = (LinearLayout) findViewById(R.id.chart);
-
+/*
         XYSeries series = new XYSeries("");
         XYMultipleSeriesDataset dataset = new XYMultipleSeriesDataset();
         RealmResults<BalanceHistory> items = realm.where(BalanceHistory.class).findAll();
@@ -71,7 +72,7 @@ public class UsageChartsActivity extends AppCompatActivity {
         multiRenderer.setPanLimits(panLimits);
         GraphicalView chartView = ChartFactory.getLineChartView(this, dataset, multiRenderer);
         chart.addView(chartView);
-
+*/
 
     }
 
