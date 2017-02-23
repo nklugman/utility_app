@@ -4,11 +4,16 @@ import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v4.widget.TextViewCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
+import android.view.ViewTreeObserver;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
+import android.widget.TextView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -54,26 +59,49 @@ public class NewsfeedActivity extends AppCompatActivity{
         setContentView(R.layout.activity_newsfeed);
         swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_container);
         listView = (ListView) findViewById(R.id.listview_newsfeed);
-        //mylist = new ArrayList<HashMap<String, Object>>();
+        mylist = new ArrayList<HashMap<String, Object>>();
         realm = Realm.getDefaultInstance();
-        /*for(int i=0;i<2;i++)
-        {
-            HashMap<String, Object> map = new HashMap<String, Object>();
-            map.put("newsfeedlogo", R.drawable.facebooklogo);
-            map.put("newsfeedsource", "Facebook");
-            map.put("newsfeedtime", "2015034");
-            map.put("newsfeedcontent", "sfafda");
-            list.add(map);
-        }
-        adapter = new SimpleAdapter(this, list, R.layout.newsfeed_listitem,
+        realm.beginTransaction();
+
+        realm.deleteAll();
+        realm.commitTransaction();
+        adapter = new SimpleAdapter(getBaseContext(), mylist, R.layout.newsfeed_listitem,
                 new String[] {"newsfeedlogo", "newsfeedsource", "newsfeedtime", "newsfeedcontent"},
                 new int[] {R.id.newsfeedlogo, R.id.newsfeedsource, R.id.newsfeedtime, R.id.newsfeedcontent});
-        listView.setAdapter(adapter);*/
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener()
+        {
+            @Override
+            public void onItemClick(AdapterView<?> adapter, View v, int position,
+                                    long arg3)
+            {
+                HashMap<String, Object> current= (HashMap) adapter.getItemAtPosition(position);
+                String trueContent = (String)current.get("newsfeedcontent");
+                TextView contentText = (TextView) v.findViewById(R.id.newsfeedcontent);
+                Log.i("length",""+contentText.getText().length());
+                Log.i("length",""+trueContent.length());
+                int lines = TextViewCompat.getMaxLines(contentText);
+                if (lines == 3) {
+                    contentText.setMaxLines(Integer.MAX_VALUE);
+                } else {
+                    contentText.setMaxLines(3);
+                    //contentText.setText(trueContent);
+                }
+
+            }
+        });
+
+
+        display();
+
+
+
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                String currentTime = "2017-02-01%2000:00:00%2B3";
-                new RefreshContent().execute(currentTime);
+                //String currentTime = "2017-02-01%2000:00:00%2B3";
+                Date max = realm.where(Newsfeed.class).maximumDate("time");
+                MAX_TIME = getStringFromDate(max);
+                new RefreshContent().execute(MAX_TIME);
 
             }
         });
@@ -82,12 +110,21 @@ public class NewsfeedActivity extends AppCompatActivity{
         if (date == null) {
             return null;
         }
-        DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ssZ", Locale.ENGLISH);
+        DateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.ENGLISH);
+        return format.format(date);
+    }
+    private String getShortStringFromDate(Date date) {
+        if (date == null) {
+            return null;
+        }
+        DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH);
         return format.format(date);
     }
     private Date getDateFromString(String date) {
-        DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ssZ", Locale.ENGLISH);
+        DateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.ENGLISH);
         try {
+            Log.i("date",date);
+            Log.i("date",format.parse(date).toString());
             return format.parse(date);
         } catch (ParseException e) {
             e.printStackTrace();
@@ -95,39 +132,32 @@ public class NewsfeedActivity extends AppCompatActivity{
         return null;
     }
     private void display(){
-        Date max = realm.where(Postpaid.class).maximumDate("month");
-        if (max == null) {
-            return;
-        }
-        MAX_TIME = getStringFromDate(max);
+        requestFromRealm();
+        Log.i("date","111111");
 
-
+        listView.setAdapter(adapter);
+        Log.i("date","222222");
     }
     private void storeToRealm(String result) {
         if (result == null) {
             return;
         }
+        result = result.replaceAll("\\r", System.getProperty("line.separator"));
+        Log.i("a",result);
         try {
             JSONArray json = new JSONArray(result);
             int length = json.length();
             realm.beginTransaction();
             for(int i = 0; i < length; i++){//遍历JSONArray
                 JSONObject oj = json.getJSONObject(i);
-                String account = oj.getString("account");
-                String usage = oj.getString("usage");
-                String month = oj.getString("month");
-                String balance = oj.getString("balance");
-                String dueDate = oj.getString("dueDate");
-                String payDate = oj.getString("payDate");
-                String statement = oj.getString("statement");
-                Postpaid item = realm.createObject(Postpaid.class); // Create a new object
-                item.setAccount(account);
-                item.setMonth(getDateFromString(month));
-                item.setBalance(Double.parseDouble(balance));
-                item.setUsage(Double.parseDouble(usage));
-                item.setDueDate(getDateFromString(dueDate));
-                item.setPayDate(getDateFromString(payDate));
-                item.setStatement(statement);
+                String source = oj.getString("source");
+                String time = oj.getString("time");
+                String content = oj.getString("content");
+                Newsfeed item = realm.createObject(Newsfeed.class);
+
+                item.setSource(Integer.parseInt(source));
+                item.setContent(content);
+                item.setTime(getDateFromString(time));
 
             }
             realm.commitTransaction();
@@ -136,8 +166,14 @@ public class NewsfeedActivity extends AppCompatActivity{
         }
 
     }
+
     private void requestFromRealm() {
-        RealmResults<Newsfeed> items = realm.where(Newsfeed.class).findAllSorted("time", Sort.DESCENDING);
+        RealmResults<Newsfeed> items;
+        if(MAX_TIME == null) {
+            items = realm.where(Newsfeed.class).findAllSorted("time", Sort.DESCENDING);
+        } else {
+            items = realm.where(Newsfeed.class).greaterThan("time", getDateFromString(MAX_TIME)).findAllSorted("time", Sort.DESCENDING);
+        }
         for(Newsfeed item : items) {
             HashMap<String, Object> map = new HashMap<>();
             int source = item.getSource();
@@ -153,7 +189,7 @@ public class NewsfeedActivity extends AppCompatActivity{
             }
             String content = item.getContent();
             Date time = item.getTime();
-            map.put("newsfeedtime", getStringFromDate(time));
+            map.put("newsfeedtime", getShortStringFromDate(time));
             map.put("newsfeedcontent", content);
             mylist.add(map);
         }
@@ -163,6 +199,7 @@ public class NewsfeedActivity extends AppCompatActivity{
         /** The system calls this to perform work in a worker thread and
          * delivers it the parameters given to AsyncTask.execute() */
         protected String doInBackground(String... time) {
+            Log.i("max_time", "refresh");
             String result = null;
             try {
                 result = connectToServer(time[0]);
@@ -180,40 +217,14 @@ public class NewsfeedActivity extends AppCompatActivity{
         /** The system calls this to perform work in the UI thread and delivers
          * the result from doInBackground() */
         protected void onPostExecute(String result) {
-            try {
-                JSONArray json = new JSONArray(result);
-                int length = json.length();
-                for(int i = 0; i < length; i++){//遍历JSONArray
-                    JSONObject oj = json.getJSONObject(i);
-                    HashMap<String, Object> map = new HashMap<String, Object>();
-                    String source = oj.getString("source");
-                    switch(source) {
-                        case "0":
-                            map.put("newsfeedlogo", R.drawable.facebooklogo);
-                            map.put("newsfeedsource", "Facebook");
-                            break;
-                        case "1":
-                            map.put("newsfeedlogo", R.drawable.twitterlogo);
-                            map.put("newsfeedsource", "Twitter");
-                            break;
-                    }
-                    map.put("newsfeedtime", oj.getString("time"));
-                    map.put("newsfeedcontent", oj.getString("content"));
-                    mylist.add(map);
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-
-            adapter = new SimpleAdapter(getBaseContext(), mylist, R.layout.newsfeed_listitem,
-                    new String[] {"newsfeedlogo", "newsfeedsource", "newsfeedtime", "newsfeedcontent"},
-                    new int[] {R.id.newsfeedlogo, R.id.newsfeedsource, R.id.newsfeedtime, R.id.newsfeedcontent});
-            listView.setAdapter(adapter);
+            storeToRealm(result);
+            display();
             swipeRefreshLayout.setRefreshing(false);
         }
     }
 
     private String connectToServer(String time) throws IOException {
+        Log.i("max_time", "server");
         URL url = new URL(SERVER + "/newsfeed?time=" + time);
         InputStream stream = null;
         HttpURLConnection connection = null;

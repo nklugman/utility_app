@@ -109,9 +109,7 @@ public class BalanceHistoryActivity extends AppCompatActivity {
                 int month2 = spinner4.getSelectedItemPosition();
                 if (checkDateInput(year1, month1, year2, month2)) {
                     mylist=requestFromRealm(MIN_YEAR + year1, month1, MIN_YEAR + year2, month2);
-                    Log.i("month2", String.valueOf(month2));
-                    Log.i("YEAR1", String.valueOf(year1));
-                    Log.i("mylist", mylist.toString());
+
                     SimpleAdapter mSchedule = new SimpleAdapter(getBaseContext(), mylist, R.layout.listitem,
                             new String[]{"history_date", "history_balance"},
                             new int[]{R.id.history_date, R.id.history_balance});
@@ -151,7 +149,6 @@ public class BalanceHistoryActivity extends AppCompatActivity {
         spinner2.setAdapter(month_adapter);
         spinner4.setAdapter(month_adapter);
         mylist = requestFromRealm(MIN_YEAR, 0, MAX_YEAR, 11);
-
         SimpleAdapter mSchedule = new SimpleAdapter(this, mylist, R.layout.listitem,
                 new String[] {"history_date", "history_balance"},
                 new int[] {R.id.history_date,R.id.history_balance});
