@@ -12,12 +12,10 @@ import psycopg2
 import fiona
 import datetime
 
-kenya_subloc = fiona.open("../Kenya_Shapefiles/5th_level_sublocations/kenya_sublocations.shp") # num = 3715
-kenya_loc = fiona.open("../Kenya_Shapefiles/4th_level_locations/kenya_locations.shp") # num = 1143
-kenya_divisions = fiona.open("../Kenya_Shapefiles/3rd_level_divisions_II/kenya_divisions.shp") # num = 300
-kenya_county = fiona.open("../Kenya_Shapefiles/County/County.shp") # num = 47
+#kenya_constituency = fiona.open("../Kenya_Shapefiles/Constituency Boundaries/constituencies.shp") #Suggested by Jay
+kenya_constituency = fiona.open("../Kenya_Shapefiles/Constituency_Simplified/constituencies_simplified.shp") #Simplified by QGIS
+shapefile = kenya_constituency
 
-shapefile = kenya_subloc
 
 def fetch_outage_list():
     print("-----Fetching area list from Database...")
@@ -25,14 +23,14 @@ def fetch_outage_list():
     con.autocommit = True
     cur = con.cursor()
     
-    cur.execute("SELECT area FROM outages WHERE index>=1 and index <=9")
+    cur.execute("SELECT area FROM outages WHERE index>=1 and index <=15")
     rows = cur.fetchall()
     area_list =[]
     for row in rows:
         area_list.append(row[0]+", Kenya") ##Add ", Kenya" increases accuracy of finding coordinate.
     print("-----Area list from PDF file on database is fetched.")
     
-    cur.execute("SELECT area FROM social_media WHERE index>=2 and index <=6") 
+    cur.execute("SELECT area FROM social_media WHERE index>=2 and index <=20") 
     rows = cur.fetchall()
     for row in rows:
         area_list.append(row[0]+", Kenya")
@@ -58,7 +56,7 @@ def display_google_map(id_list):
                       face_color = "#8B0000",
                       color = gmplot.outage_color,
                       face_alpha=0.1)
-    mymap.draw('./%s.html' %datetime.datetime.now())
+    mymap.draw('./maps_html/%s.html' %datetime.datetime.now())
     print("Outage map is good to go.")
 
 if __name__ == '__main__':

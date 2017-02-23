@@ -9,18 +9,21 @@ Created on Tue Feb 14 13:52:07 2017
 import fiona 
 #import shapely.geometry
 
-kenya_subloc = fiona.open("5th_level_sublocations/kenya_sublocations.shp") # num = 3715
-kenya_loc = fiona.open("4th_level_locations/kenya_locations.shp") # num = 1143
-kenya_divisions = fiona.open("3rd_level_divisions_II/kenya_divisions.shp") # num = 300
-kenya_county = fiona.open("County/County.shp") # num = 47
+#kenya_subloc = fiona.open("other_shapefiles/5th_level_sublocations/kenya_sublocations.shp") # num = 3715
+#kenya_loc = fiona.open("other_shapefiles/4th_level_locations/kenya_locations.shp") # num = 1143
+#kenya_divisions = fiona.open("other_shapefiles/3rd_level_divisions_II/kenya_divisions.shp") # num = 300
+#kenya_county = fiona.open("other_shapefiles/County/County.shp") # num = 47
+#kenya_constituency = fiona.open("Constituency Boundaries/constituencies.shp") #Suggested by Jay
+kenya_constituency = fiona.open("Constituency_Simplified/constituencies_simplified.shp")
 
-def properties_display(shape_file): 
+target = kenya_constituency
+def properties_display(shape_file):
+    for prop in shape_file[0]['properties']:
+        print(prop)
     print(shape_file[0]['properties'])
-    #print(shape_file[0]['properties']['LOCATION'])
-
 def count_num(shape_file):
-    print(len(kenya_divisions))
+    print(len(target))
     
 if __name__ == '__main__':
-    properties_display(kenya_loc);
+    properties_display(target);
     #count_num(kenya_divisions)
