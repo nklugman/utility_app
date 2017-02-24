@@ -60,14 +60,23 @@
         >
 
         <TextView
-            android:text="There will be power outage in area 1 on this Monday! Please be careful."
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/newsfeedcontent"
-
+            android:ellipsize="end"
+            android:lines="3"
             android:paddingLeft="15dp"
             android:textColor="@color/colorGrey"
             android:paddingBottom="5dp"
             android:paddingRight="10dp" />
+        <TextView
+            android:id="@+id/newsfeedshow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingBottom="5dip"
+            android:paddingTop="5dip"
+            android:text="More."
+            android:visibility="gone"
+            android:textSize="14sp" />
     </LinearLayout>
 </LinearLayout>

@@ -13,11 +13,14 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
+import java.util.Date;
 import java.util.Random;
 
 import gridwatch.kplc.R;
 import gridwatch.kplc.activities.billing.BalanceHistoryActivity;
+import gridwatch.kplc.activities.billing.Postpaid;
 import gridwatch.kplc.activities.billing.StatementHistoryActivity;
 import gridwatch.kplc.activities.billing.UsageChartsActivity;
 import gridwatch.kplc.activities.outage.OutageMapActivity;
@@ -25,17 +28,19 @@ import gridwatch.kplc.activities.payment.BuyTokensActivity;
 import gridwatch.kplc.activities.payment.MakePaymentActivity;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
+import io.realm.RealmResults;
 
 public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-
-
+    private Realm realm;
+    private TextView cb;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        cb = (TextView) findViewById(R.id.balance);
 
         FloatingActionButton btn_report = (FloatingActionButton) findViewById(R.id.fab);
         btn_report.setOnClickListener(new View.OnClickListener() {
@@ -71,6 +76,11 @@ public class HomeActivity extends AppCompatActivity
                 startActivity(intent);
             }
         });
+        //realm = Realm.getDefaultInstance();
+
+        //Date max = realm.where(Postpaid.class).maximumDate("month");
+        //RealmResults<Postpaid> items = realm.where(Postpaid.class).equalTo("month", max).findAll();
+        //cb.setText(String.valueOf(items.first().getBalance()));
     }
 
     @Override
