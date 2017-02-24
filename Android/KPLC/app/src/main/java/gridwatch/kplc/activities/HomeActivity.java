@@ -76,11 +76,11 @@ public class HomeActivity extends AppCompatActivity
                 startActivity(intent);
             }
         });
-        realm = Realm.getDefaultInstance();
+        //realm = Realm.getDefaultInstance();
 
-        Date max = realm.where(Postpaid.class).maximumDate("month");
-        RealmResults<Postpaid> items = realm.where(Postpaid.class).equalTo("month", max).findAll();
-        cb.setText(String.valueOf(items.first().getBalance()));
+        //Date max = realm.where(Postpaid.class).maximumDate("month");
+        //RealmResults<Postpaid> items = realm.where(Postpaid.class).equalTo("month", max).findAll();
+        //cb.setText(String.valueOf(items.first().getBalance()));
     }
 
     @Override

@@ -48,7 +48,7 @@ import io.realm.Sort;
 public class NewsfeedActivity extends AppCompatActivity{
     private Realm realm;
     String MAX_TIME;
-    private static final String SERVER= "http://192.168.1.5:3000";
+    private static final String SERVER= "http://141.212.11.206:3100";//"http://192.168.1.5:3000";
     private SwipeRefreshLayout swipeRefreshLayout;
     private ListView listView;
     private SimpleAdapter adapter;
