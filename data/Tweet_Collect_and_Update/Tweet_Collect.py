@@ -32,21 +32,27 @@ def get_all_tweets(screen_name):
     new_tweets = api.user_timeline(screen_name = screen_name,count=max_count) 
     alltweets.extend(new_tweets)
     oldest = alltweets[-1].id - 1
+    print ("...%s tweets downloaded so far" % (len(alltweets)))
+    
     while len(new_tweets) > 0:
         print ("getting tweets before %s" % (oldest))
         new_tweets = api.user_timeline(screen_name = screen_name,count=max_count,max_id=oldest)
         alltweets.extend(new_tweets)
         oldest = alltweets[-1].id - 1
         print ("...%s tweets downloaded so far" % (len(alltweets)))
-	
+
     time_now = datetime.datetime.now()
-    data=[[obj.user.screen_name, \
-           obj.id_str, \
-           "%s/%s/%s" % (obj.created_at.year, obj.created_at.month, obj.created_at.day), \
-            "%s:%s:%s" % (obj.created_at.hour,obj.created_at.minute, obj.created_at.second), \
-            obj.text.encode("utf8"), \
-            "%s/%s/%s" % (time_now.year, time_now.month, time_now.day), \
-            "%s:%s:%s" % (time_now.hour, time_now.minute, time_now.second)] for obj in alltweets ]
+    data = []
+    for obj in alltweets:
+        if(obj.text[0] != '@'):
+            data.append([obj.user.screen_name, \
+                   obj.id_str, \
+                   "%s/%s/%s" % (obj.created_at.year, obj.created_at.month, obj.created_at.day), \
+                    "%s:%s:%s" % (obj.created_at.hour,obj.created_at.minute, obj.created_at.second), \
+                    obj.text, \
+                    "%s/%s/%s" % (time_now.year, time_now.month, time_now.day), \
+                    "%s:%s:%s" % (time_now.hour, time_now.minute, time_now.second)]) 
+
     dataframe=pd.DataFrame(data,columns=['screen_name', \
                                          'tweet_id', \
                                          'tweet_date', \

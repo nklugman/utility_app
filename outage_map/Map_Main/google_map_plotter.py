@@ -59,8 +59,8 @@ class GoogleMapPlotter(object):
                                 or 1.0
         settings["edge_width"] = kwargs.get("edge_width", None) \
                                 or 1.0
-        settings["face_alpha"] = kwargs.get("alpha", None) \
-                                or 0.3
+        settings["face_alpha"] = 0.0#kwargs.get("alpha", None) \
+                                #or 0.3
         settings["face_color"] = kwargs.get("face_color") \
                                 or kwargs.get("color") \
                                 or outage_color
@@ -68,6 +68,8 @@ class GoogleMapPlotter(object):
                                 or kwargs.get("color") \
                                 or outage_color
         settings["closed"] = kwargs.get("closed", None)
+        settings["event_num"] = kwargs.get("events_num") or 0
+        settings["events"] = kwargs.get("events") or ['aaa','bbb']
         return settings
 
     def polygon(self, lats, lngs, **kwargs):
@@ -83,7 +85,7 @@ class GoogleMapPlotter(object):
         f.write('<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />\n')
         f.write('<meta http-equiv="content-type" content="text/html; charset=UTF-8"/>\n')
         f.write('<title>Google Maps - pygmaps </title>\n')
-        f.write('<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?libraries=visualization&sensor=true_or_false"></script>\n')
+        f.write('<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBoqfEFIb-4zSOxYRgXnyDA5arE2gzv4J8&callback=initMap"></script>\n')
         f.write('<script type="text/javascript">\n')
         f.write('\tfunction initialize() {\n')
         self.write_map(f)
@@ -117,13 +119,14 @@ class GoogleMapPlotter(object):
         f.write('\n')
 
     def write_polygon(self, f, path, settings):
-        clickable = False
+        clickable = True
         geodesic = True
         strokeColor = settings.get('edge_color')
         strokeOpacity = settings.get('edge_alpha')
         strokeWeight = settings.get('edge_width')
         fillColor = settings.get('face_color')
         fillOpacity= settings.get('face_alpha')
+        events = settings.get('events')
         f.write('var coords = [\n')
         for coordinate in path:
             f.write('new google.maps.LatLng(%f, %f),\n' %
@@ -140,10 +143,20 @@ class GoogleMapPlotter(object):
         f.write('strokeOpacity: %f,\n' % (strokeOpacity))
         f.write('strokeWeight: %d\n' % (strokeWeight))
         f.write('});\n')
+        f.write('var iwindow= new google.maps.InfoWindow;\n')
+        f.write('polygon.addListener("click", function(event) {\n')
+        iwindow_content = ''
+        for area in events:
+            iwindow_content += '<p>'
+            iwindow_content += area
+            iwindow_content += '</p>'
+        f.write('iwindow.setContent("%s");\n'%iwindow_content);
+        f.write('iwindow.setPosition(event.latLng);')
+        f.write('iwindow.open(map);\n')
+        f.write('})\n')
         f.write('\n')
         f.write('polygon.setMap(map);\n')
         f.write('\n\n')
-        
 def get_lat_path(areaID, shpfile):
     lat_path = []
     for shapefile_rec in shpfile:

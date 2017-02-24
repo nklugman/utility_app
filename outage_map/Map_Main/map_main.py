@@ -27,13 +27,13 @@ def fetch_outage_list():
     rows = cur.fetchall()
     area_list =[]
     for row in rows:
-        area_list.append(row[0]+", Kenya") ##Add ", Kenya" increases accuracy of finding coordinate.
+        area_list.append(row[0])
     print("-----Area list from PDF file on database is fetched.")
     
     cur.execute("SELECT area FROM social_media WHERE index>=2 and index <=20") 
     rows = cur.fetchall()
     for row in rows:
-        area_list.append(row[0]+", Kenya")
+        area_list.append(row[0])
     print("-----Area list from social media on database is fetched.")
     
     print("-----All area list fetched.")
@@ -41,16 +41,17 @@ def fetch_outage_list():
 
 def locate_area_to_shpID(area_list):
     print("-----Identifying the locations of each area...")
-    id_list = region_define.region_check(area_list, shapefile)
-    print("-----The IDs of corresponding sublocations found.")
-    return id_list
+    outage_info = region_define.region_check(area_list, shapefile)
+    return outage_info
 
 def display_google_map(id_list):
     print("-----Displaying the outage map through Google Map...")
     mymap = gmplot.GoogleMapPlotter.from_geocode("Nairobi") ##Setting the center of the map displayed.   
     for point in id_list:
-        mymap.polygon(gmplot.get_long_path(point, shapefile),
-                      gmplot.get_lat_path(point, shapefile),
+        mymap.polygon(gmplot.get_long_path(point[0], shapefile),
+                      gmplot.get_lat_path(point[0], shapefile),
+                      event_num = point[1],
+                      events = point[2],  
                       alpha = 0.5,
                       edge_width = 3.5,
                       face_color = "#8B0000",
