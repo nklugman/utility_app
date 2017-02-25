@@ -32,7 +32,6 @@ def parse_tweet(tweet,dict,cur):
                 
                 
 def parsing_to_db(tweets, name):
-    #tweets=pd.read_csv(r'C:\GridWatch\utility_app\data\Tweet_Collect_and_Update\kenyapower_care_all_replies.csv',skipinitialspace=True)
     #con = psycopg2.connect(database='outage_map', user='postgres') 
     con = psycopg2.connect(database='capstone', user='capstone', password='capstone', host='141.212.11.206', port='5432')
     con.autocommit = True

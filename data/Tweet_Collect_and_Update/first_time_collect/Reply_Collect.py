@@ -55,6 +55,10 @@ def get_all_replies(target):
                                          'collecting_time'])
     dataframe.to_csv("%s_all_replies.csv"%(target),index=False)
 
+    
+    ##########################
+    ######TODO: push to server
+    ##########################
 	
 if __name__ == '__main__':
     #pass in the username of the account you want to download

@@ -44,7 +44,7 @@ def get_all_tweets(screen_name):
     time_now = datetime.datetime.now()
     data = []
     for obj in alltweets:
-        if(obj.text[0] != '@'):
+        if(obj.in_reply_to_status_id == ""):
             data.append([obj.user.screen_name, \
                    obj.id_str, \
                    "%s/%s/%s" % (obj.created_at.year, obj.created_at.month, obj.created_at.day), \
@@ -60,7 +60,11 @@ def get_all_tweets(screen_name):
                                          'tweet', \
                                          'collecting_date', \
                                          'collecting_time'])
-    dataframe.to_csv("%s_tweets.csv"%(screen_name),index=False)
+    ##########################
+    ######TODO: push to server
+    ##########################
+    
+    #dataframe.to_csv("../%s_tweets.csv"%(screen_name),index=False)
 
 if __name__ == '__main__':
     #pass in the username of the account you want to download

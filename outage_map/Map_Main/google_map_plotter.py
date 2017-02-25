@@ -85,7 +85,7 @@ class GoogleMapPlotter(object):
         f.write('<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />\n')
         f.write('<meta http-equiv="content-type" content="text/html; charset=UTF-8"/>\n')
         f.write('<title>Google Maps - pygmaps </title>\n')
-        f.write('<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBoqfEFIb-4zSOxYRgXnyDA5arE2gzv4J8&callback=initMap"></script>\n')
+        f.write('<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBoqfEFIb-4zSOxYRgXnyDA5arE2gzv4J8"></script>\n')
         f.write('<script type="text/javascript">\n')
         f.write('\tfunction initialize() {\n')
         self.write_map(f)
