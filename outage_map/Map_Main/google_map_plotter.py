@@ -52,14 +52,14 @@ class GoogleMapPlotter(object):
 
     def _process_kwargs(self, kwargs):
         settings = dict()
-        settings["edge_color"] = kwargs.get("color", None) \
+        settings["edge_color"] = kwargs.get("edge_color", None) \
                                 or kwargs.get("color") \
                                 or outage_color
         settings["edge_alpha"] = kwargs.get("alpha", None) \
                                 or 1.0
         settings["edge_width"] = kwargs.get("edge_width", None) \
                                 or 1.0
-        settings["face_alpha"] = 0.0#kwargs.get("alpha", None) \
+        settings["face_alpha"] = kwargs.get("alpha", None) \
                                 #or 0.3
         settings["face_color"] = kwargs.get("face_color") \
                                 or kwargs.get("color") \
