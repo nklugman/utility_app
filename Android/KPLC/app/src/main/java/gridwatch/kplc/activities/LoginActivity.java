@@ -29,8 +29,7 @@ public class LoginActivity extends AppCompatActivity {
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
-                startActivity(intent);
+                replaceActivityWithHome();
             }
         });
 
@@ -70,5 +69,13 @@ public class LoginActivity extends AppCompatActivity {
                }
            }
         });
+    }
+
+    private void replaceActivityWithHome() {
+        // This replaces our current activity, so the back button does the right thing
+        Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_TASK_ON_HOME);
+        startActivity(intent);
+        LoginActivity.this.finish();
     }
 }
