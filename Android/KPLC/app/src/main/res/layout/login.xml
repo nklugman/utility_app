@@ -36,23 +36,23 @@
             android:textSize="14sp"
             android:paddingBottom="10dp" />
 
-        <LinearLayout
-            android:orientation="vertical"
+        <RadioGroup
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:id="@+id/loginPayRadioGroup">
 
             <RadioButton
-                android:text="Pre-pay"
-                android:layout_width="match_parent"
+                android:text="Pre-Pay"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/radioButton"
+                android:id="@+id/loginPrePayRadio"
                 android:layout_weight="1" />
 
             <TextView
                 android:text="Meter Number:"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/textView12"
+                android:id="@+id/loginPrePayTextView"
                 android:layout_weight="1" />
 
             <EditText
@@ -60,39 +60,33 @@
                 android:layout_height="wrap_content"
                 android:inputType="number"
                 android:ems="10"
-                android:id="@+id/editText"
+                android:id="@+id/loginPrePayEditText"
                 android:layout_weight="1"
-                android:background="@android:drawable/editbox_background_normal"
-                android:layout_marginBottom="10dp" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1">
+                android:background="@android:drawable/editbox_background_normal" />
 
             <RadioButton
-                android:text="Post-pay"
-                android:layout_width="match_parent"
+                android:text="Post-Pay"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/radioButton2" />
+                android:id="@+id/loginPostPayRadio"
+                android:layout_weight="1" />
 
             <TextView
                 android:text="Account Number:"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/textView13" />
+                android:id="@+id/loginPostPayTextView"
+                android:layout_weight="1" />
 
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="number"
                 android:ems="10"
-                android:id="@+id/editText2"
+                android:id="@+id/loginPostPayEditText"
+                android:layout_weight="1"
                 android:background="@android:drawable/editbox_background_normal" />
-        </LinearLayout>
+        </RadioGroup>
 
         <Button
             android:text="Enter"
