@@ -1,11 +1,83 @@
-//Adding module
+#!/usr/bin/env node
+
+// Modules
+var bodyParser = require('body-parser');
 var express = require('express'); 
 var mustacheExpress = require('mustache-express'); 
-var bodyParser = require('body-parser');
 var pg = require('pg')
-var conString = "postgres://postgres:gridwatch@localhost:5432/gridwatch";
-//var conString = "postgres://nklugman:gridwatch@localhost:5432/capstone";
-//Initialize
+
+// Argument parsing
+var argv = require('yargs')
+  .usage('Usage: $0 [options]')
+
+  .help('?')
+  .alias('?', 'help')
+
+  .alias('v', 'verbose')
+  .describe('v', 'Be more verbose')
+  .default('v', 1)
+  .count('verbose')
+
+  .alias('q', 'quiet')
+  .describe('q', 'Be more quiet')
+  .default('q', 0)
+  .count('quiet')
+
+  .alias('H', 'host')
+  .describe('H', 'Host to bind this server to')
+  .default('H', 'localhost')
+
+  .alias('P', 'port')
+  .describe('P', 'Port to listen on')
+  .default('P', 3000)
+
+  .alias('u', 'postgres-user')
+  .describe('u', 'User to authenticate to postgres as')
+  .default('u', 'nklugman')
+
+  .alias('l', 'postgres-login')
+  .describe('l', 'Login for postgres server')
+  .default('l', 'gridwatch')
+
+  .alias('h', 'postgres-host')
+  .describe('h', 'Host for postgres server')
+  .default('h', 'localhost')
+
+  .alias('p', 'postgres-port')
+  .describe('p', 'Port for postgres server')
+  .default('p', 5432)
+
+  .alias('d', 'postgres-database')
+  .describe('d', 'Database on postgres to connect to')
+  .default('d', 'capstone')
+
+  .argv;
+
+const VERBOSE_LEVEL = argv.verbose - argv.quiet;
+function WARN()  { VERBOSE_LEVEL >= 0 && console.log.apply(console, arguments); }
+function INFO()  { VERBOSE_LEVEL >= 1 && console.log.apply(console, arguments); }
+function DEBUG() { VERBOSE_LEVEL >= 2 && console.log.apply(console, arguments); }
+
+// Package constants
+//const postgresURI = "postgres://postgres:gridwatch@localhost:5432/gridwatch";
+//const postgresURI = "postgres://nklugman:gridwatch@localhost:5432/capstone";
+const postgresURI = "postgres://" +
+  argv['postgres-user'] +
+  ":" +
+  argv['postgres-login'] +
+  "@" +
+  argv['postgres-host'] +
+  ":" +
+  argv['postgres-port'] +
+  "/" +
+  argv['postgres-database'];
+INFO("Will connect to " + postgresURI);
+
+
+//////////////////////////////////////////////////////////////////////////////
+// Begin applicaiton routes
+
+// Grab an express server instance
 var app = express();
 
 app.get('/newsfeed', function (req, res) {
@@ -13,7 +85,7 @@ app.get('/newsfeed', function (req, res) {
 
     var time = req.query.time;
 
-    var client = new pg.Client(conString);
+    var client = new pg.Client(postgresURI);
     
     client.connect();
     var queryExpr;
@@ -42,7 +114,7 @@ app.get('/postpaid', function (req, res) {
 
     var date = req.query.date;
     var account = req.query.account;
-    var client = new pg.Client(conString);
+    var client = new pg.Client(postgresURI);
     client.connect();
     var queryExpr;
     if (!date || date == "null") {
@@ -67,10 +139,13 @@ app.get('/postpaid', function (req, res) {
 
 });
 
+
+//////////////////////////////////////////////////////////////////////////////
+// Start application server
+
 process.on('uncaughtException', (err) => {
   console.log('whoops! there was an error', err.stack);
 });
-// Start up server on port 3000 on host localhost
-var server = app.listen(3000, "192.168.1.5", function () {
-  console.log('Server on localhost listening on port 3000');
+var server = app.listen(argv.port, argv.host, function () {
+  INFO('Server listening on ' + argv.host + ':' + argv.port);
 });
