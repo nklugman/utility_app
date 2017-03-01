@@ -3,7 +3,7 @@
 
 
     <EditTextPreference android:title="Account Number"
-        android:key="Account"
+        android:key="setting_key_account_number"
         android:summary="Please provide your Account Number."
         android:dialogTitle="Your Account"
         android:dialogMessage="Enter Your Account Number"
@@ -12,7 +12,7 @@
 
 
     <EditTextPreference android:title="Meter Number"
-        android:key="Meter"
+        android:key="setting_key_meter_number"
         android:summary="Please enter your Meter Number."
         android:inputType= "numberDecimal"/>
 
