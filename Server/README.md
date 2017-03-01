@@ -11,11 +11,21 @@ For development, this server can provide fake data.
 Usage
 -----
 
+First install all required prerequisites:
+
+```bash
+$ npm i
+```
+
+Then simply run the app server:
+
 ```
 $ ./app.js
 Will connect to postgres://nklugman:gridwatch@localhost:5432/capstone
 Server listening on localhost:3000
 ```
+
+The server has several settings available to configure its behavior:
 
 ```
 $ ./app.js -?
