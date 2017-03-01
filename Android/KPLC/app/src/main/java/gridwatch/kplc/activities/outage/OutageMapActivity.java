@@ -17,6 +17,7 @@ public class OutageMapActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         webview = new WebView(this);
         setContentView(webview);
+        webview.getSettings().setJavaScriptEnabled(true);
         webview.loadUrl("http://141.212.11.206/map/map.html");
 
 
