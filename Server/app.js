@@ -3,8 +3,8 @@ var express = require('express');
 var mustacheExpress = require('mustache-express'); 
 var bodyParser = require('body-parser');
 var pg = require('pg')
-var conString = "postgres://postgres:gridwatch@localhost:5432/gridwatch";
-//var conString = "postgres://nklugman:gridwatch@localhost:5432/capstone";
+//var conString = "postgres://postgres:gridwatch@localhost:5432/gridwatch";
+var conString = "postgres://nklugman:gridwatch@localhost:5432/capstone";
 //Initialize
 var app = express();
 
@@ -71,6 +71,6 @@ process.on('uncaughtException', (err) => {
   console.log('whoops! there was an error', err.stack);
 });
 // Start up server on port 3000 on host localhost
-var server = app.listen(3000, "192.168.1.5", function () {
-  console.log('Server on localhost listening on port 3000');
+var server = app.listen(3100, "141.212.11.206", function () {
+  console.log('Server on localhost listening on port 3100');
 });
