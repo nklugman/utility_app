@@ -54,6 +54,12 @@
         <activity android:name=".activities.SettingsActivity"
             android:label="Settings"
             />
+        <activity android:name=".activities.SettingsAdvancedActivity"
+            android:label="Advanced Settings"
+            />
+        <activity android:name=".activities.SettingsDeveloperActivity"
+            android:label="Developer Settings"
+            />
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="849d305db8fded5536031a07edf7e8fdc0ac65b8" />
