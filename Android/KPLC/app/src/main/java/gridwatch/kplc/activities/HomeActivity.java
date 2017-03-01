@@ -57,7 +57,7 @@ public class HomeActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
             this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
+        drawer.addDrawerListener(toggle);
         toggle.syncState();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
@@ -118,6 +118,10 @@ public class HomeActivity extends AppCompatActivity
             launch_class(NewsfeedActivity.class);
         } else if (id == R.id.nav_settings) {
             launch_class(SettingsActivity.class);
+        } else if (id == R.id.nav_advanced_settings) {
+            launch_class(SettingsAdvancedActivity.class);
+        } else if (id == R.id.nav_developer_settings) {
+            launch_class(SettingsDeveloperActivity.class);
         } else if (id == R.id.nav_contact) {
             launch_class(ContactActivity.class);
         }

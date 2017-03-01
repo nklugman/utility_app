@@ -23,11 +23,11 @@
             <item
                 android:id="@+id/nav_payment"
 
-                android:title="Make A Payment" />
+                android:title="@string/make_a_payment" />
             <item
                 android:id="@+id/nav_token"
 
-                android:title="Buy Tokens" />
+                android:title="@string/buy_tokens" />
 
 
         </menu>
@@ -46,6 +46,10 @@
     android:id="@+id/nav_settings"
 
     android:title="@string/settings" />
+    <item android:title="@string/advanced_settings"
+        android:id="@+id/nav_advanced_settings" />
+    <item android:title="@string/developer_settings"
+        android:id="@+id/nav_developer_settings" />
     <item
         android:id="@+id/nav_contact"
 
