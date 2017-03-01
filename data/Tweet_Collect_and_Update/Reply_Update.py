@@ -29,9 +29,10 @@ max_replies = 8 ##1000 is the maximum when replies collecting
 def get_latest_replies(target):
     count=0
     latest_replies = []
-    data=pd.read_csv("%s_all_replies.csv"%(target))
-    since_ID=data['tweet_id'].loc[0]
-    
+    ############################################################
+    ####TODO: Get the 'tweet_id' of the newest tweet on database
+    ############################################################
+    since_ID = 834536583705587000
     try:
         new_replies = [status for status in tweepy.Cursor(api.search, q=target, since_id=since_ID).items(max_replies)]
         oldest = new_replies[-1].id - 1
@@ -41,7 +42,6 @@ def get_latest_replies(target):
         print ("No new replies")
         exit()
         count = len(new_replies)
-    
     while len(new_replies) > 0:
         print("Time delay")
         time.sleep(5)
@@ -71,11 +71,10 @@ def get_latest_replies(target):
                                          'reply', \
                                          'collecting_date', \
                                          'collecting_time'])
-    dataframe=[dataframe,data]
-    dataframe=pd.concat(dataframe)
-    #dataframe.to_csv("%s_all_replies.csv"%(target),index=False)
+
+    parsing_to_server.parsing_to_db(dataframe, 'reply');
     return dataframe
     
 if __name__ == '__main__':
     dataframe = get_latest_replies(twitter_KPLC)
-    parsing_to_server.parsing_to_db(dataframe, 'reply');
+    

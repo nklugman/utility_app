@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <ListPreference android:title="Map Update Frequency"
+        android:key="MapUpdateFrequency"
+        android:summary="How fast to update map data"
+        android:defaultValue="5 seconds"
+        android:entries="@array/MapUpdateFrequencies" />
+
+    <CheckBoxPreference
+        android:title="Enable Developer Mode"
+        android:defaultValue="false"
+        android:summary="Show settings useful for app developers"
+        android:key="EnableDeveloperMode" />
+
+</PreferenceScreen>

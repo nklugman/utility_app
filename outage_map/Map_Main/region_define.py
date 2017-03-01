@@ -21,7 +21,7 @@ def region_check(area_list, shpfile):
     ##Find the Lat & Long of a given string.
     for area in area_list:
         try:
-            points_list.append(GoogleMapPlotter.geocode(area)) ##(lat, lng)
+            points_list.append(GoogleMapPlotter.geocode(area+",Kenya")) ##(lat, lng)
             effect_area.append(area)
             print("The coordinates of ", area, "is: ",points_list[-1])
         except IndexError:
@@ -43,9 +43,8 @@ def region_check(area_list, shpfile):
                     effect_id.append(shp_idx)
             count += 1
         if(len(effect_list)!= 0):
-            outage_info.append([shp_idx, len(effect_list), effect_list])
+            outage_info.append([str(shp_idx), len(effect_list), effect_list])
         shp_idx += 1
-    print(outage_info)
     new_data=[[obj]for obj in location_undefined]
     
     ##Documents the unkonwn area.

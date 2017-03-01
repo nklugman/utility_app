@@ -26,12 +26,13 @@ twitter_KPLC = 'kenyapower_care'
 auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
 auth.set_access_token(access_key, access_secret)
 api = tweepy.API(auth)
-max_count = 20 ##200 is the maximum of count
+max_count = 200 ##200 is the maximum of count
 
 def get_latest_tweets(screen_name):
-    latest_tweets=[]
-    #data = pd.read_csv("%s_tweets.csv"%(screen_name))
-    #since_Id=data['tweet_id'].loc[0]
+    latest_tweets=[]    
+    ############################################################
+    ####TODO: Get the 'tweet_id' of the newest tweet on database
+    ############################################################
     since_Id = 834536583705587000
     try:
         new_tweets=api.user_timeline(screen_name=screen_name,since_id=since_Id,count=max_count)
@@ -42,18 +43,18 @@ def get_latest_tweets(screen_name):
     
     counting = len(new_tweets)
     latest_tweets.extend(new_tweets)
+    print ("...%s tweets downloaded so far"%(len(latest_tweets)))
     print (latest_tweets[0].id)
-    '''
+    
     while len(new_tweets) > 0:
         new_tweets=api.user_timeline(screen_name=screen_name,max_id=oldest,since_id=since_Id,count=max_count)
         counting = counting + len(new_tweets)
         print ("...%s tweets downloaded so far"%(len(latest_tweets)))
         latest_tweets.extend(new_tweets)
         oldest=latest_tweets[-1].id - 1
-    '''
+    
     new_tweets=api.user_timeline(screen_name=screen_name,max_id=oldest,since_id=since_Id,count=max_count)
     counting = counting + len(new_tweets)
-    print ("...%s tweets downloaded so far"%(len(latest_tweets)))
     latest_tweets.extend(new_tweets)
     oldest=latest_tweets[-1].id - 1
 
@@ -61,14 +62,17 @@ def get_latest_tweets(screen_name):
     print ("count: %s" % counting)
     time_now = datetime.datetime.now()
     print("Now: %s" %time_now)
-    
-    new_data=[[obj.user.screen_name, \
-               obj.id_str, \
-               "%s/%s/%s" % (obj.created_at.year, obj.created_at.month, obj.created_at.day), \
-                "%s:%s:%s" % (obj.created_at.hour,obj.created_at.minute, obj.created_at.second), \
-                obj.text.encode("utf8"), \
-                "%s/%s/%s" % (time_now.year, time_now.month, time_now.day), \
-                "%s:%s:%s" % (time_now.hour, time_now.minute, time_now.second)] for obj in latest_tweets ]
+    new_data = []
+    for obj in latest_tweets:
+        if(obj.in_reply_to_status_id == ""):
+            new_data.append([obj.user.screen_name, \
+                   obj.id_str, \
+                   "%s/%s/%s" % (obj.created_at.year, obj.created_at.month, obj.created_at.day), \
+                    "%s:%s:%s" % (obj.created_at.hour,obj.created_at.minute, obj.created_at.second), \
+                    obj.text, \
+                    "%s/%s/%s" % (time_now.year, time_now.month, time_now.day), \
+                    "%s:%s:%s" % (time_now.hour, time_now.minute, time_now.second)]) 
+
     dataframe=pd.DataFrame(new_data,columns=['screen_name', \
                                              'tweet_id', \
                                              'tweet_date', \
@@ -76,11 +80,11 @@ def get_latest_tweets(screen_name):
                                              'tweet', \
                                              'collecting_date', \
                                              'collecting_time'])
-    #dataframe=[dataframe,data] 
-    #dataframe=pd.concat(dataframe)
-    #dataframe.to_csv("%s_tweets.csv"%(screen_name),index=False)
-    parsing_to_news_feed(dataframe)
-    ###The following function is still buggy.  
+    
+    try:
+        parsing_to_news_feed(dataframe)
+    except Exception as e:
+        print(e)
 
 def parsing_to_news_feed(tweets):
     con = psycopg2.connect(database='capstone', user='capstone', password='capstone', host='141.212.11.206', port='5432')
@@ -93,16 +97,9 @@ def parsing_to_news_feed(tweets):
         time = tweets.iloc[i]['tweet_timestamp']
         source = 1
         tweet = str(tweets.iloc[i]['tweet'])
-        print(tweet)
         outages.append([time,source,tweet])
-        #cur.execute("INSERT INTO news_feed (time,source,content) VALUES ('%s','%s','%s')" % (time,source,tweet))
-    for outage in outages:
-        print(outage)
     dataText = ', '.join(map(bytes.decode,(cur.mogrify('(%s,%s,%s)',outage) for outage in outages)))
-
-    query_str = 'INSERT INTO news_feed (time,source,content) VALUES ' + dataText
-    print(query_str)
-    cur.execute(query_str)
+    cur.execute('INSERT INTO news_feed (time,source,content) VALUES ' + dataText)
 
     
 if __name__=='__main__':
