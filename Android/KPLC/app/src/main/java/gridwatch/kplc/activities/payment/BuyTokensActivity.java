@@ -1,7 +1,9 @@
 package gridwatch.kplc.activities.payment;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -45,14 +47,19 @@ import io.realm.Sort;
  */
 
 public class BuyTokensActivity extends AppCompatActivity {
-    private static final String SERVER= "http://141.212.11.206:3100";
     private String ACCOUNT = "3202667";
     private Realm realm;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_buy_token);
+
+        // NOTE: cannot call getApplicationContext() until _after_ super.onCreate(...)
+        final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        final String application_host_server = prefs.getString("setting_key_application_host_server", "141.212.11.206");
+        final String application_host_port = prefs.getString("setting_key_application_host_port", "3100");
+        final String SERVER = "http://" + application_host_server + ":" + application_host_port;
 
         final TextView buyTokenBalanceTextView = (TextView) findViewById(R.id.buyTokenBalanceTextView);
         final EditText buyTokenPurchaseEditText = (EditText) findViewById(R.id.buyTokenPurchaseEditText);
