@@ -143,7 +143,7 @@ public class NewsfeedActivity extends AppCompatActivity{
             return;
         }
         result = result.replaceAll("\\r", System.getProperty("line.separator"));
-        Log.i("a",result);
+        //Log.i("a",result);
         try {
             JSONArray json = new JSONArray(result);
             int length = json.length();
