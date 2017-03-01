@@ -80,6 +80,11 @@ INFO("Will connect to " + postgresURI);
 // Grab an express server instance
 var app = express();
 
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+// Legacy section
+//
+// TODO migrate into a versioned API
+
 app.get('/newsfeed', function (req, res) {
   console.log("newsfeed");
 
@@ -137,6 +142,17 @@ app.get('/postpaid', function (req, res) {
      });
   
 
+});
+
+
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+// API v1
+app.get('/api/v1/token_balance', function (req, res) {
+  INFO("token_balance");
+
+  res.writeHead(200, {'Content-Type': 'text/plain'});
+  res.write("10\n");
+  res.end();
 });
 
 
