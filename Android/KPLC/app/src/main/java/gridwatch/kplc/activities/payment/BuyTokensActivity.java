@@ -66,7 +66,7 @@ public class BuyTokensActivity extends AppCompatActivity {
         final EditText buyTokenPurchaseEditText = (EditText) findViewById(R.id.buyTokenPurchaseEditText);
         final EditText buyTokenPinEditText = (EditText) findViewById(R.id.buyTokenPinEditText);
         final Button buyTokenConfirmButton = (Button) findViewById(R.id.buyTokenConfirmButton);
-
+        realm = Realm.getDefaultInstance();
         // Look up the current token balance
         buyTokenBalanceTextView.setText("Loading...");
         // FIXME: Request a string response from the provided URL.
