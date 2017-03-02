@@ -21,20 +21,20 @@
             app:srcCompat="@drawable/gridwatchlogo"
             android:id="@+id/imageView" />
 
-    </LinearLayout>
+        <TextView
+            android:text="We are GridWatch team, located in California, USA. We are continously trying to improve electricity accessibility in every single country. "
+            android:textColor="@android:color/white"
+            android:textSize="14sp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView6"
+            android:paddingLeft="20dp"
+            android:paddingRight="40dp"
+            android:paddingBottom="15dp"
+            android:background="@color/colorPrimary"
+            android:layout_weight="1" />
 
-    <TextView
-        android:text="We are GridWatch team, located in California, USA. We are continously trying to improve electricity accessibility in every single country. "
-        android:textColor="@android:color/white"
-        android:textSize="18sp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/textView6"
-        android:paddingLeft="40dp"
-        android:paddingTop="15dp"
-        android:paddingRight="40dp"
-        android:paddingBottom="15dp"
-        android:background="@color/colorPrimary" />
+    </LinearLayout>
 
     <TextView
         android:text="Your Name"
@@ -43,7 +43,7 @@
         android:id="@+id/textView5"
         android:textSize="18sp"
         android:paddingLeft="40dp"
-        android:paddingTop="5dp" />
+        android:paddingTop="10dp" />
 
     <EditText
         android:layout_width="match_parent"
@@ -51,8 +51,6 @@
         android:inputType="textPersonName"
         android:ems="10"
         android:id="@+id/editText3"
-        android:paddingLeft="40dp"
-        android:paddingRight="40dp"
         android:background="@android:drawable/editbox_background_normal"
         android:layout_marginLeft="40dp"
         android:layout_marginRight="40dp" />
@@ -69,7 +67,7 @@
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:inputType="textPersonName"
+        android:inputType="textEmailAddress"
         android:ems="10"
         android:id="@+id/editText4"
         android:background="@android:drawable/editbox_background_normal"
@@ -85,38 +83,40 @@
         android:paddingLeft="40dp"
         android:paddingTop="5dp" />
 
+    <EditText
+        android:layout_width="match_parent"
+        android:id="@+id/feedbackbox"
+        android:layout_height="wrap_content"
+        android:background="@android:drawable/editbox_background_normal"
+        android:layout_weight="5.63"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:layout_marginBottom="5dp"
+        android:inputType="textCapSentences|textMultiLine"
+        android:scrollHorizontally="false"
+        android:scrollbars="vertical"
+        android:lines="5"
+        android:minLines="1"
+        android:gravity="top|left"
+        android:maxLines="10"/>
+
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:paddingLeft="40dp"
-        android:paddingRight="40dp"
-        android:weightSum="1"
-        android:paddingBottom="10dp">
+        android:layout_height="wrap_content">
 
-        <EditText
-            android:layout_width="match_parent"
-            android:inputType="textPersonName"
-
-            android:id="@+id/feedbackbox"
-            android:layout_height="98dp"
-            android:background="@android:drawable/editbox_background_normal"
-            android:layout_weight="1" />
-
-        <LinearLayout
-            android:orientation="vertical"
+        <Button
+            android:text="Send Your Message"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:gravity="right|center"
-            android:layout_marginLeft="10dp">
-
-            <Button
-                android:layout_width="56dp"
-                android:layout_height="51dp"
-                android:id="@+id/button5"
-                android:background="@drawable/emailicon" />
-        </LinearLayout>
-
+            android:layout_height="wrap_content"
+            android:id="@+id/send"
+            android:textAllCaps="false"
+            android:textColor="@android:color/white"
+            android:background="@color/colorPrimary"
+            android:layout_weight="1"
+            android:layout_marginLeft="70dp"
+            android:layout_marginRight="70dp"
+            android:layout_marginTop="5dp" />
     </LinearLayout>
 
 </LinearLayout>
