@@ -50,7 +50,6 @@ import io.realm.Sort;
 
 public class BuyTokensActivity extends AppCompatActivity {
     private Realm realm;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,9 +74,17 @@ public class BuyTokensActivity extends AppCompatActivity {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        String result = response.toString();
-                        storeToRealm(result);
-                        buyTokenBalanceTextView.setText(String.valueOf(requestFromRealm(ACCOUNT)));
+                        JSONArray json = null;
+                        try {
+                            json = new JSONArray(response.toString());
+                            JSONObject oj = json.getJSONObject(0);
+
+                            String token = oj.getString("token");
+                            buyTokenBalanceTextView.setText(token);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
 
                     }
                 }, new Response.ErrorListener() {
@@ -93,7 +100,8 @@ public class BuyTokensActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(BuyTokensActivity.this);
-                builder.setMessage("Please confirm your payment.")
+                String payment = buyTokenPurchaseEditText.getText().toString();
+                builder.setMessage("Please confirm your payment: KSh "+payment+" to account "+ ACCOUNT)
                         .setCancelable(false)
                         .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
@@ -106,6 +114,7 @@ public class BuyTokensActivity extends AppCompatActivity {
             }
         });
     }
+    /*
     private double requestFromRealm(String account) {
         Date max = realm.where(Token.class).equalTo("account", account).maximumDate("time");
         Token item = realm.where(Token.class).equalTo("time", max).equalTo("account", account).findFirst();
@@ -116,6 +125,7 @@ public class BuyTokensActivity extends AppCompatActivity {
 
     }
     private void storeToRealm(String result) {
+
         if (result == null) {
             return;
         }
@@ -128,6 +138,7 @@ public class BuyTokensActivity extends AppCompatActivity {
                 String account = oj.getString("account");
                 String time = oj.getString("date");
                 String token = oj.getString("token");
+
                 Token item = realm.createObject(Token.class); // Create a new object
                 item.setAccount(account);
                 item.setTime(getDateFromString(time));
@@ -139,7 +150,7 @@ public class BuyTokensActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-    }
+    }*/
     private String getStringFromDate(Date date) {
         if (date == null) {
             return null;

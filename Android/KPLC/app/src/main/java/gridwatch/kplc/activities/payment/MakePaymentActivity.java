@@ -10,7 +10,9 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.RadioGroup;
 import android.widget.SimpleAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -45,7 +47,10 @@ public class MakePaymentActivity extends AppCompatActivity {
     private Realm realm;
     private TextView balanceTv;
     private TextView dueOnTv;
-;
+    private RadioGroup paymentRg;
+    private EditText amountEt;
+    private final int DEFAULT_RADIOBUTTON_ID = 2131624090;
+    private final int CUSTOM_RADIOBUTTON_ID = 2131624093;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -59,11 +64,19 @@ public class MakePaymentActivity extends AppCompatActivity {
         Button btn_pay = (Button) findViewById(R.id.confirm_button);
         balanceTv = (TextView) findViewById(R.id.currentbalancenumber);
         dueOnTv = (TextView) findViewById(R.id.currentdate);
+        paymentRg = (RadioGroup) findViewById(R.id.paymentRadioGroup);
+        amountEt = (EditText) findViewById(R.id.amount);
         btn_pay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(MakePaymentActivity.this);
-                builder.setMessage("Please confirm your payment.")
+                int checked = paymentRg.getCheckedRadioButtonId();
+                String payment = balanceTv.getText().toString();
+                Log.i("checked",""+checked);
+                if (checked == CUSTOM_RADIOBUTTON_ID) {
+                    payment = amountEt.getText().toString();
+                }
+                builder.setMessage("Please confirm your payment: KSh "+payment+" to account "+ ACCOUNT)
                         .setCancelable(false)
                         .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
