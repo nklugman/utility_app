@@ -49,7 +49,6 @@ import io.realm.Sort;
  */
 
 public class BuyTokensActivity extends AppCompatActivity {
-    private String ACCOUNT = "3202667";
     private Realm realm;
 
     @Override
@@ -62,7 +61,7 @@ public class BuyTokensActivity extends AppCompatActivity {
         final String application_host_server = prefs.getString("setting_key_application_host_server", "141.212.11.206");
         final String application_host_port = prefs.getString("setting_key_application_host_port", "3100");
         final String SERVER = "http://" + application_host_server + ":" + application_host_port;
-
+        final String ACCOUNT = prefs.getString("setting_key_account_number", "3202667");
         final TextView buyTokenBalanceTextView = (TextView) findViewById(R.id.buyTokenBalanceTextView);
         final EditText buyTokenPurchaseEditText = (EditText) findViewById(R.id.buyTokenPurchaseEditText);
         final EditText buyTokenPinEditText = (EditText) findViewById(R.id.buyTokenPinEditText);
@@ -78,7 +77,7 @@ public class BuyTokensActivity extends AppCompatActivity {
                     public void onResponse(String response) {
                         String result = response.toString();
                         storeToRealm(result);
-                        buyTokenBalanceTextView.setText(String.valueOf(requestFromRealm()));
+                        buyTokenBalanceTextView.setText(String.valueOf(requestFromRealm(ACCOUNT)));
 
                     }
                 }, new Response.ErrorListener() {
@@ -94,7 +93,7 @@ public class BuyTokensActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(BuyTokensActivity.this);
-                builder.setMessage("Please confirm your payment")
+                builder.setMessage("Please confirm your payment.")
                         .setCancelable(false)
                         .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
@@ -107,9 +106,9 @@ public class BuyTokensActivity extends AppCompatActivity {
             }
         });
     }
-    private double requestFromRealm() {
-        Date max = realm.where(Token.class).equalTo("account", ACCOUNT).maximumDate("time");
-        Token item = realm.where(Token.class).equalTo("time", max).equalTo("account", ACCOUNT).findFirst();
+    private double requestFromRealm(String account) {
+        Date max = realm.where(Token.class).equalTo("account", account).maximumDate("time");
+        Token item = realm.where(Token.class).equalTo("time", max).equalTo("account", account).findFirst();
         if (item == null) {
             return 0;
         }

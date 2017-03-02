@@ -49,6 +49,7 @@ public class UsageChartsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_chart);
         realm = Realm.getDefaultInstance();
         chart = (LinearLayout) findViewById(R.id.chart);

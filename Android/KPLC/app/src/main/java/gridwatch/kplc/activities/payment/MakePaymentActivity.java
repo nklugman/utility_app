@@ -1,7 +1,9 @@
 package gridwatch.kplc.activities.payment;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -43,12 +45,16 @@ public class MakePaymentActivity extends AppCompatActivity {
     private Realm realm;
     private TextView balanceTv;
     private TextView dueOnTv;
-    private static final String SERVER= "http://141.212.11.206:3100";
-    private String ACCOUNT = "3202667";
+;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
+        final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        final String application_host_server = prefs.getString("setting_key_application_host_server", "141.212.11.206");
+        final String application_host_port = prefs.getString("setting_key_application_host_port", "3100");
+        final String SERVER = "http://" + application_host_server + ":" + application_host_port;
+        final String ACCOUNT = prefs.getString("setting_key_account_number", "3202667");
         setContentView(R.layout.activity_payment);
         Button btn_pay = (Button) findViewById(R.id.confirm_button);
         balanceTv = (TextView) findViewById(R.id.currentbalancenumber);
@@ -57,7 +63,7 @@ public class MakePaymentActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(MakePaymentActivity.this);
-                builder.setMessage("Please confirm your payment")
+                builder.setMessage("Please confirm your payment.")
                         .setCancelable(false)
                         .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {

@@ -1,7 +1,9 @@
 package gridwatch.kplc.activities;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -44,8 +46,6 @@ import io.realm.Sort;
 
 public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-    private static final String SERVER= "http://141.212.11.206:3100";
-    private String ACCOUNT = "3202667";
     private Realm realm;
     private TextView cbTv;
     private TextView mpTv;
@@ -56,6 +56,11 @@ public class HomeActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        final String application_host_server = prefs.getString("setting_key_application_host_server", "141.212.11.206");
+        final String application_host_port = prefs.getString("setting_key_application_host_port", "3100");
+        final String SERVER = "http://" + application_host_server + ":" + application_host_port;
+        final String ACCOUNT = prefs.getString("setting_key_account_number", "3202667");
         setContentView(R.layout.activity_home);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);

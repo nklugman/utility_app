@@ -61,10 +61,10 @@ public class NewsfeedActivity extends AppCompatActivity{
         listView = (ListView) findViewById(R.id.listview_newsfeed);
         mylist = new ArrayList<HashMap<String, Object>>();
         realm = Realm.getDefaultInstance();
-        realm.beginTransaction();
+        //realm.beginTransaction();
 
-        realm.deleteAll();
-        realm.commitTransaction();
+        //realm.deleteAll();
+        //realm.commitTransaction();
         adapter = new SimpleAdapter(getBaseContext(), mylist, R.layout.newsfeed_listitem,
                 new String[] {"newsfeedlogo", "newsfeedsource", "newsfeedtime", "newsfeedcontent"},
                 new int[] {R.id.newsfeedlogo, R.id.newsfeedsource, R.id.newsfeedtime, R.id.newsfeedcontent});
@@ -123,8 +123,7 @@ public class NewsfeedActivity extends AppCompatActivity{
     private Date getDateFromString(String date) {
         DateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.ENGLISH);
         try {
-            Log.i("date",date);
-            Log.i("date",format.parse(date).toString());
+
             return format.parse(date);
         } catch (ParseException e) {
             e.printStackTrace();
@@ -133,10 +132,9 @@ public class NewsfeedActivity extends AppCompatActivity{
     }
     private void display(){
         requestFromRealm();
-        Log.i("date","111111");
 
         listView.setAdapter(adapter);
-        Log.i("date","222222");
+
     }
     private void storeToRealm(String result) {
         if (result == null) {
@@ -207,7 +205,7 @@ public class NewsfeedActivity extends AppCompatActivity{
                 e.printStackTrace();
             }
             if (result != null) {
-                Log.d("debugTest", result);
+                //Log.d("debugTest", result);
             } else {
                 Log.d("debugTest", "wrong");
             }
