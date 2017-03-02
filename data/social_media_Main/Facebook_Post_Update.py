@@ -24,9 +24,10 @@ def get_data(posts):
     data=[]
     for post in posts['data']:
         data.append([post['message'], post['id'], post['created_time']])
-    return post_to_csv(data)
+    print("Posts from Facebook are fetched.")
+    return post_to_database(data)
     
-def post_to_csv(data):
+def post_to_database(data):
     #time_now = datetime.datetime.now()
     dataframe=pd.DataFrame(data,columns=['message', 'id', 'created_time'])
     try:
@@ -49,6 +50,7 @@ def facebook_posts_to_news_feed(fbposts):
         outages.append([timeStamp, source, post])
     dataText = ', '.join(map(bytes.decode,(cur.mogrify('(%s,%s,%s)',outage) for outage in outages)))
     cur.execute('INSERT INTO news_feed (time,source,content) VALUES ' + dataText)    
-
+    print("Posts are pushed to database.")
+    
 if __name__=='__main__':
     fetch(facebook_KPLC)

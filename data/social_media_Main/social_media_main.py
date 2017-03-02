@@ -14,7 +14,6 @@ import time
 twitter_KPLC = 'kenyapower_care'
 facebook_KPLC = 'KenyaPowerLtd'
 
-
 def start_fetching():
     Tweet_Update.get_latest_tweets(twitter_KPLC)
     Facebook_Post_Update.fetch(facebook_KPLC)
