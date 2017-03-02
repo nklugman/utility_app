@@ -29,17 +29,7 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
-<<<<<<< HEAD
-        Button submit = (Button) findViewById(R.id.login_submit);
 
-        Realm.init(this);
-        RealmConfiguration config = new RealmConfiguration
-                .Builder()
-                .deleteRealmIfMigrationNeeded()
-                .build();
-        Realm.setDefaultConfiguration(config);
-        submit.setOnClickListener(new View.OnClickListener() {
-=======
 
         // Check stored preferences to see if we already have logged in, if so jump to home
         final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
@@ -152,7 +142,7 @@ public class LoginActivity extends AppCompatActivity {
         // Wire up submit button
         Realm.init(this);
         loginSubmitButton.setOnClickListener(new View.OnClickListener() {
->>>>>>> 8979bd8be5e049660493fc97c5f36650d51ee394
+
             @Override
             public void onClick(View view) {
                 SharedPreferences.Editor editor = prefs.edit();

@@ -44,10 +44,12 @@ public class UsageChartsActivity extends AppCompatActivity {
     private LinearLayout chart;
     private int MIN_YEAR;
     private int MAX_YEAR;
+    private GraphicalView chartView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_chart);
         realm = Realm.getDefaultInstance();
         chart = (LinearLayout) findViewById(R.id.chart);
@@ -57,6 +59,7 @@ public class UsageChartsActivity extends AppCompatActivity {
         spinner4 = (Spinner) findViewById(R.id.spinner4);
         enter = (Button) findViewById(R.id.usage_enter);
         display();
+        displayChart(MIN_YEAR, 0, MAX_YEAR, 11);
         enter.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Log.i("SPINNER", "1");
@@ -103,6 +106,7 @@ public class UsageChartsActivity extends AppCompatActivity {
         spinner2.setAdapter(month_adapter);
         spinner4.setAdapter(month_adapter);
 
+
     }
     private Date getDateOfMonth(int year, int month) {
         Calendar cal = Calendar.getInstance();
@@ -125,6 +129,10 @@ public class UsageChartsActivity extends AppCompatActivity {
         Log.i("newsfeed max", String.valueOf(max));
         RealmResults<Postpaid> items = realm.where(Postpaid.class).lessThanOrEqualTo("month", max).greaterThanOrEqualTo("month", min).findAllSorted("month", Sort.ASCENDING);
         Log.i("newsfeed",items.toString());
+        int i = 0;
+        XYSeriesRenderer mRenderer = new XYSeriesRenderer();
+        XYMultipleSeriesRenderer multiRenderer = new XYMultipleSeriesRenderer();
+
         for(Postpaid item : items) {
             Calendar cal = Calendar.getInstance();
             cal.setTime(item.getMonth());
@@ -135,13 +143,22 @@ public class UsageChartsActivity extends AppCompatActivity {
             } else {
                 date = cal.get(Calendar.YEAR) + "0" + month;
             }
-            Log.i("newsfeed time", date);
-            Log.i("newsfeed usage", ""+item.getUsage());
-            series.add(Integer.valueOf(date), (double)Math.round(item.getUsage() * 100) / 100);
+            //Log.i("newsfeed time", date);
+            //Log.i("newsfeed usage", ""+item.getUsage());
+            multiRenderer.addXTextLabel(i, date);
+            series.add(i++, (double)Math.round(item.getUsage() * 100) / 100);
+
+
+
         }
+        if (chart != null && chartView != null)  {
+            chart.removeView(chartView);
+
+        }
+        chartView = ChartFactory.getLineChartView(this, dataset, multiRenderer);
+        chart.addView(chartView);
         dataset.addSeries(series);
-        XYSeriesRenderer mRenderer = new XYSeriesRenderer();
-        XYMultipleSeriesRenderer multiRenderer = new XYMultipleSeriesRenderer();
+
         mRenderer.setDisplayChartValues(true);
         mRenderer.setChartValuesTextSize(20);
         multiRenderer.setAxisTitleTextSize(20);
@@ -149,6 +166,7 @@ public class UsageChartsActivity extends AppCompatActivity {
         multiRenderer.setApplyBackgroundColor(true);
         multiRenderer.setBackgroundColor(Color.WHITE);
         //multiRenderer.setXLabels(12);
+
         multiRenderer.setXTitle("Time");
         multiRenderer.setYTitle("Usage(kWh)");
         multiRenderer.setDisplayValues(true);
@@ -156,8 +174,8 @@ public class UsageChartsActivity extends AppCompatActivity {
         //multiRenderer.setPanEnabled(true, false);
         double[] panLimits={series.getMinX(),series.getMaxX(),series.getMinY(), series.getMaxY()}; // [panMinimumX, panMaximumX, panMinimumY, panMaximumY]
         multiRenderer.setPanLimits(panLimits);
-        GraphicalView chartView = ChartFactory.getLineChartView(this, dataset, multiRenderer);
-        chart.addView(chartView);
+
+
 
     }
     private boolean checkDateInput(int year1, int month1, int year2, int month2) {

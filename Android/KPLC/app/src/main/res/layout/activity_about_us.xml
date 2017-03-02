@@ -1,92 +1,122 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/cardview_light_background"
-    android:orientation="vertical">
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:weightSum="1">
 
 
     <LinearLayout
-        android:orientation="vertical"
+        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        android:paddingTop="15dp"
+        android:paddingLeft="20dp">
+
+        <ImageView
+            android:layout_width="74dp"
+            android:layout_height="50dp"
+            app:srcCompat="@drawable/gridwatchlogo"
+            android:id="@+id/imageView" />
 
         <TextView
             android:text="We are GridWatch team, located in California, USA. We are continously trying to improve electricity accessibility in every single country. "
-            android:textColor="@color/cardview_dark_background"
-            android:textSize="20sp"
+            android:textColor="@android:color/white"
+            android:textSize="14sp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/textView6"
             android:paddingLeft="20dp"
-            android:paddingTop="10dp"
-            android:paddingRight="20dp" />
-
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center">
-
-            <ImageView
-                android:layout_width="114dp"
-                android:layout_height="119dp"
-                app:srcCompat="@drawable/gridwatchlogo"
-                android:id="@+id/imageView2"
-                android:paddingLeft="15dp"
-                android:paddingRight="10dp" />
-
-            <TextView
-                android:text="If you have any questions with the app, please email us through contactus@gridwatch.com. Or click the following button to send us feedback."
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/textView7"
-                android:layout_weight="1"
-                android:textColor="@color/cardview_dark_background"
-                android:textSize="15sp"
-                android:paddingTop="15dp"
-                android:paddingRight="10dp" />
-
-        </LinearLayout>
+            android:paddingRight="40dp"
+            android:paddingBottom="15dp"
+            android:background="@color/colorPrimary"
+            android:layout_weight="1" />
 
     </LinearLayout>
 
-    <LinearLayout
-        android:orientation="vertical"
+    <TextView
+        android:text="Your Name"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="center_horizontal"
-        android:paddingTop="15dp"
-        android:gravity="center_vertical|center_horizontal">
+        android:layout_height="wrap_content"
+        android:id="@+id/textView5"
+        android:textSize="18sp"
+        android:paddingLeft="40dp"
+        android:paddingTop="10dp" />
 
-        <EditText
-            android:layout_width="match_parent"
-            android:inputType="textPersonName"
-            android:text="Tell Us Anything ..."
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:ems="10"
+        android:id="@+id/editText3"
+        android:background="@android:drawable/editbox_background_normal"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp" />
 
-            android:ems="10"
-            android:id="@+id/feedbackbox"
-            android:layout_weight="6.38"
-            android:layout_marginBottom="20dp"
-            android:layout_marginLeft="55dp"
-            android:layout_marginRight="55dp"
-            android:layout_height="90dp"
-            android:background="@android:drawable/editbox_background" />
+    <TextView
+        android:text="Your Email"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView7"
+        android:textSize="18sp"
+        android:paddingLeft="40dp"
+        android:paddingTop="5dp" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textEmailAddress"
+        android:ems="10"
+        android:id="@+id/editText4"
+        android:background="@android:drawable/editbox_background_normal"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp" />
+
+    <TextView
+        android:text="Your Message"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView8"
+        android:textSize="18sp"
+        android:paddingLeft="40dp"
+        android:paddingTop="5dp" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:id="@+id/feedbackbox"
+        android:layout_height="wrap_content"
+        android:background="@android:drawable/editbox_background_normal"
+        android:layout_weight="5.63"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:layout_marginBottom="5dp"
+        android:inputType="textCapSentences|textMultiLine"
+        android:scrollHorizontally="false"
+        android:scrollbars="vertical"
+        android:lines="5"
+        android:minLines="1"
+        android:gravity="top|left"
+        android:maxLines="10"/>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
         <Button
-
-            android:text="  SEND US FEEDBACK  "
-
+            android:text="Send Your Message"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/feedbackbutton"
-
-            android:textColor="@color/cardview_light_background"
+            android:id="@+id/send"
+            android:textAllCaps="false"
+            android:textColor="@android:color/white"
             android:background="@color/colorPrimary"
-
-
-            android:gravity="center_vertical" />
+            android:layout_weight="1"
+            android:layout_marginLeft="70dp"
+            android:layout_marginRight="70dp"
+            android:layout_marginTop="5dp" />
     </LinearLayout>
 
 </LinearLayout>

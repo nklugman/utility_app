@@ -12,7 +12,8 @@
         android:id="@+id/history_date"
         android:layout_marginLeft="@dimen/activity_horizontal_margin"
         android:layout_marginRight="@dimen/activity_horizontal_margin"
-        android:layout_alignParentLeft="true">
+        android:layout_alignParentLeft="true"
+        android:textSize="18sp">
     </TextView>
 
     <TextView
@@ -24,7 +25,8 @@
         android:id="@+id/history_balance"
         android:layout_marginLeft="@dimen/activity_horizontal_margin"
         android:layout_marginRight="@dimen/activity_horizontal_margin"
-        android:layout_alignParentRight="true">
+        android:layout_alignParentRight="true"
+        android:textSize="18sp">
     </TextView>
     　　
     </RelativeLayout>

@@ -20,6 +20,7 @@ public class Postpaid extends RealmObject{
     private double balance;
     private double usage;
     private Date payDate;
+    @Required
     private Date dueDate;
     private String statement;
     @Ignore

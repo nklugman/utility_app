@@ -4,13 +4,13 @@
 
     <EditTextPreference
         android:title="Application host server"
-        android:key="ApplicationHostServer"
+        android:key="setting_key_application_host_server"
         android:defaultValue="http://141.212.11.206"
         android:inputType="textUri" />
 
     <EditTextPreference
         android:title="Application host port"
-        android:key="ApplicationHostPot"
+        android:key="setting_key_application_host_port"
         android:defaultValue="3000"
         android:inputType="number" />
 
