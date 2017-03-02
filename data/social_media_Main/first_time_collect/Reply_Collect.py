@@ -30,7 +30,7 @@ def get_all_replies(target):
     all_replies.extend(new_replies)
     oldest = all_replies[-1].id - 1
     while len(new_replies) > 0:
-        time.sleep(10)
+        time.sleep(15)
         print("10 seconds time delay start now.")
         print ("getting replies before %s" % (oldest))
         new_replies = [status for status in tweepy.Cursor(api.search, q=twitter_KPLC,max_id=oldest).items(max_replies)]

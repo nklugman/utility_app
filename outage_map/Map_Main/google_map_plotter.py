@@ -198,4 +198,4 @@ if __name__ == "__main__":
                       face_color = "#000000",
                       color = outage_color,
                       face_alpha=0.1)
-    mymap.draw('./maps_html/%s.html' %datetime.datetime.now())
+    mymap.draw('./maps_html/Outage_Map.html')

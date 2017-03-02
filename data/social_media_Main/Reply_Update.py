@@ -24,7 +24,7 @@ twitter_TimesNow = 'TimesNow'
 twitter_KPLC = 'kenyapower_care'
 
 api = tweepy.API(auth)
-max_replies = 8 ##1000 is the maximum when replies collecting
+max_replies = 1000 ##1000 is the maximum when replies collecting
 
 def get_latest_replies(target):
     count=0
@@ -32,7 +32,7 @@ def get_latest_replies(target):
     ############################################################
     ####TODO: Get the 'tweet_id' of the newest tweet on database
     ############################################################
-    since_ID = 834536583705587000
+    since_ID = 814536583705587000
     try:
         new_replies = [status for status in tweepy.Cursor(api.search, q=target, since_id=since_ID).items(max_replies)]
         oldest = new_replies[-1].id - 1
@@ -42,26 +42,30 @@ def get_latest_replies(target):
         print ("No new replies")
         exit()
         count = len(new_replies)
+    
+    count = count + len(new_replies)
     while len(new_replies) > 0:
         print("Time delay")
-        time.sleep(5)
+        time.sleep(60)
         print ("getting replies before %s" % (oldest))
         new_replies = [status for status in tweepy.Cursor(api.search, q=twitter_KPLC,max_id=oldest,since_id=since_ID).items(max_replies)]
         count = count + len(new_replies)
         latest_replies.extend(new_replies)
         oldest = latest_replies[-1].id - 1
-        print ("...%s replies downloaded so far" % (len(latest_replies)))
+        print("...%s replies downloaded so far" % (len(latest_replies)))
+        print(new_replies)
         
-    print (latest_replies[0].id)
+    #print (latest_replies[0].id)
     print ("count: %s" % count) 
     time_now = datetime.datetime.now()    
     print("Update untill %s" %time_now)
-    
+    for obj in latest_replies:
+        print(obj.text)
     new_data=[[obj.user.screen_name, \
            obj.id_str, \
            "%s/%s/%s" % (obj.created_at.year, obj.created_at.month, obj.created_at.day), \
             "%s:%s:%s" % (obj.created_at.hour,obj.created_at.minute, obj.created_at.second), \
-            obj.text.encode("utf8"), \
+            obj.text, \
             "%s/%s/%s" % (time_now.year, time_now.month, time_now.day), \
             "%s:%s:%s" % (time_now.hour, time_now.minute, time_now.second)] for obj in latest_replies ]
     dataframe=pd.DataFrame(new_data,columns=['screen_name', \
@@ -77,4 +81,6 @@ def get_latest_replies(target):
     
 if __name__ == '__main__':
     dataframe = get_latest_replies(twitter_KPLC)
+    #dataframe = pd.DataFrame.from_csv('../fake_reply.csv')
+
     
