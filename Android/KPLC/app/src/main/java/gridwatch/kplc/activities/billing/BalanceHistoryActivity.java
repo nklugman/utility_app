@@ -1,8 +1,10 @@
 package gridwatch.kplc.activities.billing;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -53,9 +55,6 @@ public class BalanceHistoryActivity extends AppCompatActivity {
     private Button enter;
     private ListView list;
     private ArrayList<HashMap<String, String>> mylist;
-
-    private static final String SERVER= "http://141.212.11.206:3100";//http://192.168.1.5:3000";
-    private String ACCOUNT = "3202667";
     private int MIN_YEAR;
     private int MAX_YEAR;
     @Override
@@ -63,6 +62,11 @@ public class BalanceHistoryActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_balance_history);
+        final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        final String application_host_server = prefs.getString("setting_key_application_host_server", "141.212.11.206");
+        final String application_host_port = prefs.getString("setting_key_application_host_port", "3100");
+        final String SERVER = "http://" + application_host_server + ":" + application_host_port;
+        final String ACCOUNT = prefs.getString("setting_key_account_number", "3202667");
         list = (ListView) findViewById(R.id.listView);
         spinner1 = (Spinner) findViewById(R.id.spinner1);
         spinner3 = (Spinner) findViewById(R.id.spinner3);
@@ -98,7 +102,7 @@ public class BalanceHistoryActivity extends AppCompatActivity {
         realm.commitTransaction();
         */
         Date max = realm.where(Postpaid.class).maximumDate("month");
-        new RefreshData().execute(getStringFromDate(max));
+        new RefreshData().execute(getStringFromDate(max), SERVER, ACCOUNT);
         //new RefreshData().execute("2016-08-01");
 
         enter.setOnClickListener(new View.OnClickListener() {
@@ -162,7 +166,7 @@ public class BalanceHistoryActivity extends AppCompatActivity {
         protected String doInBackground(String... time) {
             String result = null;
             try {
-                result = connectToServer(time[0]);
+                result = connectToServer(time[0], time[1], time[2]);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -241,8 +245,8 @@ public class BalanceHistoryActivity extends AppCompatActivity {
         cal.set(Calendar.MILLISECOND, 0);
         return cal.getTime();
     }
-    private String connectToServer(String date) throws IOException {
-        URL url = new URL(SERVER + "/postpaid?date=" + date + "&account=" + ACCOUNT);
+    private String connectToServer(String date, String server, String account) throws IOException {
+        URL url = new URL(server + "/postpaid?date=" + date + "&account=" + account);
         InputStream stream = null;
         HttpURLConnection connection = null;
         String result = null;
