@@ -9,13 +9,26 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 import java.util.Random;
 
 import gridwatch.kplc.R;
@@ -27,22 +40,32 @@ import gridwatch.kplc.activities.outage.OutageMapActivity;
 import gridwatch.kplc.activities.payment.BuyTokensActivity;
 import gridwatch.kplc.activities.payment.MakePaymentActivity;
 import io.realm.Realm;
-import io.realm.RealmConfiguration;
-import io.realm.RealmResults;
+import io.realm.Sort;
 
 public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+    private static final String SERVER= "http://141.212.11.206:3100";
+    private String ACCOUNT = "3202667";
     private Realm realm;
-    private TextView cb;
+    private TextView cbTv;
+    private TextView mpTv;
+    private TextView welcomeTv;
+    private TextView dateTv;
+    private TextView payDueTv;
+    private String[] welcomeText = {"Good Morning", "Good Afternoon", "Good Evening"};
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        cb = (TextView) findViewById(R.id.balance);
-
+        cbTv = (TextView) findViewById(R.id.balance);
+        mpTv = (TextView) findViewById(R.id.payment);
+        welcomeTv = (TextView) findViewById(R.id.welcome);
+        dateTv = (TextView) findViewById(R.id.date);
+        payDueTv = (TextView) findViewById(R.id.payment_due);
         FloatingActionButton btn_report = (FloatingActionButton) findViewById(R.id.fab);
+        showWelcome();
         btn_report.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -64,7 +87,36 @@ public class HomeActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         Button btn_balance = (Button) findViewById(R.id.check_balance);
+        btn_balance.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String url = SERVER + "/balance?account=" + ACCOUNT;
+                StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+                        new Response.Listener<String>() {
+                            @Override
+                            public void onResponse(String response) {
+                                String result = response.toString();
+                                JSONArray json = null;
+                                try {
+                                    json = new JSONArray(result);
+                                    JSONObject oj = json.getJSONObject(0);
+                                    cbTv.setText(String.valueOf(oj.get("balance")));
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
 
+
+                            }
+                        }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.e("buy_tokens", error.toString());
+                        cbTv.setText("");
+                    }
+                });
+                Singletons.getInstance(getBaseContext()).addToRequestQueue(stringRequest);
+            }
+        });
         Button btn_pay = (Button) findViewById(R.id.make_payment);
         btn_pay.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -76,11 +128,43 @@ public class HomeActivity extends AppCompatActivity
                 startActivity(intent);
             }
         });
-        //realm = Realm.getDefaultInstance();
+        realm = Realm.getDefaultInstance();
 
-        //Date max = realm.where(Postpaid.class).maximumDate("month");
-        //RealmResults<Postpaid> items = realm.where(Postpaid.class).equalTo("month", max).findAll();
-        //cb.setText(String.valueOf(items.first().getBalance()));
+        Date max = realm.where(Postpaid.class).maximumDate("month");
+        if (max != null) {
+            Postpaid balance = realm.where(Postpaid.class).equalTo("month", max).findFirst();
+            cbTv.setText(String.valueOf(balance.getBalance()));
+        }
+        Postpaid pay = realm.where(Postpaid.class).isNull("payDate").findFirst();
+        if (pay != null) {
+            mpTv.setText(String.valueOf(pay.getBalance()));
+            payDueTv.setText(getStringFromDate(pay.getDueDate()));
+        } else {
+            String url = SERVER + "/payment?account=" + ACCOUNT;
+            StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            String result = response.toString();
+                            JSONArray json = null;
+                            try {
+                                json = new JSONArray(result);
+                                JSONObject oj = json.getJSONObject(0);
+                                mpTv.setText(String.valueOf(oj.get("balance")));
+                                payDueTv.setText(String.valueOf(oj.get("dueDate")));
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Log.e("buy_tokens", error.toString());
+                    mpTv.setText("");
+                }
+            });
+        }
+
     }
 
     @Override
@@ -94,7 +178,28 @@ public class HomeActivity extends AppCompatActivity
     }
 
 
+    private void showWelcome() {
+        Calendar now = Calendar.getInstance();
+        DateFormat format = new SimpleDateFormat("MMM d yyyy", Locale.ENGLISH);
+        dateTv.setText(format.format(now.getTime()));
+        int hour = now.get(Calendar.HOUR_OF_DAY);
+        if (hour <= 12) {
+            welcomeTv.setText((welcomeText[0]));
+        } else if (hour <= 18) {
+            welcomeTv.setText((welcomeText[1]));
+        } else {
+            welcomeTv.setText((welcomeText[2]));
+        }
 
+    }
+    private String getStringFromDate(Date date) {
+
+        if (date == null) {
+            return null;
+        }
+        DateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
+        return format.format(date);
+    }
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
@@ -136,9 +241,7 @@ public class HomeActivity extends AppCompatActivity
         return r.nextBoolean();
     }
 
-    public void test() {
 
-    }
 
     private void launch_class(Class to_launch) {
         Intent e = new Intent(this, to_launch);

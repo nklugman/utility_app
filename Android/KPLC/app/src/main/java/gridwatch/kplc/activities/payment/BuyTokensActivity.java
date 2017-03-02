@@ -1,9 +1,11 @@
 package gridwatch.kplc.activities.payment;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -91,11 +93,17 @@ public class BuyTokensActivity extends AppCompatActivity {
         buyTokenConfirmButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(BuyTokensActivity.this, HomeActivity.class);
-                //EditText editText = (EditText) findViewById(R.id.edit_message);
-                //String message = editText.getText().toString();
-                //intent.putExtra(EXTRA_MESSAGE, message);
-                startActivity(intent);
+                AlertDialog.Builder builder = new AlertDialog.Builder(BuyTokensActivity.this);
+                builder.setMessage("Please confirm your payment")
+                        .setCancelable(false)
+                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                Intent intent = new Intent(BuyTokensActivity.this, HomeActivity.class);
+                                startActivity(intent);
+                            }
+                        });
+                AlertDialog alert = builder.create();
+                alert.show();
             }
         });
     }
