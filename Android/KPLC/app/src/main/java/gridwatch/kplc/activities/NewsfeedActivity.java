@@ -1,8 +1,10 @@
 package gridwatch.kplc.activities;
 
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v4.widget.TextViewCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -48,7 +50,6 @@ import io.realm.Sort;
 public class NewsfeedActivity extends AppCompatActivity{
     private Realm realm;
     String MAX_TIME;
-    private static final String SERVER= "http://141.212.11.206:3100";//"http://192.168.1.5:3000";
     private SwipeRefreshLayout swipeRefreshLayout;
     private ListView listView;
     private SimpleAdapter adapter;
@@ -60,6 +61,11 @@ public class NewsfeedActivity extends AppCompatActivity{
         swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_container);
         listView = (ListView) findViewById(R.id.listview_newsfeed);
         mylist = new ArrayList<HashMap<String, Object>>();
+        final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        final String application_host_server = prefs.getString("setting_key_application_host_server", "141.212.11.206");
+        final String application_host_port = prefs.getString("setting_key_application_host_port", "3100");
+        final String SERVER = "http://" + application_host_server + ":" + application_host_port;
+
         realm = Realm.getDefaultInstance();
         //realm.beginTransaction();
 
@@ -101,7 +107,7 @@ public class NewsfeedActivity extends AppCompatActivity{
                 //String currentTime = "2017-02-01%2000:00:00%2B3";
                 Date max = realm.where(Newsfeed.class).maximumDate("time");
                 MAX_TIME = getStringFromDate(max);
-                new RefreshContent().execute(MAX_TIME);
+                new RefreshContent().execute(MAX_TIME, SERVER);
 
             }
         });
@@ -200,7 +206,7 @@ public class NewsfeedActivity extends AppCompatActivity{
             Log.i("max_time", "refresh");
             String result = null;
             try {
-                result = connectToServer(time[0]);
+                result = connectToServer(time[0], time[1]);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -221,9 +227,9 @@ public class NewsfeedActivity extends AppCompatActivity{
         }
     }
 
-    private String connectToServer(String time) throws IOException {
+    private String connectToServer(String time, String server) throws IOException {
         Log.i("max_time", "server");
-        URL url = new URL(SERVER + "/newsfeed?time=" + time);
+        URL url = new URL(server + "/newsfeed?time=" + time);
         InputStream stream = null;
         HttpURLConnection connection = null;
         String result = null;

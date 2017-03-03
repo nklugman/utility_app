@@ -17,7 +17,10 @@
             android:orientation="vertical"
             android:layout_width="154dp"
             android:layout_height="wrap_content">
-
+            <RadioGroup
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/paymentRadioGroup">
             <RadioButton
                 android:text="Current Balance"
                 android:layout_width="match_parent"
@@ -57,7 +60,7 @@
                 android:id="@+id/otheramount"
                 android:textColor="@color/colorGrey"
                 android:layout_weight="1" />
-
+            </RadioGroup>
         </LinearLayout>
 
         <LinearLayout

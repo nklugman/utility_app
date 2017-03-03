@@ -136,11 +136,13 @@ public class HomeActivity extends AppCompatActivity
         realm = Realm.getDefaultInstance();
 
         Date max = realm.where(Postpaid.class).maximumDate("month");
+        Log.i("mylogmax", max.toString());
         if (max != null) {
             Postpaid balance = realm.where(Postpaid.class).equalTo("month", max).findFirst();
             cbTv.setText(String.valueOf(balance.getBalance()));
         }
         Postpaid pay = realm.where(Postpaid.class).isNull("payDate").findFirst();
+        Log.i("mylogpay", pay.toString());
         if (pay != null) {
             mpTv.setText(String.valueOf(pay.getBalance()));
             payDueTv.setText(getStringFromDate(pay.getDueDate()));

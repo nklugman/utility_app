@@ -5,7 +5,7 @@ Created on Thu Feb  2 20:51:15 2017
 
 @author: CHIAMAO_SHIH
 """
-
+import psycopg2
 import fiona 
 import shapely.geometry
 import pandas as pd
@@ -15,9 +15,15 @@ from google_map_plotter import GoogleMapPlotter
 kenya_constituency = fiona.open("../Kenya_Shapefiles/Constituency_Simplified/constituencies_simplified.shp") #Simplified by QFIS
 unknown_csv_file = 'unknown_area'
 def region_check(area_list, shpfile):
+    
+    con = psycopg2.connect(database='capstone', user='capstone', password='capstone', host='141.212.11.206', port='5432')
+    con.autocommit = True
+    cur = con.cursor()
+    
     location_undefined = []
     points_list = []
     effect_area = []
+    
     ##Find the Lat & Long of a given string.
     for area in area_list:
         try:
@@ -25,6 +31,7 @@ def region_check(area_list, shpfile):
             effect_area.append(area)
             print("The coordinates of ", area, "is: ",points_list[-1])
         except IndexError:
+            cur.execute('INSERT INTO unrecognized(area) VALUES (\'%s\')' % area)
             location_undefined.append(area)
     print("Areas google map don't recognize: ", location_undefined)
     
@@ -46,7 +53,7 @@ def region_check(area_list, shpfile):
             outage_info.append([str(shp_idx), len(effect_list), effect_list])
         shp_idx += 1
     new_data=[[obj]for obj in location_undefined]
-    
+
     ##Documents the unkonwn area.
     try:
         data=pd.read_csv("%s.csv"%(unknown_csv_file))
@@ -62,9 +69,8 @@ def region_check(area_list, shpfile):
     except OSError:
         dataframe=pd.DataFrame(new_data,columns=[unknown_csv_file])
         dataframe.to_csv("%s.csv"%(unknown_csv_file))
-
     return outage_info
 
 if __name__ == '__main__':
-    area_list = ["Nairobi", "University of Nairobi", "Mazeras, Coast Region, Kenya", "aaaapek", "UC Berkeley", "oooppqqq"]
+    area_list = ["Nairobi", "University of Nairobi", "Mazeras, Coast Region, Kenya", "UC Berkeley"]
     region_check(area_list, kenya_constituency);

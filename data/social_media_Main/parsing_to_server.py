@@ -18,17 +18,17 @@ def puzzle(wordList,i): #this phrase has i+1 words
         puzzleList.append(phrase.strip())
     return puzzleList
 
-def parse_tweet(tweet,dict,cur):
+def parse_tweet(tweet,dict,cur,time):
     tweet = str(tweet)
     wordList = re.sub("[^\w]", " ",  tweet).split()
     for word in wordList:
         if word in dict[0]:
-            cur.execute("INSERT INTO social_media (area) VALUES ('%s')" % word)
+            cur.execute("INSERT INTO social_media (area,time) VALUES ('%s','%s')" % (word,time))
     for i in range(1,10):
         puzzleList=puzzle(wordList,i)
         for word in puzzleList:
             if word in dict[i]:
-                cur.execute("INSERT INTO social_media (area) VALUES ('%s')" % word)
+                cur.execute("INSERT INTO social_media (area,time) VALUES ('%s','%s')" % (word,time))
                 
                 
 def parsing_to_db(tweets, name):
@@ -47,6 +47,9 @@ def parsing_to_db(tweets, name):
         length=len(areaList)
         dict[length-1][area]=area
     for i in range(len(tweets)):
+        tweets['reply_timestamp']=tweets['reply_date']+" "+tweets['reply_time']+"+03"
+        time = tweets.iloc[i]['reply_timestamp']
         tweet = tweets.iloc[i][name].lower()
-        parse_tweet(tweet,dict,cur)
+        parse_tweet(tweet,dict,cur,time)
+        
     print("parsing finish")
