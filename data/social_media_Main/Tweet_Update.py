@@ -29,11 +29,14 @@ api = tweepy.API(auth)
 max_count = 200 ##200 is the maximum of count in 'user_timeline'
 tweet_fetch_limit = 2800 ##actually it's some number around 3200
 minutes_to_update = 1
+id_csv = '"tweet_max_id.csv"'
 
 def get_latest_tweets(screen_name):
-    data=pd.read_csv("max_ID.csv")
-    since_ID=data['max_ID'].loc[0]
-    #since_ID = 826978555925983000
+    try:
+        data=pd.read_csv(id_csv)
+        since_ID=data['max_ID'].loc[0]
+    except Exception as e:
+        since_ID = 826978555925983000
     latest_tweets=[]    
     try:
         new_tweets=api.user_timeline(screen_name=screen_name,since_id=since_ID,count=max_count)
@@ -45,6 +48,7 @@ def get_latest_tweets(screen_name):
         exit()
     latest_tweets.extend(new_tweets)
     count = 0
+    
     while (len(new_tweets) > 0) & (count < tweet_fetch_limit/max_count):
         new_tweets=api.user_timeline(screen_name=screen_name, max_id=oldest, since_id=since_ID,count=max_count)
         print ("...%s tweets downloaded so far"%(len(latest_tweets)))
@@ -58,13 +62,13 @@ def get_latest_tweets(screen_name):
             new_data.append([obj.text, \
                    "%s/%s/%s" % (obj.created_at.year, obj.created_at.month, obj.created_at.day), \
                    "%s:%s:%s" % (obj.created_at.hour,obj.created_at.minute, obj.created_at.second)])
-        since_ID = obj.id_str
+        next_since_ID = obj.id_str
+    
     dataframe=pd.DataFrame(new_data,columns=['tweet', 'tweet_date', 'tweet_time'])
-    
-    print(since_ID)
-    dataframe=pd.DataFrame([since_ID],columns=['max_ID'])
-    dataframe.to_csv("Max_ID.csv",index=False)
-    
+
+    newest_id=pd.DataFrame([next_since_ID],columns=['max_ID'])
+    newest_id.to_csv(id_csv ,index=False)
+
     try:
         tweets_to_news_feed(dataframe)
     except Exception as e:

@@ -148,7 +148,9 @@ class GoogleMapPlotter(object):
         iwindow_content = ''
         for area in events:
             iwindow_content += '<p>'
-            iwindow_content += area
+            iwindow_content += area[0]
+            iwindow_content += "  @"
+            iwindow_content += area[1]
             iwindow_content += '</p>'
         f.write('iwindow.setContent("%s");\n'%iwindow_content);
         f.write('iwindow.setPosition(event.latLng);')

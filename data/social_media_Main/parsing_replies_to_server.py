@@ -7,6 +7,7 @@ Created on Fri Feb 17 21:00:50 2017
 """
 import re
 import psycopg2
+import Facebook_Post_Update
 
 def puzzle(wordList,i): #this phrase has i+1 words
     length=len(wordList)
@@ -18,9 +19,9 @@ def puzzle(wordList,i): #this phrase has i+1 words
         puzzleList.append(phrase.strip())
     return puzzleList
 
-def parse_tweet(tweet,dict,cur,time):
-    tweet = str(tweet)
-    wordList = re.sub("[^\w]", " ",  tweet).split()
+def parse_reply(reply,dict,cur,time):
+    reply = str(reply)
+    wordList = re.sub("[^\w]", " ",  reply).split()
     for word in wordList:
         if word in dict[0]:
             cur.execute("INSERT INTO social_media (area,time) VALUES ('%s','%s')" % (word,time))
@@ -30,9 +31,7 @@ def parse_tweet(tweet,dict,cur,time):
             if word in dict[i]:
                 cur.execute("INSERT INTO social_media (area,time) VALUES ('%s','%s')" % (word,time))
                 
-                
-def parsing_to_db(tweets, name):
-    #con = psycopg2.connect(database='outage_map', user='postgres') 
+def parsing_to_db(dataframe, category, isTwitter):
     con = psycopg2.connect(database='capstone', user='capstone', password='capstone', host='141.212.11.206', port='5432')
     con.autocommit = True
     cur = con.cursor()
@@ -46,10 +45,11 @@ def parsing_to_db(tweets, name):
         areaList=area.split()
         length=len(areaList)
         dict[length-1][area]=area
-    for i in range(len(tweets)):
-        tweets['reply_timestamp']=tweets['reply_date']+" "+tweets['reply_time']+"+03"
-        time = tweets.iloc[i]['reply_timestamp']
-        tweet = tweets.iloc[i][name].lower()
-        parse_tweet(tweet,dict,cur,time)
+    for i in range(len(dataframe)):
+        if(isTwitter):
+            dataframe['reply_timestamp']=dataframe['reply_date']+" "+dataframe['reply_time']+"+03"
+        time = dataframe.iloc[i]['reply_timestamp']
+        reply = dataframe.iloc[i][category].lower()
+        parse_reply(reply,dict,cur,time)
         
     print("parsing finish")
