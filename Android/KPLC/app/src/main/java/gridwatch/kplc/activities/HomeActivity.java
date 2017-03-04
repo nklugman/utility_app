@@ -32,7 +32,6 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
-import java.util.Random;
 
 import gridwatch.kplc.R;
 import gridwatch.kplc.activities.billing.BalanceHistoryActivity;
@@ -47,7 +46,9 @@ public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     private Realm realm;
     private TextView cbTv;
+    private TextView last_cbTv;
     private TextView mpTv;
+    private TextView last_mpTv;
     private TextView welcomeTv;
     private TextView dateTv;
     private TextView payDueTv;
@@ -64,12 +65,15 @@ public class HomeActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         cbTv = (TextView) findViewById(R.id.balance);
+        last_cbTv = (TextView) findViewById(R.id.balance_last_time);
         mpTv = (TextView) findViewById(R.id.payment);
+        last_mpTv = (TextView) findViewById(R.id.last_payment_time);
         welcomeTv = (TextView) findViewById(R.id.welcome);
         dateTv = (TextView) findViewById(R.id.date);
         payDueTv = (TextView) findViewById(R.id.payment_due);
         FloatingActionButton btn_report = (FloatingActionButton) findViewById(R.id.fab);
         showWelcome();
+
         btn_report.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -94,32 +98,7 @@ public class HomeActivity extends AppCompatActivity
         btn_balance.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String url = SERVER + "/balance?account=" + ACCOUNT;
-                StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
-                        new Response.Listener<String>() {
-                            @Override
-                            public void onResponse(String response) {
-                                String result = response.toString();
-                                JSONArray json = null;
-                                try {
-                                    json = new JSONArray(result);
-                                    JSONObject oj = json.getJSONObject(0);
-                                    cbTv.setText(String.valueOf(oj.get("balance")));
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
-
-
-                            }
-                        }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(getBaseContext(), "Not Connected to the Network! Many functionalities will not work!", Toast.LENGTH_SHORT);
-                        Log.e("buy_tokens", error.toString());
-                        cbTv.setText("");
-                    }
-                });
-                Singletons.getInstance(getBaseContext()).addToRequestQueue(stringRequest);
+                check_balance(SERVER, ACCOUNT);
             }
         });
         Button btn_pay = (Button) findViewById(R.id.make_payment);
@@ -127,52 +106,14 @@ public class HomeActivity extends AppCompatActivity
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(HomeActivity.this, MakePaymentActivity.class);
-                //EditText editText = (EditText) findViewById(R.id.edit_message);
-                //String message = editText.getText().toString();
-                //intent.putExtra(EXTRA_MESSAGE, message);
                 startActivity(intent);
             }
         });
         realm = Realm.getDefaultInstance();
 
+        check_last_statement(SERVER, ACCOUNT);
+        check_balance(SERVER, ACCOUNT);
 
-
-        Date max = realm.where(Postpaid.class).maximumDate("month");
-        if (max != null) {
-            Log.i("mylogmax", max.toString());
-            Postpaid balance = realm.where(Postpaid.class).equalTo("month", max).findFirst();
-            cbTv.setText(String.valueOf(balance.getBalance()));
-        }
-        Postpaid pay = realm.where(Postpaid.class).isNull("payDate").findFirst();
-        if (pay != null) {
-            Log.i("mylogpay", pay.toString());
-            mpTv.setText(String.valueOf(pay.getBalance()));
-            payDueTv.setText(getStringFromDate(pay.getDueDate()));
-        } else {
-            String url = SERVER + "/payment?account=" + ACCOUNT;
-            StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
-                    new Response.Listener<String>() {
-                        @Override
-                        public void onResponse(String response) {
-                            String result = response.toString();
-                            JSONArray json = null;
-                            try {
-                                json = new JSONArray(result);
-                                JSONObject oj = json.getJSONObject(0);
-                                mpTv.setText(String.valueOf(oj.get("balance")));
-                                payDueTv.setText(String.valueOf(oj.get("dueDate")));
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                    }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    Log.e("buy_tokens", error.toString());
-                    mpTv.setText("");
-                }
-            });
-        }
 
     }
 
@@ -186,6 +127,85 @@ public class HomeActivity extends AppCompatActivity
         }
     }
 
+    private void check_last_statement(String SERVER, String ACCOUNT) {
+        Log.e("check last statement", "hit");
+        String url = SERVER + "/payment?account=" + ACCOUNT;
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        String result = response.toString();
+                        JSONArray json = null;
+                        try {
+                            String timeStamp = new SimpleDateFormat("yyyy/MM").format(Calendar.getInstance().getTime());
+                            json = new JSONArray(result);
+                            JSONObject oj = json.getJSONObject(0);
+                            mpTv.setText(String.valueOf(oj.get("balance")));
+                            payDueTv.setText(String.valueOf(oj.get("dueDate")));
+                            last_mpTv.setText(timeStamp);
+                            Log.e("check_last_statement", timeStamp);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e("buy_tokens", error.toString());
+                mpTv.setText("");
+                Postpaid pay = realm.where(Postpaid.class).isNull("payDate").findFirst();
+                if (pay != null) {
+                    Log.i("mylogpay", pay.toString());
+                    mpTv.setText(String.valueOf(pay.getBalance()));
+                    payDueTv.setText(getStringFromDate(pay.getDueDate()));
+                    Log.e("check_last_statement", pay.toString());
+                    last_mpTv.setText(String.valueOf(pay.getMonth()));
+                }
+            }
+        });
+        Singletons.getInstance(getBaseContext()).addToRequestQueue(stringRequest);
+    }
+
+    private void check_balance(String SERVER, String ACCOUNT) {
+        Log.e("check balance", "hit");
+
+        String url = SERVER + "/balance?account=" + ACCOUNT;
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        String result = response.toString();
+                        JSONArray json = null;
+                        String timeStamp = new SimpleDateFormat("yyyy/MM").format(Calendar.getInstance().getTime());
+                        try {
+                            json = new JSONArray(result);
+                            JSONObject oj = json.getJSONObject(0);
+                            cbTv.setText(String.valueOf(oj.get("balance")));
+                            Log.e("check balance", timeStamp);
+                            last_cbTv.setText(timeStamp);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(getBaseContext(), "Not Connected to the Network! Many functionalities will not work!", Toast.LENGTH_SHORT);
+                Log.e("buy_tokens", error.toString());
+                cbTv.setText("");
+                Date max = realm.where(Postpaid.class).maximumDate("month");
+                if (max != null) {
+                    Log.i("mylogmax", max.toString());
+                    Postpaid balance = realm.where(Postpaid.class).equalTo("month", max).findFirst();
+                    cbTv.setText(String.valueOf(balance.getBalance()));
+                    last_cbTv.setText(String.valueOf(balance.getMonth()));
+                }
+            }
+        });
+        Singletons.getInstance(getBaseContext()).addToRequestQueue(stringRequest);
+    }
 
     private void showWelcome() {
         Calendar now = Calendar.getInstance();
@@ -247,13 +267,6 @@ public class HomeActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
-
-    private boolean randomly_fail() {
-        Random r = new Random();
-        return r.nextBoolean();
-    }
-
-
 
     private void launch_class(Class to_launch) {
         Intent e = new Intent(this, to_launch);

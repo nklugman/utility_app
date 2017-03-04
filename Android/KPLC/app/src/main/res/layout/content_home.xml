@@ -16,6 +16,35 @@
     android:background="@color/cardview_light_background">
 
 
+    <TextView
+        android:text="test"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/border2"
+        android:layout_toRightOf="@+id/payment_due"
+        android:id="@+id/last_payment_time"
+        android:layout_alignRight="@+id/border2"
+        android:layout_alignEnd="@+id/border2"
+        android:paddingLeft="10dp"
+        tools:text="test"
+        android:textSize="14sp"
+        android:textColor="@color/cardview_dark_background" />
+
+    <TextView
+        android:text="test"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/border1"
+        android:id="@+id/balance_last_time"
+        android:layout_alignRight="@+id/border1"
+        android:layout_alignEnd="@+id/border1"
+        android:paddingLeft="10dp"
+        tools:text="test"
+        android:layout_toRightOf="@+id/last_update"
+        android:layout_toEndOf="@+id/last_update"
+        android:layout_above="@+id/check_balance"
+        android:textColor="@color/cardview_dark_background" />
+
     <ImageView
         android:layout_width="wrap_content"
         app:srcCompat="@drawable/background"
@@ -109,6 +138,7 @@
         android:layout_below="@+id/current_payment"
         android:layout_alignLeft="@+id/current_payment"
         android:layout_alignStart="@+id/current_payment" />
+
     <View
         android:layout_width="match_parent"
         android:layout_below="@+id/payment"
