@@ -16,6 +16,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -36,13 +37,11 @@ import java.util.Random;
 import gridwatch.kplc.R;
 import gridwatch.kplc.activities.billing.BalanceHistoryActivity;
 import gridwatch.kplc.activities.billing.Postpaid;
-import gridwatch.kplc.activities.billing.StatementHistoryActivity;
 import gridwatch.kplc.activities.billing.UsageChartsActivity;
 import gridwatch.kplc.activities.outage.OutageMapActivity;
 import gridwatch.kplc.activities.payment.BuyTokensActivity;
 import gridwatch.kplc.activities.payment.MakePaymentActivity;
 import io.realm.Realm;
-import io.realm.Sort;
 
 public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -115,6 +114,7 @@ public class HomeActivity extends AppCompatActivity
                         }, new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(getBaseContext(), "Not Connected to the Network! Many functionalities will not work!", Toast.LENGTH_SHORT);
                         Log.e("buy_tokens", error.toString());
                         cbTv.setText("");
                     }
@@ -135,15 +135,17 @@ public class HomeActivity extends AppCompatActivity
         });
         realm = Realm.getDefaultInstance();
 
+
+
         Date max = realm.where(Postpaid.class).maximumDate("month");
-        Log.i("mylogmax", max.toString());
         if (max != null) {
+            Log.i("mylogmax", max.toString());
             Postpaid balance = realm.where(Postpaid.class).equalTo("month", max).findFirst();
             cbTv.setText(String.valueOf(balance.getBalance()));
         }
         Postpaid pay = realm.where(Postpaid.class).isNull("payDate").findFirst();
-        Log.i("mylogpay", pay.toString());
         if (pay != null) {
+            Log.i("mylogpay", pay.toString());
             mpTv.setText(String.valueOf(pay.getBalance()));
             payDueTv.setText(getStringFromDate(pay.getDueDate()));
         } else {
@@ -216,9 +218,12 @@ public class HomeActivity extends AppCompatActivity
 
         if (id == R.id.nav_balance) {
             launch_class(BalanceHistoryActivity.class);
-        } else if (id == R.id.nav_statement) {
+        }
+        /*else if (id == R.id.nav_statement) {
             launch_class(StatementHistoryActivity.class);
-        } else if (id == R.id.nav_payment) {
+        }
+        */
+        else if (id == R.id.nav_payment) {
             launch_class(MakePaymentActivity.class);
         } else if (id == R.id.nav_token) {
             launch_class(BuyTokensActivity.class);

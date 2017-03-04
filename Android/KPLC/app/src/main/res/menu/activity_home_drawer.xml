@@ -7,10 +7,12 @@
             android:id="@+id/nav_balance"
 
             android:title="Balance Histories" />
+
+            <!--
             <item
             android:id="@+id/nav_statement"
-
             android:title="Statement Histories" />
+            -->
             <item
                 android:id="@+id/nav_usage"
 

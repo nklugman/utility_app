@@ -14,8 +14,6 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
-import java.util.Map;
-
 import gridwatch.kplc.R;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
@@ -141,6 +139,9 @@ public class LoginActivity extends AppCompatActivity {
 
         // Wire up submit button
         Realm.init(this);
+        RealmConfiguration realmConfig = new RealmConfiguration.Builder().deleteRealmIfMigrationNeeded().build();
+        Realm.setDefaultConfiguration(realmConfig);
+
         loginSubmitButton.setOnClickListener(new View.OnClickListener() {
 
             @Override

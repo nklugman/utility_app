@@ -4,7 +4,6 @@ import android.util.Log;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebView;
 
-
 /**
  * Created by nklugman on 2/27/17.
  */

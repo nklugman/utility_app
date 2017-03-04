@@ -1,6 +1,5 @@
 package gridwatch.kplc.activities.billing;
 
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -8,7 +7,6 @@ import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -32,13 +30,10 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Locale;
 
 import gridwatch.kplc.R;
-import gridwatch.kplc.activities.NewsfeedActivity;
 import io.realm.Realm;
-import io.realm.RealmConfiguration;
 import io.realm.RealmResults;
 import io.realm.Sort;
 
@@ -165,7 +160,10 @@ public class BalanceHistoryActivity extends AppCompatActivity {
          * delivers it the parameters given to AsyncTask.execute() */
         protected String doInBackground(String... time) {
             String result = null;
+            Log.e("refresh_data", "trying to refresh");
             try {
+                Log.e("server", time[1]);
+
                 result = connectToServer(time[0], time[1], time[2]);
             } catch (IOException e) {
                 e.printStackTrace();
@@ -247,6 +245,7 @@ public class BalanceHistoryActivity extends AppCompatActivity {
     }
     private String connectToServer(String date, String server, String account) throws IOException {
         URL url = new URL(server + "/postpaid?date=" + date + "&account=" + account);
+        Log.e("url", url.toString());
         InputStream stream = null;
         HttpURLConnection connection = null;
         String result = null;
