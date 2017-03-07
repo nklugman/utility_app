@@ -146,11 +146,12 @@ class GoogleMapPlotter(object):
         f.write('polygon.addListener("click", function(event) {\n')
         iwindow_content = ''
         for area in events:
-            iwindow_content += '<p>'
-            iwindow_content += area[0]
-            iwindow_content += "  @"
-            iwindow_content += area[1]
-            iwindow_content += '</p>'
+            if(area[0] not in iwindow_content):
+                iwindow_content += '<p>'
+                iwindow_content += area[0]
+                iwindow_content += "  @"
+                iwindow_content += area[1]
+                iwindow_content += '</p>'
         f.write('iwindow.setContent("%s");\n'%iwindow_content);
         f.write('iwindow.setPosition(event.latLng);')
         f.write('iwindow.open(map);\n')

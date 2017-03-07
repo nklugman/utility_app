@@ -29,15 +29,14 @@ def fetch_outage_list():
     area_list_reply = []
     try:
         data=pd.read_csv(id_csv+'.csv')
-        last_time = data['las_time'].loc[0]
+        last_time = data[id_csv].loc[0]
     except Exception as e:
         last_time = '2017-03-07'
-    
+    print(last_time)
     cur.execute("SELECT area FROM outages WHERE start_datetime >= \'%s\'"%last_time)
     area_rows = cur.fetchall()
     cur.execute("SELECT start_datetime FROM outages WHERE start_datetime >= \'%s\'"%last_time)
     time_rows = cur.fetchall()
-    print(str(time_rows[0][0]))
     for i in range(len(area_rows)):
         area_list_pdf.append([area_rows[i][0], str(time_rows[i][0])])
     print("-----Area list from PDF file on database is fetched.")
@@ -101,10 +100,10 @@ def display_google_map(outage_info_matrix):
     print("Outage map is good to go.")
 
 if __name__ == '__main__':
-    fetch_outage_list()
-    #while(True):
-        #fetch_outage_list()
-        #time.sleep(8*60*60) #8hours
+    #fetch_outage_list()
+    while(True):
+        fetch_outage_list()
+        time.sleep(8*60*60) #8hours
 
     
     
