@@ -29,11 +29,11 @@ api = tweepy.API(auth)
 max_count = 200 ##200 is the maximum of count in 'user_timeline'
 tweet_fetch_limit = 2800 ##actually it's some number around 3200
 minutes_to_update = 1
-id_csv = '"tweet_max_id.csv"'
+id_csv = 'tweet_max_id'
 
 def get_latest_tweets(screen_name):
     try:
-        data=pd.read_csv(id_csv)
+        data=pd.read_csv(id+'.csv')
         since_ID=data['max_ID'].loc[0]
     except Exception as e:
         since_ID = 826978555925983000
@@ -64,9 +64,10 @@ def get_latest_tweets(screen_name):
                    "%s:%s:%s" % (obj.created_at.hour,obj.created_at.minute, obj.created_at.second)])
         next_since_ID = obj.id_str
     
+    print(len(new_data), 'tweets(not replies) found.')
     dataframe=pd.DataFrame(new_data,columns=['tweet', 'tweet_date', 'tweet_time'])
 
-    newest_id=pd.DataFrame([next_since_ID],columns=['max_ID'])
+    newest_id=pd.DataFrame([next_since_ID],columns=[id_csv])
     newest_id.to_csv(id_csv ,index=False)
 
     try:
@@ -82,11 +83,9 @@ def tweets_to_news_feed(tweets):
     con.autocommit = True
     cur = con.cursor()
     outages=[]
-    print(len(tweets))
     for i in range(len(tweets)):
         tweets['tweet_timestamp']=tweets['tweet_date']+" "+tweets['tweet_time']+"+03"
         timeStamp = tweets.iloc[i]['tweet_timestamp']
-        print(timeStamp)
         source = 1
         tweet = str(tweets.iloc[i]['tweet'])
         outages.append([timeStamp, source, tweet])

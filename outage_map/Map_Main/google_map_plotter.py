@@ -129,8 +129,7 @@ class GoogleMapPlotter(object):
         events = settings.get('events')
         f.write('var coords = [\n')
         for coordinate in path:
-            f.write('new google.maps.LatLng(%f, %f),\n' %
-                    (coordinate[0], coordinate[1]))
+            f.write('new google.maps.LatLng(%s, %s),\n' % (coordinate[0], coordinate[1]))
         f.write('];\n')
         f.write('\n')
         f.write('var polygon = new google.maps.Polygon({\n')

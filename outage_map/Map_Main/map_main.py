@@ -10,14 +10,15 @@ import region_define
 import google_map_plotter as gmplot
 import psycopg2
 import fiona
+import pandas as pd
 import datetime
 import time
+import pytz
 
 #kenya_constituency = fiona.open("../Kenya_Shapefiles/Constituency Boundaries/constituencies.shp") #Suggested by Jay
 kenya_constituency = fiona.open("../Kenya_Shapefiles/Constituency_Simplified/constituencies_simplified.shp") #Simplified by QGIS
 shapefile = kenya_constituency
-
-
+id_csv = 'last_time'
 def fetch_outage_list():
     print("-----Fetching area list from Database...")
     con = psycopg2.connect(database='capstone', user='capstone', password='capstone', host='141.212.11.206', port='5432')
@@ -26,30 +27,34 @@ def fetch_outage_list():
     area_matrix =[]
     area_list_pdf = []
     area_list_reply = []
-    items_num = 20
-    social_init = 1
-    pdf_init = 2
-    cur.execute("SELECT area FROM outages WHERE index>=\'%s\' and index <=\'%s\'"%(pdf_init, pdf_init+items_num))
+    try:
+        data=pd.read_csv(id_csv+'.csv')
+        last_time = data['las_time'].loc[0]
+    except Exception as e:
+        last_time = '2017-03-07'
+    
+    cur.execute("SELECT area FROM outages WHERE start_datetime >= \'%s\'"%last_time)
     area_rows = cur.fetchall()
-    cur.execute("SELECT start_datetime FROM outages WHERE index>=\'%s\' and index <=\'%s\'"%(pdf_init, pdf_init+items_num))
+    cur.execute("SELECT start_datetime FROM outages WHERE start_datetime >= \'%s\'"%last_time)
     time_rows = cur.fetchall()
     print(str(time_rows[0][0]))
     for i in range(len(area_rows)):
         area_list_pdf.append([area_rows[i][0], str(time_rows[i][0])])
     print("-----Area list from PDF file on database is fetched.")
     
-    cur.execute("SELECT area FROM social_media WHERE index>=\'%s\' and index <=\'%s\'"%(social_init, social_init+items_num)) 
+    cur.execute("SELECT area FROM social_media WHERE time >= \'%s\'"%last_time)
     area_rows = cur.fetchall()
-    cur.execute("SELECT time FROM social_media WHERE index>=\'%s\' and index <=\'%s\'"%(social_init, social_init+items_num)) 
+    cur.execute("SELECT time FROM social_media WHERE time >= \'%s\'"%last_time)
     time_rows = cur.fetchall()
     for i in range(len(area_rows)):
         area_list_reply.append([area_rows[i][0], time_rows[i][0]])
-        
     print("-----Area list from social media on database is fetched.")
-    area_matrix = [area_list_pdf, area_list_reply]
-    print("-----All area list fetched.")
     
+    area_matrix = [area_list_pdf, area_list_reply]
+    now_kenya = datetime.datetime.now(pytz.timezone('Africa/Nairobi'))
+    pd.DataFrame([now_kenya],columns=[id_csv]).to_csv(id_csv+'.csv' ,index=False)
     locate_area_to_shpID(area_matrix)
+    
     return area_matrix
 
 def locate_area_to_shpID(area_matrix):
@@ -96,9 +101,10 @@ def display_google_map(outage_info_matrix):
     print("Outage map is good to go.")
 
 if __name__ == '__main__':
-    while(True):
-        fetch_outage_list()
-        time.sleep(8*60*60) #8hours
+    fetch_outage_list()
+    #while(True):
+        #fetch_outage_list()
+        #time.sleep(8*60*60) #8hours
 
     
     

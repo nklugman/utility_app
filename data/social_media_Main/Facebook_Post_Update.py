@@ -15,13 +15,13 @@ import parsing_replies_to_server
 
 access_token = '1838162886420379|1a9ae182f2a68c3a4dd20665bd8395a4'
 facebook_KPLC = 'KenyaPowerLtd'
-last_post_csv = 'facebook_last_time.csv'
+last_post_csv = 'facebook_last_time'
 graph = facebook.GraphAPI(access_token)
 def fetch(user):
     now_kenya = datetime.datetime.now(pytz.timezone('Africa/Nairobi'))
     try:
-        data=pd.read_csv(last_post_csv)
-        last_time = data['latest_post_time'].loc[0]
+        data=pd.read_csv(last_post_csv+'.csv')
+        last_time = data[last_post_csv].loc[0]
     except Exception as e:
         last_time = '2017-03-01 06:24:57'
 
@@ -40,8 +40,8 @@ def get_data(posts):
         data.append([post['message'], post['id'], post['created_time']])
     print("Posts from Facebook are fetched.")
     latest_post_time = timeStamp_parsing(posts['data'][-1]['created_time'])
-    dataframe=pd.DataFrame([latest_post_time],columns=['latest_post_time'])
-    dataframe.to_csv(last_post_csv,index=False)
+    dataframe=pd.DataFrame([latest_post_time],columns=[last_post_csv])
+    dataframe.to_csv(last_post_csv+'.csv',index=False)
     print(latest_post_time)
     #post_to_database(data)
     get_comment(data)
