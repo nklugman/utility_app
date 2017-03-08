@@ -75,9 +75,9 @@ public class HomeActivity extends AppCompatActivity
         welcomeTv = (TextView) findViewById(R.id.welcome);
         dateTv = (TextView) findViewById(R.id.date);
         payDueTv = (TextView) findViewById(R.id.payment_due);
-        FloatingActionButton btn_report = (FloatingActionButton) findViewById(R.id.fab);
         showWelcome();
 
+        /*
         btn_report.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -88,6 +88,7 @@ public class HomeActivity extends AppCompatActivity
                 startActivity(intent);
             }
         });
+        */
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -113,6 +114,7 @@ public class HomeActivity extends AppCompatActivity
                 startActivity(intent);
             }
         });
+        Realm.init(this);
         realm = Realm.getDefaultInstance();
 
         check_last_statement(SERVER, ACCOUNT);
@@ -265,11 +267,21 @@ public class HomeActivity extends AppCompatActivity
             launch_class(SettingsDeveloperActivity.class);
         } else if (id == R.id.nav_contact) {
             launch_class(ContactActivity.class);
+        } else if (id == R.id.logout) {
+            do_logout();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private void do_logout() {
+        final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        prefs.edit().putString("setting_key_account_number", "").putString("setting_key_meter_number", "").apply();
+        Intent intent = new Intent(HomeActivity.this, LoginActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_TASK_ON_HOME);
+        startActivity(intent);
     }
 
     private void launch_class(Class to_launch) {

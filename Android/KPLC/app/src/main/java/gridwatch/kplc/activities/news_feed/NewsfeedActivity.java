@@ -7,9 +7,12 @@ import android.preference.PreferenceManager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v4.widget.TextViewCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
@@ -32,7 +35,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 
-
 import gridwatch.kplc.R;
 import io.realm.Realm;
 import io.realm.RealmResults;
@@ -45,9 +47,14 @@ import io.realm.Sort;
 public class NewsfeedActivity extends AppCompatActivity{
     private Realm realm;
     String MAX_TIME;
+
+    EditText inputSearch;
+
+
     private SwipeRefreshLayout swipeRefreshLayout;
     private ListView listView;
     private SimpleAdapter adapter;
+
     private ArrayList<HashMap<String, Object>> mylist;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,19 +63,20 @@ public class NewsfeedActivity extends AppCompatActivity{
         swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_container);
         listView = (ListView) findViewById(R.id.listview_newsfeed);
         mylist = new ArrayList<HashMap<String, Object>>();
+
+        inputSearch = (EditText) findViewById(R.id.inputSearch);
+
         final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         final String application_host_server = prefs.getString("setting_key_application_host_server", "141.212.11.206");
         final String application_host_port = prefs.getString("setting_key_application_host_port", "3100");
         final String SERVER = "http://" + application_host_server + ":" + application_host_port;
-
+        Realm.init(this);
         realm = Realm.getDefaultInstance();
-        //realm.beginTransaction();
-
-        //realm.deleteAll();
-        //realm.commitTransaction();
         adapter = new SimpleAdapter(getBaseContext(), mylist, R.layout.newsfeed_listitem,
                 new String[] {"newsfeedlogo", "newsfeedsource", "newsfeedtime", "newsfeedcontent"},
                 new int[] {R.id.newsfeedlogo, R.id.newsfeedsource, R.id.newsfeedtime, R.id.newsfeedcontent});
+        listView.setAdapter(adapter);
+
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener()
         {
             @Override
@@ -90,11 +98,7 @@ public class NewsfeedActivity extends AppCompatActivity{
 
             }
         });
-
-
         display();
-
-
 
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -106,7 +110,35 @@ public class NewsfeedActivity extends AppCompatActivity{
 
             }
         });
+
+        inputSearch.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void onTextChanged(CharSequence cs, int arg1, int arg2, int arg3) {
+                // When user changed the Text
+                if (NewsfeedActivity.this.adapter != null) {
+                    NewsfeedActivity.this.adapter.getFilter().filter(cs);
+                } else {
+                    Log.e("list", "null adapter");
+                }
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence arg0, int arg1, int arg2,
+                                          int arg3) {
+                // TODO Auto-generated method stub
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable arg0) {
+                // TODO Auto-generated method stub
+            }
+        });
+
     }
+
+
+
     private String getStringFromDate(Date date) {
         if (date == null) {
             return null;
@@ -133,8 +165,6 @@ public class NewsfeedActivity extends AppCompatActivity{
     }
     private void display(){
         requestFromRealm();
-
-        listView.setAdapter(adapter);
 
     }
     private void storeToRealm(String result) {

@@ -4,21 +4,33 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     >
+
+    <EditText android:id="@+id/inputSearch"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:hint="Search stream.."
+        android:inputType="textVisiblePassword"/>
+
     <android.support.v4.widget.SwipeRefreshLayout
     android:id="@+id/swipe_container"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent" >
+        android:layout_below="@+id/inputSearch"
+        android:layout_height="fill_parent"
+        android:layout_width="fill_parent">
+
 
     <ListView
-        android:layout_width="match_parent"
+        android:layout_width="fill_parent"
         android:layout_height="match_parent"
         android:id="@+id/listview_newsfeed"
-        android:layout_marginTop="5dp"
         android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
         android:dividerHeight="5dp"
 
+
         ></ListView>
+
+
+
+
     </android.support.v4.widget.SwipeRefreshLayout >
 
 </RelativeLayout>

@@ -49,6 +49,7 @@
         <activity android:name=".activities.outage_map.OutageMapActivity"
             android:label="OutageMap"/>
         <activity android:name=".activities.news_feed.NewsfeedActivity"
+            android:windowSoftInputMode="stateHidden"
             android:label="Newsfeed"/>
         <activity android:name=".activities.ContactActivity"
             android:label="Contact"
@@ -62,13 +63,9 @@
         <activity android:name=".activities.settings.SettingsDeveloperActivity"
             android:label="Developer Settings"
             />
-        <meta-data
-            android:name="io.fabric.ApiKey"
-            android:value="849d305db8fded5536031a07edf7e8fdc0ac65b8" />
 
-        <activity
-            android:name=".activities.social_media.Twitter.TwitterTimeline"
-            android:label="@string/title_activity_twitter_timeline"></activity>
+
+
     </application>
 
 </manifest>

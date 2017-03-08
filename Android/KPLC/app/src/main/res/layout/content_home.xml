@@ -108,11 +108,15 @@
         android:layout_marginRight="@dimen/activity_horizontal_margin"/>
     <View
         android:layout_width="match_parent"
-        android:layout_height="1px"
+        android:layout_height="2px"
         android:layout_below="@+id/check_balance"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="15dp"
         android:background="@color/colorGrey"
-        android:id="@+id/divider" />
+        android:id="@+id/divider"
+        android:layout_alignLeft="@+id/check_balance"
+        android:layout_alignStart="@+id/check_balance"
+        android:layout_alignRight="@+id/check_balance"
+        android:layout_alignEnd="@+id/check_balance" />
     <TextView
         android:text="Last Statement Balance"
         android:layout_width="wrap_content"
@@ -193,6 +197,29 @@
         android:layout_below="@+id/border1"
         android:layout_alignLeft="@+id/border1"
         android:layout_alignStart="@+id/border1" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2px"
+        android:layout_below="@+id/make_payment"
+        android:layout_marginTop="10dp"
+        android:background="@color/colorGrey"
+        android:id="@+id/divider2"
+        android:layout_alignLeft="@+id/check_balance"
+        android:layout_alignStart="@+id/check_balance"
+        android:layout_alignRight="@+id/check_balance"
+        android:layout_alignEnd="@+id/check_balance" />
+    <Button
+        android:text="Report an Outage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/outage_btn"
+        android:background="@android:color/holo_red_light"
+        android:layout_below="@+id/make_payment"
+        android:layout_alignRight="@+id/make_payment"
+        android:layout_alignEnd="@+id/make_payment"
+        android:layout_alignLeft="@+id/make_payment"
+        android:layout_alignStart="@+id/make_payment"
+        android:layout_marginTop="20dp" />
 
 
 </RelativeLayout>
