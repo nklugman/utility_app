@@ -1,4 +1,4 @@
-package gridwatch.kplc.activities;
+package gridwatch.kplc.activities.news_feed;
 
 import java.util.Date;
 

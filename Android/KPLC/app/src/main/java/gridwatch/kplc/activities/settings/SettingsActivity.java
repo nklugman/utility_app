@@ -1,23 +1,33 @@
-package gridwatch.kplc.activities;
+package gridwatch.kplc.activities.settings;
 
 import android.os.Bundle;
+
+import gridwatch.kplc.R;
+
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceCategory;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
-import gridwatch.kplc.R;
 
-/**
- * Created by ppannuto on 3/1/17.
- */
+public class SettingsActivity extends PreferenceActivity {
 
-public class SettingsDeveloperActivity extends PreferenceActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        addPreferencesFromResource(R.xml.settings_developer);
+        addPreferencesFromResource(R.xml.settings);
         PreferenceCategory fakeHeader = new PreferenceCategory(this);
+
+
+        try {
+            bindPreferenceSummaryToValue(findPreference("Account"));
+            bindPreferenceSummaryToValue(findPreference("Meter"));
+
+        }
+        catch (java.lang.NullPointerException e) {
+
+        }
+
     }
     /**
      * A preference value change listener that updates the preference's summary
@@ -53,5 +63,7 @@ public class SettingsDeveloperActivity extends PreferenceActivity {
                         .getString(preference.getKey(), ""));
         Log.d("updatelistener", preference.getKey());
     }
-
 }
+
+
+

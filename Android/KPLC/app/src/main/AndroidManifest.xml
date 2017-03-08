@@ -46,20 +46,20 @@
             android:name=".activities.billing.UsageChartsActivity"
             android:label="Usage Charts"
             />
-        <activity android:name=".activities.outage.OutageMapActivity"
+        <activity android:name=".activities.outage_map.OutageMapActivity"
             android:label="OutageMap"/>
-        <activity android:name=".activities.NewsfeedActivity"
+        <activity android:name=".activities.news_feed.NewsfeedActivity"
             android:label="Newsfeed"/>
         <activity android:name=".activities.ContactActivity"
             android:label="Contact"
             />
-        <activity android:name=".activities.SettingsActivity"
+        <activity android:name=".activities.settings.SettingsActivity"
             android:label="Settings"
             />
-        <activity android:name=".activities.SettingsAdvancedActivity"
+        <activity android:name=".activities.settings.SettingsAdvancedActivity"
             android:label="Advanced Settings"
             />
-        <activity android:name=".activities.SettingsDeveloperActivity"
+        <activity android:name=".activities.settings.SettingsDeveloperActivity"
             android:label="Developer Settings"
             />
         <meta-data

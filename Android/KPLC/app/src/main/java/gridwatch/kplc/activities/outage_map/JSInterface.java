@@ -1,4 +1,4 @@
-package gridwatch.kplc.activities.outage;
+package gridwatch.kplc.activities.outage_map;
 
 import android.util.Log;
 import android.webkit.JavascriptInterface;

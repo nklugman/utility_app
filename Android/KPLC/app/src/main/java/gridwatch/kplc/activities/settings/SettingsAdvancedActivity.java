@@ -1,33 +1,49 @@
-package gridwatch.kplc.activities;
-
-import android.os.Bundle;
+package gridwatch.kplc.activities.settings;
 
 import gridwatch.kplc.R;
 
+import android.os.Bundle;
+import android.preference.CheckBoxPreference;
+import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceCategory;
 import android.preference.PreferenceManager;
+import android.support.design.widget.NavigationView;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
 
+/**
+ * Created by ppannuto on 3/1/17.
+ */
 
-public class SettingsActivity extends PreferenceActivity {
-
+public class SettingsAdvancedActivity extends PreferenceActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        addPreferencesFromResource(R.xml.settings);
+        addPreferencesFromResource(R.xml.settings_advanced);
         PreferenceCategory fakeHeader = new PreferenceCategory(this);
 
-
-        try {
-            bindPreferenceSummaryToValue(findPreference("Account"));
-            bindPreferenceSummaryToValue(findPreference("Meter"));
-
-        }
-        catch (java.lang.NullPointerException e) {
-
-        }
-
+        /*
+        // Watch for the developer checkbox and change visibility of that settings tab
+        final CheckBoxPreference developerEnabled = (CheckBoxPreference) findPreference("EnableDeveloperMode");
+        final NavigationView thisCantBeRight = (NavigationView) findViewById(R.id.nav_view);
+        final Menu activityHomeDrawer = thisCantBeRight.getMenu();
+        final MenuItem developerSettings = (MenuItem) activityHomeDrawer.findItem(R.id.nav_developer_settings);
+        developerEnabled.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            public boolean onPreferenceChange(Preference preference, Object newValue) {
+                Log.d("foo", "HELLLOOOO");
+                boolean enabled = (Boolean) newValue;
+                if (enabled) {
+                    developerSettings.setVisible(true);
+                } else {
+                    developerSettings.setVisible(false);
+                }
+                return true;
+            }
+        });
+        */
     }
     /**
      * A preference value change listener that updates the preference's summary
@@ -64,6 +80,3 @@ public class SettingsActivity extends PreferenceActivity {
         Log.d("updatelistener", preference.getKey());
     }
 }
-
-
-

@@ -37,9 +37,13 @@ import gridwatch.kplc.R;
 import gridwatch.kplc.activities.billing.BalanceHistoryActivity;
 import gridwatch.kplc.activities.billing.Postpaid;
 import gridwatch.kplc.activities.billing.UsageChartsActivity;
-import gridwatch.kplc.activities.outage.OutageMapActivity;
+import gridwatch.kplc.activities.news_feed.NewsfeedActivity;
+import gridwatch.kplc.activities.outage_map.OutageMapActivity;
 import gridwatch.kplc.activities.payment.BuyTokensActivity;
 import gridwatch.kplc.activities.payment.MakePaymentActivity;
+import gridwatch.kplc.activities.settings.SettingsActivity;
+import gridwatch.kplc.activities.settings.SettingsAdvancedActivity;
+import gridwatch.kplc.activities.settings.SettingsDeveloperActivity;
 import io.realm.Realm;
 
 public class HomeActivity extends AppCompatActivity

@@ -1,4 +1,4 @@
-package gridwatch.kplc.activities.outage;
+package gridwatch.kplc.activities.outage_map;
 
 import android.os.Build;
 import android.os.Bundle;
