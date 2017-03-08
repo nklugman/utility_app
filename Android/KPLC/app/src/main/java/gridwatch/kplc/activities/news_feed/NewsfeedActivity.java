@@ -54,25 +54,24 @@ public class NewsfeedActivity extends AppCompatActivity{
     private SwipeRefreshLayout swipeRefreshLayout;
     private ListView listView;
     private SimpleAdapter adapter;
-
-    private ArrayList<HashMap<String, Object>> mylist;
+    private ArrayList<HashMap<String, Object>> list;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_newsfeed);
         swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_container);
         listView = (ListView) findViewById(R.id.listview_newsfeed);
-        mylist = new ArrayList<HashMap<String, Object>>();
-
+        list = new ArrayList<HashMap<String, Object>>();
         inputSearch = (EditText) findViewById(R.id.inputSearch);
 
         final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         final String application_host_server = prefs.getString("setting_key_application_host_server", "141.212.11.206");
         final String application_host_port = prefs.getString("setting_key_application_host_port", "3100");
         final String SERVER = "http://" + application_host_server + ":" + application_host_port;
+        //final String SERVER = "http://192.168.1.10:3100";
         Realm.init(this);
         realm = Realm.getDefaultInstance();
-        adapter = new SimpleAdapter(getBaseContext(), mylist, R.layout.newsfeed_listitem,
+        adapter = new SimpleAdapter(getBaseContext(), list, R.layout.newsfeed_listitem,
                 new String[] {"newsfeedlogo", "newsfeedsource", "newsfeedtime", "newsfeedcontent"},
                 new int[] {R.id.newsfeedlogo, R.id.newsfeedsource, R.id.newsfeedtime, R.id.newsfeedcontent});
         listView.setAdapter(adapter);
@@ -84,10 +83,8 @@ public class NewsfeedActivity extends AppCompatActivity{
                                     long arg3)
             {
                 HashMap<String, Object> current= (HashMap) adapter.getItemAtPosition(position);
-                String trueContent = (String)current.get("newsfeedcontent");
+
                 TextView contentText = (TextView) v.findViewById(R.id.newsfeedcontent);
-                Log.i("length",""+contentText.getText().length());
-                Log.i("length",""+trueContent.length());
                 int lines = TextViewCompat.getMaxLines(contentText);
                 if (lines == 3) {
                     contentText.setMaxLines(Integer.MAX_VALUE);
@@ -115,11 +112,25 @@ public class NewsfeedActivity extends AppCompatActivity{
             @Override
             public void onTextChanged(CharSequence cs, int arg1, int arg2, int arg3) {
                 // When user changed the Text
-                if (NewsfeedActivity.this.adapter != null) {
+                Log.i("list", cs.toString());
+                /*if (NewsfeedActivity.this.adapter != null) {
                     NewsfeedActivity.this.adapter.getFilter().filter(cs);
                 } else {
                     Log.e("list", "null adapter");
+                }*/
+                ArrayList<HashMap<String, Object>> tempList= new ArrayList<>();
+                for(int i=0 ;i< list.size();i++) {
+                    if (list.get(i).get("newsfeedcontent").toString().toLowerCase().contains(cs.toString().toLowerCase())) {
+                        tempList.add(list.get(i));
+                        Log.i("good", list.get(i).get("newsfeedcontent").toString());
+                    }
                 }
+                adapter = new SimpleAdapter(getBaseContext(), tempList, R.layout.newsfeed_listitem,
+                        new String[] {"newsfeedlogo", "newsfeedsource", "newsfeedtime", "newsfeedcontent"},
+                        new int[] {R.id.newsfeedlogo, R.id.newsfeedsource, R.id.newsfeedtime, R.id.newsfeedcontent});
+                listView.setAdapter(adapter);
+
+
             }
 
             @Override
@@ -143,18 +154,18 @@ public class NewsfeedActivity extends AppCompatActivity{
         if (date == null) {
             return null;
         }
-        DateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.ENGLISH);
+        DateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
         return format.format(date);
     }
     private String getShortStringFromDate(Date date) {
         if (date == null) {
             return null;
         }
-        DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH);
+        DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         return format.format(date);
     }
     private Date getDateFromString(String date) {
-        DateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.ENGLISH);
+        DateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
         try {
 
             return format.parse(date);
@@ -220,7 +231,12 @@ public class NewsfeedActivity extends AppCompatActivity{
             Date time = item.getTime();
             map.put("newsfeedtime", getShortStringFromDate(time));
             map.put("newsfeedcontent", content);
-            mylist.add(map);
+
+            list.add(map);
+            adapter = new SimpleAdapter(getBaseContext(), list, R.layout.newsfeed_listitem,
+                    new String[] {"newsfeedlogo", "newsfeedsource", "newsfeedtime", "newsfeedcontent"},
+                    new int[] {R.id.newsfeedlogo, R.id.newsfeedsource, R.id.newsfeedtime, R.id.newsfeedcontent});
+            listView.setAdapter(adapter);
         }
 
     }
