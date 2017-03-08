@@ -142,21 +142,29 @@ public class LoginActivity extends AppCompatActivity {
         RealmConfiguration realmConfig = new RealmConfiguration.Builder().deleteRealmIfMigrationNeeded().build();
         Realm.setDefaultConfiguration(realmConfig);
 
+
+
         loginSubmitButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View view) {
                 SharedPreferences.Editor editor = prefs.edit();
                 if (loginPrePayRadioButton.isChecked()) {
+                    check_if_valid_account(loginPrePayEditText.getText().toString());
                     editor.putString("setting_key_meter_number", loginPrePayEditText.getText().toString());
                 }
                 if (loginPostPayRadioButton.isChecked()) {
+                    check_if_valid_account(loginPrePayEditText.getText().toString());
                     editor.putString("setting_key_account_number", loginPostPayEditText.getText().toString());
                 }
                 editor.apply();
                 replaceActivityWithHome();
             }
         });
+    }
+
+    private void check_if_valid_account(String account_num) {
+
     }
 
     private void replaceActivityWithHome() {
