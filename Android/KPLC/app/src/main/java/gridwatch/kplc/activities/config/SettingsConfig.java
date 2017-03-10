@@ -88,6 +88,12 @@ public class SettingsConfig {
     public static final String NUM_GET_APP_PREF = "NUM_GET_APP_PREF";
     public static final String BUILD_STR = "BUILD_STR";
     public static final String DEPLOY_MODE = "DEPLOY_MODE";
+    public static final String IS_ONLINE = "IS_ONLINE";
+    public static final String ANNON = "ANNON";
+    public static final String CHECK_BALANCE = "CHECK_BALANCE";
+    public static final String CHECK_KPLC = "CHECK_KPLC";
+    public static final String CHECK_LAST_STATEMENT = "CHECK_LAST_STATEMENT";
+    public static final String GRIDWATCH = "GRIDWATCH";
 
 
     public class NUM_WD {

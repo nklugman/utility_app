@@ -1,9 +1,14 @@
 package gridwatch.kplc.activities;
 
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -15,6 +20,7 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import gridwatch.kplc.R;
+import gridwatch.kplc.activities.config.SettingsConfig;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
 
@@ -23,14 +29,32 @@ import io.realm.RealmConfiguration;
  */
 
 public class LoginActivity extends AppCompatActivity {
+    private SharedPreferences prefs;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
+        prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());;
+        prefs.edit().putBoolean(SettingsConfig.ANNON, false).apply();
+
+
+        boolean am_online = isNetworkAvailable();
+        if (!am_online) {
+            prefs.edit().putBoolean(SettingsConfig.ANNON, true).apply();
+        }
+
+        // if we are skipping, we set a field ANNON to true so that the text can reflect we don't have necessary information
+        final Button skip_btn = (Button) findViewById(R.id.skip_btn);
+        skip_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                show_skip_warning();
+            }
+        });
 
 
         // Check stored preferences to see if we already have logged in, if so jump to home
-        final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         String account_number = prefs.getString("setting_key_account_number", "");
         String meter_number = prefs.getString("setting_key_meter_number", "");
         if (!account_number.equals("") || !meter_number.equals("")) {
@@ -174,4 +198,34 @@ public class LoginActivity extends AppCompatActivity {
         startActivity(intent);
         LoginActivity.this.finish();
     }
+
+    private boolean isNetworkAvailable() {
+        ConnectivityManager manager =
+                (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = manager.getActiveNetworkInfo();
+        boolean isAvailable = false;
+        if (networkInfo != null && networkInfo.isConnected()) {
+            // Network is present and connected
+            isAvailable = true;
+        }
+        return isAvailable;
+    }
+
+    private void show_skip_warning() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage(R.string.skip_warning);
+        builder.setPositiveButton(R.string.skip, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                prefs.edit().putBoolean(SettingsConfig.ANNON, true).apply();
+                replaceActivityWithHome();
+            }
+        });
+        builder.setNegativeButton(R.string.go_back, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+            }
+        });
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
 }

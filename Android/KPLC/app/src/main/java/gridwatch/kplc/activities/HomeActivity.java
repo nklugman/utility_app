@@ -1,14 +1,18 @@
 package gridwatch.kplc.activities;
 
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -37,6 +41,7 @@ import gridwatch.kplc.R;
 import gridwatch.kplc.activities.billing.BalanceHistoryActivity;
 import gridwatch.kplc.activities.billing.Postpaid;
 import gridwatch.kplc.activities.billing.UsageChartsActivity;
+import gridwatch.kplc.activities.config.SettingsConfig;
 import gridwatch.kplc.activities.news_feed.NewsfeedActivity;
 import gridwatch.kplc.activities.outage_map.OutageMapActivity;
 import gridwatch.kplc.activities.payment.BuyTokensActivity;
@@ -49,33 +54,62 @@ import io.realm.Realm;
 public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     private Realm realm;
-    private TextView cbTv;
-    private TextView last_cbTv;
-    private TextView mpTv;
-    private TextView last_mpTv;
+    //private TextView cbTv;
+    //private TextView last_cbTv;
+    //private TextView mpTv;
+    //private TextView last_mpTv;
+    private TextView cur_balance;
+    private TextView cur_due_date;
+    private TextView cur_name;
+    private TextView cur_balance_label_text;
+    private TextView cur_payment_label_text;
+
+    private boolean am_online;
+
     private TextView welcomeTv;
     private TextView dateTv;
     private TextView payDueTv;
     private String[] welcomeText = {"Good Morning", "Good Afternoon", "Good Evening"};
+    private boolean annon;
+    private SharedPreferences prefs;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        final String application_host_server = prefs.getString("setting_key_application_host_server", "141.212.11.206");
+        prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        final String application_host_server = prefs.getString("setting_key_application_host_server", "graphs.grid.watch");
         final String application_host_port = prefs.getString("setting_key_application_host_port", "3100");
+        final String kplc_host_port = prefs.getString("setting_key_kplc_host_port", "3331");
         final String SERVER = "http://" + application_host_server + ":" + application_host_port;
+        final String KPLC_SERVER = "http://" + application_host_server + ":" + kplc_host_port;
         final String ACCOUNT = prefs.getString("setting_key_account_number", "3202667");
         setContentView(R.layout.activity_home);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        cbTv = (TextView) findViewById(R.id.balance);
-        last_cbTv = (TextView) findViewById(R.id.balance_last_time);
-        mpTv = (TextView) findViewById(R.id.payment);
-        last_mpTv = (TextView) findViewById(R.id.last_payment_time);
+        annon = prefs.getBoolean(String.valueOf(SettingsConfig.ANNON), false);
+
+        cur_balance_label_text = (TextView) findViewById(R.id.cur_balance_label_text);
+        cur_payment_label_text = (TextView) findViewById(R.id.cur_payment_date_label_text);
+
+
+        am_online = isNetworkAvailable();
+        if (!am_online) {
+            show_not_online_err();
+            prefs.edit().putBoolean(SettingsConfig.IS_ONLINE, false).apply();
+        } else {
+            prefs.edit().putBoolean(SettingsConfig.IS_ONLINE, true).apply();
+        }
+
+        cur_balance = (TextView) findViewById(R.id.cur_balance_text);
+        cur_due_date = (TextView) findViewById(R.id.cur_payment_text);
+        cur_name = (TextView) findViewById(R.id.name_text);
+        //cbTv = (TextView) findViewById(R.id.balance);
+        //last_cbTv = (TextView) findViewById(R.id.balance_last_time);
+        //mpTv = (TextView) findViewById(R.id.payment);
+        //last_mpTv = (TextView) findViewById(R.id.last_payment_time);
         welcomeTv = (TextView) findViewById(R.id.welcome);
-        dateTv = (TextView) findViewById(R.id.date);
-        payDueTv = (TextView) findViewById(R.id.payment_due);
-        showWelcome();
+        dateTv = (TextView) findViewById(R.id.date_text);
+        payDueTv = (TextView) findViewById(R.id.cur_payment_text);
 
         /*
         btn_report.setOnClickListener(new View.OnClickListener() {
@@ -103,23 +137,37 @@ public class HomeActivity extends AppCompatActivity
         btn_balance.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                check_balance(SERVER, ACCOUNT);
+                check_balance(SERVER, ACCOUNT, false);
             }
         });
+
+        Button btn_report_outage = (Button) findViewById(R.id.outage_btn);
+        btn_report_outage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                report_outage();
+            }
+        });
+
         Button btn_pay = (Button) findViewById(R.id.make_payment);
         btn_pay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(HomeActivity.this, MakePaymentActivity.class);
-                startActivity(intent);
+                boolean logic_good = accout_logic_check(false);
+                if (logic_good) {
+                    Intent intent = new Intent(HomeActivity.this, MakePaymentActivity.class);
+                    startActivity(intent);
+                }
             }
         });
         Realm.init(this);
         realm = Realm.getDefaultInstance();
 
-        check_last_statement(SERVER, ACCOUNT);
-        check_balance(SERVER, ACCOUNT);
+        check_kplc(KPLC_SERVER, ACCOUNT, true);
+        check_last_statement(SERVER, ACCOUNT, true);
+        check_balance(SERVER, ACCOUNT, true);
 
+        showWelcome();
 
     }
 
@@ -133,84 +181,144 @@ public class HomeActivity extends AppCompatActivity
         }
     }
 
-    private void check_last_statement(String SERVER, String ACCOUNT) {
-        Log.e("check last statement", "hit");
-        String url = SERVER + "/payment?account=" + ACCOUNT;
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        String result = response.toString();
-                        JSONArray json = null;
-                        try {
-                            String timeStamp = new SimpleDateFormat("yyyy/MM").format(Calendar.getInstance().getTime());
-                            json = new JSONArray(result);
-                            JSONObject oj = json.getJSONObject(0);
-                            mpTv.setText(String.valueOf(oj.get("balance")));
-                            payDueTv.setText(String.valueOf(oj.get("dueDate")));
-                            last_mpTv.setText(timeStamp);
-                            Log.e("check_last_statement", timeStamp);
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.e("buy_tokens", error.toString());
-                mpTv.setText("");
-                Postpaid pay = realm.where(Postpaid.class).isNull("payDate").findFirst();
-                if (pay != null) {
-                    Log.i("mylogpay", pay.toString());
-                    mpTv.setText(String.valueOf(pay.getBalance()));
-                    payDueTv.setText(getStringFromDate(pay.getDueDate()));
-                    Log.e("check_last_statement", pay.toString());
-                    last_mpTv.setText(String.valueOf(pay.getMonth()));
-                }
-            }
-        });
-        Singletons.getInstance(getBaseContext()).addToRequestQueue(stringRequest);
+    private boolean accout_logic_check(boolean headless) {
+        if (annon && !headless) {
+            show_not_logged_in_warning();
+            return false;
+        }
+        if (!annon && !headless && !am_online) {
+            show_sms_warning(SettingsConfig.CHECK_LAST_STATEMENT);
+            return false;
+        }
+        if (am_online) {
+            return true;
+        }
+        return false;
     }
 
-    private void check_balance(String SERVER, String ACCOUNT) {
-        Log.e("check balance", "hit");
-
-        String url = SERVER + "/balance?account=" + ACCOUNT;
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        String result = response.toString();
-                        JSONArray json = null;
-                        String timeStamp = new SimpleDateFormat("yyyy/MM").format(Calendar.getInstance().getTime());
-                        try {
-                            json = new JSONArray(result);
-                            JSONObject oj = json.getJSONObject(0);
-                            cbTv.setText(String.valueOf(oj.get("balance")));
-                            Log.e("check balance", timeStamp);
-                            last_cbTv.setText(timeStamp);
-                        } catch (JSONException e) {
-                            e.printStackTrace();
+    private void check_kplc(String SERVER, String ACCOUNT, boolean headless) {
+        boolean logic_good = accout_logic_check(headless);
+        if (logic_good) {
+        Log.e("check last statement", "hit");
+            String url = SERVER + "/?account=" + ACCOUNT;
+            StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            String result = response.toString();
+                            JSONArray json = null;
+                            try {
+                                String timeStamp = new SimpleDateFormat("yyyy/MM").format(Calendar.getInstance().getTime());
+                                json = new JSONArray(result);
+                                JSONObject oj = json.getJSONObject(0);
+                                Log.e("resp", json.toString());
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
                         }
-
-
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Toast.makeText(getBaseContext(), "Not Connected to the Network! Many functionalities will not work!", Toast.LENGTH_SHORT);
-                Log.e("buy_tokens", error.toString());
-                cbTv.setText("");
-                Date max = realm.where(Postpaid.class).maximumDate("month");
-                if (max != null) {
-                    Log.i("mylogmax", max.toString());
-                    Postpaid balance = realm.where(Postpaid.class).equalTo("month", max).findFirst();
-                    cbTv.setText(String.valueOf(balance.getBalance()));
-                    last_cbTv.setText(String.valueOf(balance.getMonth()));
+                    }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Log.e("resp", error.toString());
                 }
-            }
-        });
-        Singletons.getInstance(getBaseContext()).addToRequestQueue(stringRequest);
+            });
+            Singletons.getInstance(getBaseContext()).addToRequestQueue(stringRequest);
+        }
+    }
+
+    private void check_last_statement(String SERVER, String ACCOUNT, boolean headless) {
+        Log.e("check last statement", "hit");
+
+        boolean logic_good = accout_logic_check(headless);
+        if (logic_good) {
+            String url = SERVER + "/payment?account=" + ACCOUNT;
+            StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            String result = response.toString();
+                            JSONArray json = null;
+                            try {
+                                String timeStamp = new SimpleDateFormat("yyyy/MM").format(Calendar.getInstance().getTime());
+                                json = new JSONArray(result);
+                                JSONObject oj = json.getJSONObject(0);
+                                //mpTv.setText(String.valueOf(oj.get("balance")));
+                                payDueTv.setText(String.valueOf(oj.get("dueDate")));
+                                //last_mpTv.setText(timeStamp);
+                                Log.e("check_last_statement", timeStamp);
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Log.e("buy_tokens", error.toString());
+                    //mpTv.setText("");
+                    Postpaid pay = realm.where(Postpaid.class).isNull("payDate").findFirst();
+                    if (pay != null) {
+                        Log.i("mylogpay", pay.toString());
+                        //mpTv.setText(String.valueOf(pay.getBalance()));
+                        payDueTv.setText(getStringFromDate(pay.getDueDate()));
+                        Log.e("check_last_statement", pay.toString());
+                        //last_mpTv.setText(String.valueOf(pay.getMonth()));
+                    }
+                }
+            });
+            Singletons.getInstance(getBaseContext()).addToRequestQueue(stringRequest);
+        }
+
+    }
+
+    private void report_outage() {
+        if (am_online) {
+            do_gridwatch();
+        } else {
+            show_sms_warning(SettingsConfig.GRIDWATCH);
+        }
+    }
+
+    private void check_balance(String SERVER, String ACCOUNT, boolean headless) {
+        boolean logic_good = accout_logic_check(headless);
+        if (logic_good) {
+        String url = SERVER + "/balance?account=" + ACCOUNT;
+            StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            String result = response.toString();
+                            JSONArray json = null;
+                            String timeStamp = new SimpleDateFormat("yyyy/MM").format(Calendar.getInstance().getTime());
+                            try {
+                                json = new JSONArray(result);
+                                JSONObject oj = json.getJSONObject(0);
+                                //cbTv.setText(String.valueOf(oj.get("balance")));
+                                Log.e("check balance", timeStamp);
+                                //last_cbTv.setText(timeStamp);
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+
+
+                        }
+                    }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Toast.makeText(getBaseContext(), "Not Connected to the Network! Many functionalities will not work!", Toast.LENGTH_SHORT);
+                    Log.e("buy_tokens", error.toString());
+//                cbTv.setText("");
+                    Date max = realm.where(Postpaid.class).maximumDate("month");
+                    if (max != null) {
+                        Log.i("mylogmax", max.toString());
+                        Postpaid balance = realm.where(Postpaid.class).equalTo("month", max).findFirst();
+                        //cbTv.setText(String.valueOf(balance.getBalance()));
+                        //last_cbTv.setText(String.valueOf(balance.getMonth()));
+                    }
+                }
+            });
+            Singletons.getInstance(getBaseContext()).addToRequestQueue(stringRequest);
+        }
+
     }
 
     private void showWelcome() {
@@ -224,6 +332,27 @@ public class HomeActivity extends AppCompatActivity
             welcomeTv.setText((welcomeText[1]));
         } else {
             welcomeTv.setText((welcomeText[2]));
+        }
+
+        if (annon) {
+            cur_name.setText("");
+            cur_name.setVisibility(View.GONE);
+            //cur_due_date.setText("Must log in to view");
+            //cur_balance.setText("Must log in to view");
+            cur_due_date.setVisibility(View.GONE);
+            cur_balance.setVisibility(View.GONE);
+            cur_balance_label_text.setVisibility(View.GONE);
+            cur_payment_label_text.setVisibility(View.GONE);
+        }
+        if (!am_online) {
+            cur_name.setText("");
+            cur_name.setVisibility(View.GONE);
+            //cur_due_date.setText("Must be online to view");
+            //cur_balance.setText("Must be online to view");
+            cur_due_date.setVisibility(View.GONE);
+            cur_balance.setVisibility(View.GONE);
+            cur_balance_label_text.setVisibility(View.GONE);
+            cur_payment_label_text.setVisibility(View.GONE);
         }
 
     }
@@ -242,23 +371,41 @@ public class HomeActivity extends AppCompatActivity
         int id = item.getItemId();
 
 
+        boolean logic_good = accout_logic_check(false);
+
         if (id == R.id.nav_balance) {
-            launch_class(BalanceHistoryActivity.class);
+            if (logic_good) {
+                launch_class(BalanceHistoryActivity.class);
+            }
         }
         /*else if (id == R.id.nav_statement) {
             launch_class(StatementHistoryActivity.class);
         }
         */
         else if (id == R.id.nav_payment) {
-            launch_class(MakePaymentActivity.class);
+            if (logic_good) {
+                launch_class(MakePaymentActivity.class);
+            }
         } else if (id == R.id.nav_token) {
-            launch_class(BuyTokensActivity.class);
+            if (logic_good) {
+                launch_class(BuyTokensActivity.class);
+            }
         } else if (id == R.id.nav_usage) {
-            launch_class(UsageChartsActivity.class);
+            if (logic_good) {
+                launch_class(UsageChartsActivity.class);
+            }
         } else if (id == R.id.nav_outage_map) {
-            launch_class(OutageMapActivity.class);
+            if (am_online) {
+                launch_class(OutageMapActivity.class);
+            } else {
+                show_not_online_err();
+            }
         } else if (id == R.id.nav_newsfeed) {
-            launch_class(NewsfeedActivity.class);
+            if (am_online) {
+                launch_class(NewsfeedActivity.class);
+            } else {
+                show_not_online_err();
+            }
         } else if (id == R.id.nav_settings) {
             launch_class(SettingsActivity.class);
         } else if (id == R.id.nav_advanced_settings) {
@@ -289,4 +436,69 @@ public class HomeActivity extends AppCompatActivity
         startActivity(e);
     }
 
+    private boolean isNetworkAvailable() {
+        ConnectivityManager manager =
+                (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = manager.getActiveNetworkInfo();
+        boolean isAvailable = false;
+        if (networkInfo != null && networkInfo.isConnected()) {
+            // Network is present and connected
+            isAvailable = true;
+        }
+        prefs.edit().putBoolean(SettingsConfig.IS_ONLINE, isAvailable).apply();
+        return isAvailable;
+    }
+
+    private void show_not_online_err() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage(R.string.not_online_dialog);
+        builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+            }
+        });
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+
+    private void show_not_logged_in_warning() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage(R.string.not_logged_in_warning);
+        builder.setPositiveButton(R.string.no, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+            }
+        });
+        builder.setNegativeButton(R.string.login, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                do_logout();
+            }
+        });
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+    private void show_sms_warning(final String sms_type) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage(R.string.show_SMS_warning);
+        builder.setPositiveButton(R.string.no, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+            }
+        });
+        builder.setNegativeButton(R.string.ok, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                send_sms(sms_type);
+            }
+        });
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+    private void send_sms(String msg) {
+        Log.e("send sms", msg);
+    }
+
+    private void do_gridwatch() {
+
+    }
 }
+
