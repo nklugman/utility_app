@@ -1,0 +1,52 @@
+{
+  "project_info": {
+    "project_number": "192298007201",
+    "firebase_url": "https://kplc-3ca2c.firebaseio.com",
+    "project_id": "kplc-3ca2c",
+    "storage_bucket": "kplc-3ca2c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:192298007201:android:5e79a5eed00e6495",
+        "android_client_info": {
+          "package_name": "gridwatch.kplc"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "192298007201-erjpqhvj0mlpicdd5aqgm0u1vd59etbd.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "gridwatch.kplc",
+            "certificate_hash": "50EF40AC68D6DFCC5505F19CBAD36FBE1667E750"
+          }
+        },
+        {
+          "client_id": "192298007201-c5b036e5dv7dl7n6m4usccvslgb06bvb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [{ "current_key": "" }]
+        ,
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "192298007201-c5b036e5dv7dl7n6m4usccvslgb06bvb.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
