@@ -41,13 +41,10 @@ import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.TimeUnit;
 
-import gridwatch.kplc.activities.config.DatabaseConfig;
 import gridwatch.kplc.activities.config.SensorConfig;
 import gridwatch.kplc.activities.config.SettingsConfig;
-import gridwatch.kplc.activities.database.Ack;
 import gridwatch.kplc.activities.database.GWDump;
 import gridwatch.kplc.activities.logs.LatLngWriter;
-import gridwatch.kplc.activities.network.GWRetrofit;
 import io.realm.Realm;
 import pl.charmas.android.reactivelocation.ReactiveLocationProvider;
 import rx.Observable;
@@ -79,26 +76,17 @@ public class GridWatch {
 
 
     private Context mContext;
-    private String mType;
     private String mPhone_id = "-1";
 
-    private long mLast;
-    private String mSize;
-    private String mCP;
     private String mVersionNum;
-    private String mMAC;
 
 
 
-    public GridWatch(Context context, String type, String phone_id, String size, String mac, String version_num, long last) {
+    public GridWatch(Context context, String phone_id,  String version_num) {
 
         mContext = context;
-        mType = type;
         mPhone_id = phone_id;
-        mSize = size;
-        mMAC = mac;
         mVersionNum = version_num;
-        mLast = last;
         mDatabase = FirebaseDatabase.getInstance().getReference();
         sp = PreferenceManager.getDefaultSharedPreferences(mContext);
         Realm.init(mContext);
@@ -418,22 +406,23 @@ public class GridWatch {
                 e.printStackTrace();
             }
 
-            String event_type = mType;
             long time = System.currentTimeMillis();
 
-            long last = mLast;
-            String cur_size = String.valueOf(mSize);
             double battery = level / (double) scale;
             String version_num = mVersionNum;
 
+            /*
             GWRetrofit a = new GWRetrofit(event_type, time, lat, lng,
                     phone_id, experiment_id, version_num,
                     cur_size, last, battery);
+            */
 
+            /*
             Ack gw = new Ack(System.currentTimeMillis(), a.toString(), phone_id, experiment_id);
             int new_gw_num = sp.getInt(SettingsConfig.GW, 0) + 1;
             sp.edit().putInt(SettingsConfig.GW, new_gw_num).commit();
             mDatabase.child(phone_id).child(DatabaseConfig.GW).child(String.valueOf(new_gw_num)).setValue(gw);
+            */
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -534,7 +523,6 @@ public class GridWatch {
     private JSONObject meta_transform() {
         try {
             return new JSONObject()
-                    .put("type", mType)
                     .put("phone_id", mPhone_id)
                     .put("meta_time", System.currentTimeMillis());
         } catch (JSONException e) {

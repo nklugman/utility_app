@@ -8,6 +8,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.provider.Settings.Secure;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -28,6 +29,8 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.database.FirebaseDatabase;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -46,6 +49,7 @@ import gridwatch.kplc.activities.billing.BalanceHistoryActivity;
 import gridwatch.kplc.activities.billing.Postpaid;
 import gridwatch.kplc.activities.billing.UsageChartsActivity;
 import gridwatch.kplc.activities.config.SettingsConfig;
+import gridwatch.kplc.activities.gridwatch.GridWatch;
 import gridwatch.kplc.activities.news_feed.NewsfeedActivity;
 import gridwatch.kplc.activities.outage_map.OutageMapActivity;
 import gridwatch.kplc.activities.payment.BuyTokensActivity;
@@ -67,6 +71,8 @@ public class HomeActivity extends AppCompatActivity
     private TextView cur_name;
     private TextView cur_balance_label_text;
     private TextView cur_payment_label_text;
+
+    private int version_num = 1;
 
     private boolean am_online;
     private boolean is_prepaid;
@@ -97,6 +103,9 @@ public class HomeActivity extends AppCompatActivity
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        FirebaseApp.initializeApp(getApplicationContext());
+        FirebaseDatabase.getInstance();
 
         is_prepaid = prefs.getBoolean(SettingsConfig.IS_PREPAID, false);
         annon = prefs.getBoolean(SettingsConfig.ANNON, false);
@@ -565,6 +574,11 @@ public class HomeActivity extends AppCompatActivity
     }
 
     private void do_gridwatch() {
+
+        String iemi = Secure.getString(this.getContentResolver(), Secure.ANDROID_ID);
+
+
+        GridWatch a = new GridWatch(this,iemi,String.valueOf(version_num));
 
     }
 }
