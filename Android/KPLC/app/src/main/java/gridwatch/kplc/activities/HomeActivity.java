@@ -90,7 +90,9 @@ public class HomeActivity extends AppCompatActivity
         final String KPLC_SERVER =  application_host_server + ":" + kplc_host_port;
         final String ACCOUNT = prefs.getString("setting_key_account_number", "3202667");
         setContentView(R.layout.activity_home);
-
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+        
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
