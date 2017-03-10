@@ -59,7 +59,6 @@ def get_comment(posts):
             
 def timeStamp_parsing(timeStamp):
     timeStamp = timeStamp.replace("T", " ")
-    timeStamp = timeStamp.replace('+0000',"")
     return timeStamp
     
 def post_to_database(data):

@@ -27,23 +27,31 @@ def fetch_outage_list():
     area_matrix =[]
     area_list_pdf = []
     area_list_reply = []
+    minutes_interval = 180
+    '''
     try:
         data=pd.read_csv(id_csv+'.csv')
         last_time = data[id_csv].loc[0]
     except Exception as e:
         last_time = '2017-03-07'
-    print(last_time)
-    cur.execute("SELECT area FROM outages WHERE start_datetime >= \'%s\'"%last_time)
+    '''
+    now_kenya = datetime.datetime.now(pytz.timezone('Africa/Nairobi'))
+    print(now_kenya)
+    cur.execute("SELECT area FROM outages WHERE start_datetime >= \'%s\' & start_datetime <= \'%s\'" \
+                %(now_kenya, now_kenya - datetime.timedelta(minutes=minutes_interval)))
     area_rows = cur.fetchall()
-    cur.execute("SELECT start_datetime FROM outages WHERE start_datetime >= \'%s\'"%last_time)
+    cur.execute("SELECT start_datetime FROM outages WHERE start_datetime >= \'%s\' & start_datetime <= \'%s\'" \
+                %(now_kenya, now_kenya - datetime.timedelta(minutes=minutes_interval)))
     time_rows = cur.fetchall()
     for i in range(len(area_rows)):
         area_list_pdf.append([area_rows[i][0], str(time_rows[i][0])])
     print("-----Area list from PDF file on database is fetched.")
     
-    cur.execute("SELECT area FROM social_media WHERE time >= \'%s\'"%last_time)
+    cur.execute("SELECT area FROM social_media WHERE time >= \'%s\' & start_datetime <= \'%s\'" \
+                %(now_kenya, now_kenya - datetime.timedelta(minutes=minutes_interval)))
     area_rows = cur.fetchall()
-    cur.execute("SELECT time FROM social_media WHERE time >= \'%s\'"%last_time)
+    cur.execute("SELECT time FROM social_media WHERE time >= \'%s\' & start_datetime <= \'%s\'" \
+                %(now_kenya, now_kenya - datetime.timedelta(minutes=minutes_interval)))
     time_rows = cur.fetchall()
     for i in range(len(area_rows)):
         area_list_reply.append([area_rows[i][0], time_rows[i][0]])
