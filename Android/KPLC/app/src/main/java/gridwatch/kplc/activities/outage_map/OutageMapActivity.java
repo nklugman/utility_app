@@ -5,7 +5,10 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.webkit.WebView;
+import android.webkit.WebSettings;
 import android.widget.Toast;
+
+import gridwatch.kplc.R;
 
 public class OutageMapActivity extends AppCompatActivity {
 
@@ -15,9 +18,13 @@ public class OutageMapActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
+        //webview = (WebView) findViewById(R.id.outage_map_webview);
         webview = new WebView(this);
         setContentView(webview);
-        webview.getSettings().setJavaScriptEnabled(true);
+        WebSettings webSettings = webview.getSettings();
+        webSettings.setJavaScriptEnabled(true);
         webview.loadUrl("http://141.212.11.206/map/map.html");
 
 
