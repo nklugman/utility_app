@@ -20,12 +20,21 @@ public class OutageMapActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
 
+
         //webview = (WebView) findViewById(R.id.outage_map_webview);
         webview = new WebView(this);
         setContentView(webview);
         WebSettings webSettings = webview.getSettings();
         webSettings.setJavaScriptEnabled(true);
-        webview.loadUrl("http://141.212.11.206/map/map.html");
+
+        webview.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
+        webview.getSettings().setGeolocationEnabled(true);
+        webview.getSettings().setBuiltInZoomControls(true);
+        webview.getSettings().setSupportZoom(true);
+        webview.setVerticalScrollBarEnabled(true);
+        webview.setHorizontalScrollBarEnabled(true);
+        //webview.loadUrl("http://141.212.11.206/map/map.html");
+        webview.loadUrl("file:///android_asset/map.html");
 
 
         //setContentView(R.layout.activity_outage_map);

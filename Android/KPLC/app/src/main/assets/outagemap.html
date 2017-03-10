@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<!-- saved from url=(0034)http://141.212.11.206/map/map.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><style type="text/css">.gm-style .gm-style-mtc label,.gm-style .gm-style-mtc div{font-weight:400}</style><link type="text/css" rel="stylesheet" href="./outagemap_files/css"><style type="text/css">.gm-style .gm-style-cc span,.gm-style .gm-style-cc a,.gm-style .gm-style-mtc div{font-size:10px}</style><style type="text/css">@media print {  .gm-style .gmnoprint, .gmnoprint {    display:none  }}@media screen {  .gm-style .gmnoscreen, .gmnoscreen {    display:none  }}</style><style type="text/css">.gm-style { font: 400 11px Roboto, Arial, sans-serif;text-decoration: none; }.gm-style img { max-width: none; }</style>
+    <title>KPLC Outage Map</title>
+    <meta name="viewport" content="initial-scale=1.0">
+    
+    <style>
+      /* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+      #map {
+        height: 100%;
+      }
+      /* Optional: Makes the sample page fill the window. */
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+    </style>
+  <script type="text/javascript" charset="UTF-8" src="./outagemap_files/common.js"></script><script type="text/javascript" charset="UTF-8" src="./outagemap_files/map.js"></script><script type="text/javascript" charset="UTF-8" src="./outagemap_files/util.js"></script><script type="text/javascript" charset="UTF-8" src="./outagemap_files/data.js"></script><script type="text/javascript" charset="UTF-8" src="./outagemap_files/infowindow.js"></script><script type="text/javascript" charset="UTF-8" src="./outagemap_files/onion.js"></script><script type="text/javascript" charset="UTF-8" src="./outagemap_files/stats.js"></script><script type="text/javascript" charset="UTF-8" src="./outagemap_files/controls.js"></script><script type="text/javascript" charset="UTF-8" src="./outagemap_files/marker.js"></script><script type="text/javascript" charset="UTF-8" src="./outagemap_files/geometry.js"></script><script type="text/javascript" charset="UTF-8" src="./outagemap_files/poly.js"></script><script type="text/javascript" charset="UTF-8" src="./outagemap_files/QuotaService.RecordEvent"></script></head>
+  <body>
+    <div id="app_id" style="display: none;"></div>
+    <div id="loc" style="display: none;"></div>
+    <div id="info"><center>All information is not guaranteed to be correct, this is just a prototype.</center></div>
+    <div id="map" style="position: relative; overflow: hidden;"><div style="height: 100%; width: 100%; position: absolute; top: 0px; left: 0px; background-color: rgb(229, 227, 223);"><div class="gm-style" style="position: absolute; left: 0px; top: 0px; height: 100%; width: 100%; padding: 0px; border-width: 0px; margin: 0px; z-index: 0;"><div style="position: absolute; left: 0px; top: 0px; height: 100%; width: 100%; padding: 0px; border-width: 0px; margin: 0px; z-index: 0; cursor: url(&quot;https://maps.gstatic.com/mapfiles/openhand_8_8.cur&quot;) 8 8, default;"><div style="position: absolute; left: 0px; top: 0px; z-index: 1; width: 100%; transform-origin: 0px 0px 0px; transform: matrix(1, 0, 0, 1, 0, 0);"><div style="position: absolute; left: 0px; top: 0px; z-index: 100; width: 100%;"><div style="position: absolute; left: 0px; top: 0px; z-index: 0;"><div aria-hidden="true" style="position: absolute; left: 0px; top: 0px; z-index: 1; visibility: inherit;"><div style="width: 256px; height: 256px; position: absolute; left: 402px; top: 52px;"></div><div style="width: 256px; height: 256px; position: absolute; left: 402px; top: 308px;"></div><div style="width: 256px; height: 256px; position: absolute; left: 146px; top: 52px;"></div><div style="width: 256px; height: 256px; position: absolute; left: 146px; top: 308px;"></div><div style="width: 256px; height: 256px; position: absolute; left: 658px; top: 52px;"></div><div style="width: 256px; height: 256px; position: absolute; left: 658px; top: 308px;"></div><div style="width: 256px; height: 256px; position: absolute; left: 402px; top: -204px;"></div><div style="width: 256px; height: 256px; position: absolute; left: 402px; top: 564px;"></div><div style="width: 256px; height: 256px; position: absolute; left: 146px; top: 564px;"></div><div style="width: 256px; height: 256px; position: absolute; left: 146px; top: -204px;"></div><div style="width: 256px; height: 256px; position: absolute; left: 658px; top: -204px;"></div><div style="width: 256px; height: 256px; position: absolute; left: 658px; top: 564px;"></div><div style="width: 256px; height: 256px; position: absolute; left: -110px; top: 308px;"></div><div style="width: 256px; height: 256px; position: absolute; left: 914px; top: 308px;"></div><div style="width: 256px; height: 256px; position: absolute; left: 914px; top: 52px;"></div><div style="width: 256px; height: 256px; position: absolute; left: -110px; top: 52px;"></div><div style="width: 256px; height: 256px; position: absolute; left: 914px; top: -204px;"></div><div style="width: 256px; height: 256px; position: absolute; left: -110px; top: -204px;"></div><div style="width: 256px; height: 256px; position: absolute; left: -110px; top: 564px;"></div><div style="width: 256px; height: 256px; position: absolute; left: 914px; top: 564px;"></div></div></div></div><div style="position: absolute; left: 0px; top: 0px; z-index: 101; width: 100%;"><div style="position: absolute; left: 0px; top: 0px; z-index: 30;"><div aria-hidden="true" style="position: absolute; left: 0px; top: 0px; z-index: 1; visibility: inherit;"><div style="width: 256px; height: 256px; overflow: hidden; position: absolute; left: 402px; top: 52px;"><canvas width="512" height="512" draggable="false" style="width: 256px; height: 256px; user-select: none; position: absolute; left: 0px; top: 0px;"></canvas></div><div style="width: 256px; height: 256px; overflow: hidden; position: absolute; left: 402px; top: 308px;"><canvas width="512" height="512" draggable="false" style="width: 256px; height: 256px; user-select: none; position: absolute; left: 0px; top: 0px;"></canvas></div><div style="width: 256px; height: 256px; overflow: hidden; position: absolute; left: 146px; top: 52px;"><canvas width="512" height="512" draggable="false" style="width: 256px; height: 256px; user-select: none; position: absolute; left: 0px; top: 0px;"></canvas></div><div style="width: 256px; height: 256px; overflow: hidden; position: absolute; left: 146px; top: 308px;"><canvas width="512" height="512" draggable="false" style="width: 256px; height: 256px; user-select: none; position: absolute; left: 0px; top: 0px;"></canvas></div><div style="width: 256px; height: 256px; overflow: hidden; position: absolute; left: 658px; top: 52px;"><canvas width="512" height="512" draggable="false" style="width: 256px; height: 256px; user-select: none; position: absolute; left: 0px; top: 0px;"></canvas></div><div style="width: 256px; height: 256px; overflow: hidden; position: absolute; left: 658px; top: 308px;"><canvas width="512" height="512" draggable="false" style="width: 256px; height: 256px; user-select: none; position: absolute; left: 0px; top: 0px;"></canvas></div><div style="width: 256px; height: 256px; overflow: hidden; position: absolute; left: 402px; top: -204px;"><canvas width="512" height="512" draggable="false" style="width: 256px; height: 256px; user-select: none; position: absolute; left: 0px; top: 0px;"></canvas></div><div style="width: 256px; height: 256px; overflow: hidden; position: absolute; left: 402px; top: 564px;"><canvas width="512" height="512" draggable="false" style="width: 256px; height: 256px; user-select: none; position: absolute; left: 0px; top: 0px;"></canvas></div><div style="width: 256px; height: 256px; overflow: hidden; position: absolute; left: 146px; top: 564px;"></div><div style="width: 256px; height: 256px; overflow: hidden; position: absolute; left: 146px; top: -204px;"><canvas width="512" height="512" draggable="false" style="width: 256px; height: 256px; user-select: none; position: absolute; left: 0px; top: 0px;"></canvas></div><div style="width: 256px; height: 256px; overflow: hidden; position: absolute; left: 658px; top: -204px;"><canvas width="512" height="512" draggable="false" style="width: 256px; height: 256px; user-select: none; position: absolute; left: 0px; top: 0px;"></canvas></div><div style="width: 256px; height: 256px; overflow: hidden; position: absolute; left: 658px; top: 564px;"><canvas width="512" height="512" draggable="false" style="width: 256px; height: 256px; user-select: none; position: absolute; left: 0px; top: 0px;"></canvas></div><div style="width: 256px; height: 256px; overflow: hidden; position: absolute; left: -110px; top: 308px;"><canvas width="512" height="512" draggable="false" style="width: 256px; height: 256px; user-select: none; position: absolute; left: 0px; top: 0px;"></canvas></div><div style="width: 256px; height: 256px; overflow: hidden; position: absolute; left: 914px; top: 308px;"></div><div style="width: 256px; height: 256px; overflow: hidden; position: absolute; left: 914px; top: 52px;"></div><div style="width: 256px; height: 256px; overflow: hidden; position: absolute; left: -110px; top: 52px;"><canvas width="512" height="512" draggable="false" style="width: 256px; height: 256px; user-select: none; position: absolute; left: 0px; top: 0px;"></canvas></div><div style="width: 256px; height: 256px; overflow: hidden; position: absolute; left: 914px; top: -204px;"></div><div style="width: 256px; height: 256px; overflow: hidden; position: absolute; left: -110px; top: -204px;"></div><div style="width: 256px; height: 256px; overflow: hidden; position: absolute; left: -110px; top: 564px;"></div><div style="width: 256px; height: 256px; overflow: hidden; position: absolute; left: 914px; top: 564px;"></div></div></div></div><div style="position: absolute; left: 0px; top: 0px; z-index: 102; width: 100%;"></div><div style="position: absolute; left: 0px; top: 0px; z-index: 103; width: 100%;"><div style="position: absolute; left: 0px; top: 0px; z-index: -1;"><div aria-hidden="true" style="position: absolute; left: 0px; top: 0px; z-index: 1; visibility: inherit;"><div style="width: 256px; height: 256px; overflow: hidden; position: absolute; left: 402px; top: 52px;"></div><div style="width: 256px; height: 256px; overflow: hidden; position: absolute; left: 402px; top: 308px;"></div><div style="width: 256px; height: 256px; overflow: hidden; position: absolute; left: 146px; top: 52px;"></div><div style="width: 256px; height: 256px; overflow: hidden; position: absolute; left: 146px; top: 308px;"></div><div style="width: 256px; height: 256px; overflow: hidden; position: absolute; left: 658px; top: 52px;"></div><div style="width: 256px; height: 256px; overflow: hidden; position: absolute; left: 658px; top: 308px;"></div><div style="width: 256px; height: 256px; overflow: hidden; position: absolute; left: 402px; top: -204px;"></div><div style="width: 256px; height: 256px; overflow: hidden; position: absolute; left: 402px; top: 564px;"></div><div style="width: 256px; height: 256px; overflow: hidden; position: absolute; left: 146px; top: 564px;"></div><div style="width: 256px; height: 256px; overflow: hidden; position: absolute; left: 146px; top: -204px;"></div><div style="width: 256px; height: 256px; overflow: hidden; position: absolute; left: 658px; top: -204px;"></div><div style="width: 256px; height: 256px; overflow: hidden; position: absolute; left: 658px; top: 564px;"></div><div style="width: 256px; height: 256px; overflow: hidden; position: absolute; left: -110px; top: 308px;"></div><div style="width: 256px; height: 256px; overflow: hidden; position: absolute; left: 914px; top: 308px;"></div><div style="width: 256px; height: 256px; overflow: hidden; position: absolute; left: 914px; top: 52px;"></div><div style="width: 256px; height: 256px; overflow: hidden; position: absolute; left: -110px; top: 52px;"></div><div style="width: 256px; height: 256px; overflow: hidden; position: absolute; left: 914px; top: -204px;"></div><div style="width: 256px; height: 256px; overflow: hidden; position: absolute; left: -110px; top: -204px;"></div><div style="width: 256px; height: 256px; overflow: hidden; position: absolute; left: -110px; top: 564px;"></div><div style="width: 256px; height: 256px; overflow: hidden; position: absolute; left: 914px; top: 564px;"></div></div></div></div><div style="position: absolute; left: 0px; top: 0px; z-index: 0;"><div aria-hidden="true" style="position: absolute; left: 0px; top: 0px; z-index: 1; visibility: inherit;"><div style="position: absolute; left: 402px; top: 52px; transition: opacity 200ms ease-out;"><img src="./outagemap_files/vt" draggable="false" alt="" style="width: 256px; height: 256px; user-select: none; border: 0px; padding: 0px; margin: 0px; max-width: none;"></div><div style="position: absolute; left: 402px; top: 308px; transition: opacity 200ms ease-out;"><img src="./outagemap_files/vt(1)" draggable="false" alt="" style="width: 256px; height: 256px; user-select: none; border: 0px; padding: 0px; margin: 0px; max-width: none;"></div><div style="position: absolute; left: 146px; top: -204px; transition: opacity 200ms ease-out;"><img src="./outagemap_files/vt(2)" draggable="false" alt="" style="width: 256px; height: 256px; user-select: none; border: 0px; padding: 0px; margin: 0px; max-width: none;"></div><div style="position: absolute; left: 146px; top: 564px; transition: opacity 200ms ease-out;"><img src="./outagemap_files/vt(3)" draggable="false" alt="" style="width: 256px; height: 256px; user-select: none; border: 0px; padding: 0px; margin: 0px; max-width: none;"></div><div style="position: absolute; left: 658px; top: 308px; transition: opacity 200ms ease-out;"><img src="./outagemap_files/vt(4)" draggable="false" alt="" style="width: 256px; height: 256px; user-select: none; border: 0px; padding: 0px; margin: 0px; max-width: none;"></div><div style="position: absolute; left: 658px; top: 52px; transition: opacity 200ms ease-out;"><img src="./outagemap_files/vt(5)" draggable="false" alt="" style="width: 256px; height: 256px; user-select: none; border: 0px; padding: 0px; margin: 0px; max-width: none;"></div><div style="position: absolute; left: -110px; top: 308px; transition: opacity 200ms ease-out;"><img src="./outagemap_files/vt(6)" draggable="false" alt="" style="width: 256px; height: 256px; user-select: none; border: 0px; padding: 0px; margin: 0px; max-width: none;"></div><div style="position: absolute; left: 658px; top: 564px; transition: opacity 200ms ease-out;"><img src="./outagemap_files/vt(7)" draggable="false" alt="" style="width: 256px; height: 256px; user-select: none; border: 0px; padding: 0px; margin: 0px; max-width: none;"></div><div style="position: absolute; left: 914px; top: 564px; transition: opacity 200ms ease-out;"><img src="./outagemap_files/vt(8)" draggable="false" alt="" style="width: 256px; height: 256px; user-select: none; border: 0px; padding: 0px; margin: 0px; max-width: none;"></div><div style="position: absolute; left: 146px; top: 308px; transition: opacity 200ms ease-out;"><img src="./outagemap_files/vt(9)" draggable="false" alt="" style="width: 256px; height: 256px; user-select: none; border: 0px; padding: 0px; margin: 0px; max-width: none;"></div><div style="position: absolute; left: 402px; top: 564px; transition: opacity 200ms ease-out;"><img src="./outagemap_files/vt(10)" draggable="false" alt="" style="width: 256px; height: 256px; user-select: none; border: 0px; padding: 0px; margin: 0px; max-width: none;"></div><div style="position: absolute; left: 402px; top: -204px; transition: opacity 200ms ease-out;"><img src="./outagemap_files/vt(11)" draggable="false" alt="" style="width: 256px; height: 256px; user-select: none; border: 0px; padding: 0px; margin: 0px; max-width: none;"></div><div style="position: absolute; left: -110px; top: 52px; transition: opacity 200ms ease-out;"><img src="./outagemap_files/vt(12)" draggable="false" alt="" style="width: 256px; height: 256px; user-select: none; border: 0px; padding: 0px; margin: 0px; max-width: none;"></div><div style="position: absolute; left: -110px; top: -204px; transition: opacity 200ms ease-out;"><img src="./outagemap_files/vt(13)" draggable="false" alt="" style="width: 256px; height: 256px; user-select: none; border: 0px; padding: 0px; margin: 0px; max-width: none;"></div><div style="position: absolute; left: -110px; top: 564px; transition: opacity 200ms ease-out;"><img src="./outagemap_files/vt(14)" draggable="false" alt="" style="width: 256px; height: 256px; user-select: none; border: 0px; padding: 0px; margin: 0px; max-width: none;"></div><div style="position: absolute; left: 914px; top: -204px; transition: opacity 200ms ease-out;"><img src="./outagemap_files/vt(15)" draggable="false" alt="" style="width: 256px; height: 256px; user-select: none; border: 0px; padding: 0px; margin: 0px; max-width: none;"></div><div style="position: absolute; left: 914px; top: 308px; transition: opacity 200ms ease-out;"><img src="./outagemap_files/vt(16)" draggable="false" alt="" style="width: 256px; height: 256px; user-select: none; border: 0px; padding: 0px; margin: 0px; max-width: none;"></div><div style="position: absolute; left: 914px; top: 52px; transition: opacity 200ms ease-out;"><img src="./outagemap_files/vt(17)" draggable="false" alt="" style="width: 256px; height: 256px; user-select: none; border: 0px; padding: 0px; margin: 0px; max-width: none;"></div><div style="position: absolute; left: 658px; top: -204px; transition: opacity 200ms ease-out;"><img src="./outagemap_files/vt(18)" draggable="false" alt="" style="width: 256px; height: 256px; user-select: none; border: 0px; padding: 0px; margin: 0px; max-width: none;"></div><div style="position: absolute; left: 146px; top: 52px; transition: opacity 200ms ease-out;"><img src="./outagemap_files/vt(19)" draggable="false" alt="" style="width: 256px; height: 256px; user-select: none; border: 0px; padding: 0px; margin: 0px; max-width: none;"></div></div></div></div><div style="position: absolute; left: 0px; top: 0px; z-index: 2; height: 100%; width: 100%; padding: 0px; border-width: 0px; margin: 0px;"></div><div style="position: absolute; left: 0px; top: 0px; z-index: 3; height: 100%; width: 100%; padding: 0px; border-width: 0px; margin: 0px;"></div><div style="position: absolute; left: 0px; top: 0px; z-index: 4; width: 100%; transform-origin: 0px 0px 0px; transform: matrix(1, 0, 0, 1, 0, 0);"><div style="position: absolute; left: 0px; top: 0px; z-index: 104; width: 100%;"></div><div style="position: absolute; left: 0px; top: 0px; z-index: 105; width: 100%;"></div><div style="position: absolute; left: 0px; top: 0px; z-index: 106; width: 100%;"></div><div style="position: absolute; left: 0px; top: 0px; z-index: 107; width: 100%;"><div style="z-index: -202; cursor: pointer; display: none;"><div style="width: 30px; height: 27px; overflow: hidden; position: absolute;"><img src="./outagemap_files/undo_poly.png" draggable="false" style="position: absolute; left: 0px; top: 0px; user-select: none; border: 0px; padding: 0px; margin: 0px; max-width: none; width: 90px; height: 27px;"></div></div></div></div><iframe frameborder="0" style="z-index: -1; border: 0px none; position: absolute; height: 100%; width: 100%; padding: 0px; margin: 0px; left: 0px; top: 0px;" src="./outagemap_files/saved_resource.html"></iframe></div><div style="margin-left: 5px; margin-right: 5px; z-index: 1000000; position: absolute; left: 0px; bottom: 0px;"><a target="_blank" href="https://maps.google.com/maps?ll=0.261698,37.9&amp;z=7&amp;t=m&amp;hl=en-US&amp;gl=US&amp;mapclient=apiv3" title="Click to see this area on Google Maps" style="position: static; overflow: visible; float: none; display: inline;"><div style="width: 66px; height: 26px; cursor: pointer;"><img src="./outagemap_files/google4_hdpi.png" draggable="false" style="position: absolute; left: 0px; top: 0px; width: 66px; height: 26px; user-select: none; border: 0px; padding: 0px; margin: 0px;"></div></a></div><div style="background-color: white; padding: 15px 21px; border: 1px solid rgb(171, 171, 171); font-family: Roboto, Arial, sans-serif; color: rgb(34, 34, 34); box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 16px; z-index: 10000002; display: none; width: 256px; height: 148px; position: absolute; left: 374px; top: 195px;"><div style="padding: 0px 0px 10px; font-size: 16px;">Map Data</div><div style="font-size: 13px;">Map data ©2017 Google</div><div style="width: 13px; height: 13px; overflow: hidden; position: absolute; opacity: 0.7; right: 12px; top: 12px; z-index: 10000; cursor: pointer;"><img src="./outagemap_files/mapcnt6.png" draggable="false" style="position: absolute; left: -2px; top: -336px; width: 59px; height: 492px; user-select: none; border: 0px; padding: 0px; margin: 0px; max-width: none;"></div></div><div class="gmnoprint" style="z-index: 1000001; position: absolute; right: 71px; bottom: 0px; width: 121px;"><div draggable="false" class="gm-style-cc" style="user-select: none; height: 14px; line-height: 14px;"><div style="opacity: 0.7; width: 100%; height: 100%; position: absolute;"><div style="width: 1px;"></div><div style="background-color: rgb(245, 245, 245); width: auto; height: 100%; margin-left: 1px;"></div></div><div style="position: relative; padding-right: 6px; padding-left: 6px; font-family: Roboto, Arial, sans-serif; font-size: 10px; color: rgb(68, 68, 68); white-space: nowrap; direction: ltr; text-align: right; vertical-align: middle; display: inline-block;"><a style="color: rgb(68, 68, 68); text-decoration: none; cursor: pointer; display: none;">Map Data</a><span>Map data ©2017 Google</span></div></div></div><div class="gmnoscreen" style="position: absolute; right: 0px; bottom: 0px;"><div style="font-family: Roboto, Arial, sans-serif; font-size: 11px; color: rgb(68, 68, 68); direction: ltr; text-align: right; background-color: rgb(245, 245, 245);">Map data ©2017 Google</div></div><div class="gmnoprint gm-style-cc" draggable="false" style="z-index: 1000001; user-select: none; height: 14px; line-height: 14px; position: absolute; right: 0px; bottom: 0px;"><div style="opacity: 0.7; width: 100%; height: 100%; position: absolute;"><div style="width: 1px;"></div><div style="background-color: rgb(245, 245, 245); width: auto; height: 100%; margin-left: 1px;"></div></div><div style="position: relative; padding-right: 6px; padding-left: 6px; font-family: Roboto, Arial, sans-serif; font-size: 10px; color: rgb(68, 68, 68); white-space: nowrap; direction: ltr; text-align: right; vertical-align: middle; display: inline-block;"><a href="https://www.google.com/intl/en-US_US/help/terms_maps.html" target="_blank" style="text-decoration: none; cursor: pointer; color: rgb(68, 68, 68);">Terms of Use</a></div></div><div style="cursor: pointer; width: 25px; height: 25px; overflow: hidden; display: none; margin: 10px 14px; position: absolute; top: 0px; right: 0px;"><img src="./outagemap_files/sv9.png" draggable="false" class="gm-fullscreen-control" style="position: absolute; left: -52px; top: -86px; width: 164px; height: 175px; user-select: none; border: 0px; padding: 0px; margin: 0px;"></div><div draggable="false" class="gm-style-cc" style="user-select: none; height: 14px; line-height: 14px; display: none; position: absolute; right: 0px; bottom: 0px;"><div style="opacity: 0.7; width: 100%; height: 100%; position: absolute;"><div style="width: 1px;"></div><div style="background-color: rgb(245, 245, 245); width: auto; height: 100%; margin-left: 1px;"></div></div><div style="position: relative; padding-right: 6px; padding-left: 6px; font-family: Roboto, Arial, sans-serif; font-size: 10px; color: rgb(68, 68, 68); white-space: nowrap; direction: ltr; text-align: right; vertical-align: middle; display: inline-block;"><a target="_new" title="Report errors in the road map or imagery to Google" href="https://www.google.com/maps/@0.2616983,37.9,7z/data=!10m1!1e1!12b1?source=apiv3&amp;rapsrc=apiv3" style="font-family: Roboto, Arial, sans-serif; font-size: 10px; color: rgb(68, 68, 68); text-decoration: none; position: relative;">Report a map error</a></div></div><div class="gmnoprint gm-bundled-control gm-bundled-control-on-bottom" draggable="false" controlwidth="28" controlheight="93" style="margin: 10px; user-select: none; position: absolute; bottom: 107px; right: 28px;"><div class="gmnoprint" controlwidth="28" controlheight="55" style="position: absolute; left: 0px; top: 38px;"><div draggable="false" style="user-select: none; box-shadow: rgba(0, 0, 0, 0.298039) 0px 1px 4px -1px; border-radius: 2px; cursor: pointer; background-color: rgb(255, 255, 255); width: 28px; height: 55px;"><div title="Zoom in" style="position: relative; width: 28px; height: 27px; left: 0px; top: 0px;"><div style="overflow: hidden; position: absolute; width: 15px; height: 15px; left: 7px; top: 6px;"><img src="./outagemap_files/tmapctrl_hdpi.png" draggable="false" style="position: absolute; left: 0px; top: 0px; user-select: none; border: 0px; padding: 0px; margin: 0px; max-width: none; width: 120px; height: 54px;"></div></div><div style="position: relative; overflow: hidden; width: 67%; height: 1px; left: 16%; background-color: rgb(230, 230, 230); top: 0px;"></div><div title="Zoom out" style="position: relative; width: 28px; height: 27px; left: 0px; top: 0px;"><div style="overflow: hidden; position: absolute; width: 15px; height: 15px; left: 7px; top: 6px;"><img src="./outagemap_files/tmapctrl_hdpi.png" draggable="false" style="position: absolute; left: 0px; top: -15px; user-select: none; border: 0px; padding: 0px; margin: 0px; max-width: none; width: 120px; height: 54px;"></div></div></div></div><div class="gm-svpc" controlwidth="28" controlheight="28" style="background-color: rgb(255, 255, 255); box-shadow: rgba(0, 0, 0, 0.298039) 0px 1px 4px -1px; border-radius: 2px; width: 28px; height: 28px; cursor: url(&quot;https://maps.gstatic.com/mapfiles/openhand_8_8.cur&quot;) 8 8, default; position: absolute; left: 0px; top: 0px;"><div style="position: absolute; left: 1px; top: 1px;"></div><div style="position: absolute; left: 1px; top: 1px;"><div aria-label="Street View Pegman Control" style="width: 26px; height: 26px; overflow: hidden; position: absolute; left: 0px; top: 0px;"><img src="./outagemap_files/cb_scout5_hdpi.png" draggable="false" style="position: absolute; left: -147px; top: -26px; width: 215px; height: 835px; user-select: none; border: 0px; padding: 0px; margin: 0px; max-width: none;"></div><div aria-label="Pegman is on top of the Map" style="width: 26px; height: 26px; overflow: hidden; position: absolute; left: 0px; top: 0px; visibility: hidden;"><img src="./outagemap_files/cb_scout5_hdpi.png" draggable="false" style="position: absolute; left: -147px; top: -52px; width: 215px; height: 835px; user-select: none; border: 0px; padding: 0px; margin: 0px; max-width: none;"></div><div aria-label="Street View Pegman Control" style="width: 26px; height: 26px; overflow: hidden; position: absolute; left: 0px; top: 0px; visibility: hidden;"><img src="./outagemap_files/cb_scout5_hdpi.png" draggable="false" style="position: absolute; left: -147px; top: -78px; width: 215px; height: 835px; user-select: none; border: 0px; padding: 0px; margin: 0px; max-width: none;"></div></div></div><div class="gmnoprint" controlwidth="28" controlheight="0" style="display: none; position: absolute;"><div title="Rotate map 90 degrees" style="width: 28px; height: 28px; overflow: hidden; position: absolute; border-radius: 2px; box-shadow: rgba(0, 0, 0, 0.298039) 0px 1px 4px -1px; cursor: pointer; background-color: rgb(255, 255, 255); display: none;"><img src="./outagemap_files/tmapctrl4_hdpi.png" draggable="false" style="position: absolute; left: -141px; top: 6px; width: 170px; height: 54px; user-select: none; border: 0px; padding: 0px; margin: 0px; max-width: none;"></div><div class="gm-tilt" style="width: 28px; height: 28px; overflow: hidden; position: absolute; border-radius: 2px; box-shadow: rgba(0, 0, 0, 0.298039) 0px 1px 4px -1px; top: 0px; cursor: pointer; background-color: rgb(255, 255, 255);"><img src="./outagemap_files/tmapctrl4_hdpi.png" draggable="false" style="position: absolute; left: -141px; top: -13px; width: 170px; height: 54px; user-select: none; border: 0px; padding: 0px; margin: 0px; max-width: none;"></div></div></div><div class="gmnoprint" style="margin: 10px; z-index: 0; position: absolute; cursor: pointer; left: 0px; top: 0px;"><div class="gm-style-mtc" style="float: left;"><div draggable="false" title="Show street map" style="direction: ltr; overflow: hidden; text-align: center; position: relative; color: rgb(0, 0, 0); font-family: Roboto, Arial, sans-serif; user-select: none; font-size: 11px; background-color: rgb(255, 255, 255); padding: 8px; border-bottom-left-radius: 2px; border-top-left-radius: 2px; -webkit-background-clip: padding-box; background-clip: padding-box; box-shadow: rgba(0, 0, 0, 0.298039) 0px 1px 4px -1px; min-width: 22px; font-weight: 500;">Map</div><div style="background-color: white; z-index: -1; padding: 2px; border-bottom-left-radius: 2px; border-bottom-right-radius: 2px; box-shadow: rgba(0, 0, 0, 0.298039) 0px 1px 4px -1px; position: absolute; left: 0px; top: 29px; text-align: left; display: none;"><div draggable="false" title="Show street map with terrain" style="color: rgb(0, 0, 0); font-family: Roboto, Arial, sans-serif; user-select: none; font-size: 11px; background-color: rgb(255, 255, 255); padding: 6px 8px 6px 6px; direction: ltr; text-align: left; white-space: nowrap;"><span role="checkbox" style="box-sizing: border-box; position: relative; line-height: 0; font-size: 0px; margin: 0px 5px 0px 0px; display: inline-block; background-color: rgb(255, 255, 255); border: 1px solid rgb(198, 198, 198); border-radius: 1px; width: 13px; height: 13px; vertical-align: middle;"><div style="position: absolute; left: 1px; top: -2px; width: 13px; height: 11px; overflow: hidden; display: none;"><img src="./outagemap_files/imgs8.png" draggable="false" style="position: absolute; left: -52px; top: -44px; user-select: none; border: 0px; padding: 0px; margin: 0px; max-width: none; width: 68px; height: 67px;"></div></span><label style="vertical-align: middle; cursor: pointer;">Terrain</label></div></div></div><div class="gm-style-mtc" style="float: left;"><div draggable="false" title="Show satellite imagery" style="direction: ltr; overflow: hidden; text-align: center; position: relative; color: rgb(86, 86, 86); font-family: Roboto, Arial, sans-serif; user-select: none; font-size: 11px; background-color: rgb(255, 255, 255); padding: 8px; border-bottom-right-radius: 2px; border-top-right-radius: 2px; -webkit-background-clip: padding-box; background-clip: padding-box; box-shadow: rgba(0, 0, 0, 0.298039) 0px 1px 4px -1px; border-left: 0px; min-width: 40px;">Satellite</div><div style="background-color: white; z-index: -1; padding: 2px; border-bottom-left-radius: 2px; border-bottom-right-radius: 2px; box-shadow: rgba(0, 0, 0, 0.298039) 0px 1px 4px -1px; position: absolute; right: 0px; top: 29px; text-align: left; display: none;"><div draggable="false" title="Show imagery with street names" style="color: rgb(0, 0, 0); font-family: Roboto, Arial, sans-serif; user-select: none; font-size: 11px; background-color: rgb(255, 255, 255); padding: 6px 8px 6px 6px; direction: ltr; text-align: left; white-space: nowrap;"><span role="checkbox" style="box-sizing: border-box; position: relative; line-height: 0; font-size: 0px; margin: 0px 5px 0px 0px; display: inline-block; background-color: rgb(255, 255, 255); border: 1px solid rgb(198, 198, 198); border-radius: 1px; width: 13px; height: 13px; vertical-align: middle;"><div style="position: absolute; left: 1px; top: -2px; width: 13px; height: 11px; overflow: hidden;"><img src="./outagemap_files/imgs8.png" draggable="false" style="position: absolute; left: -52px; top: -44px; user-select: none; border: 0px; padding: 0px; margin: 0px; max-width: none; width: 68px; height: 67px;"></div></span><label style="vertical-align: middle; cursor: pointer;">Labels</label></div></div></div></div></div></div></div>
+    <script src="./outagemap_files/socket.io.js"></script>
+
+<script type="text/javascript">
+    function showAndroidToast(toast) {
+        Android.showToast(toast);
+    }
+</script>
+    <script>
+      var socket = io('http://141.212.11.206:9000');
+      socket.on('connected', function (data) {
+        socket.emit('ready for data', {});
+	console.log('connected')
+      });
+      socket.on('update', function (data) {
+        var res = JSON.parse(data.payload);
+	//var res = data.payload.split(",");
+	//Do color parsing here
+        res.forEach(function(element) {
+		var cur_inx = element['region']['shp_idx'];
+		console.log(cur_inx);
+		var cur_cnt = element['region']['cnt'];
+		var data = JSON.parse(element['region']['data']);
+		map.data.forEach(function(feature) {
+			if (cur_inx.toString() === feature.getProperty('OBJECTID').toString()) {
+//				f			console.log(feature.getProperty('OBJECTID') + " HIT")
+				feature.setProperty('cnt',cur_cnt);
+				feature.setProperty('data',data);
+				feature.setProperty('isColorful', true);
+			}
+	        });
+	});
+      });
+
+
+
+ 
+      var map;
+      function initMap() {
+        map = new google.maps.Map(document.getElementById('map'), {
+          zoom: 7,
+          center: {lat: 0.02, lng: 37.9}
+        });
+
+	var iwindow= new google.maps.InfoWindow;
+
+
+        // Load GeoJSON.
+        map.data.loadGeoJson('data/cons_kenya.json');
+
+	var infowindow = new google.maps.InfoWindow({
+        });
+
+	setTimeout(function() {
+	   map.data.forEach(function(feature) {
+		//console.log(feature.getProperty('COUNTY'));
+	   });
+	}, 1000);
+
+	 map.data.setStyle(function(feature) {
+          var color = 'green';
+	  if (feature.getProperty('isColorful')){
+	       var cnt = feature.getProperty('cnt');
+	       
+	       if (cnt == 1) {
+	          color = 'yellow';
+	       } 
+	       if (cnt == 2) {
+		  color = 'orange';
+	       }
+	       if (cnt >= 3) {
+		  color = 'red';
+	       }	
+	  }
+//          if (feature.getProperty('isColorful')) {
+//            color = 'red';
+//          } 
+          return /** @type {google.maps.Data.StyleOptions} */({
+            fillColor: color,
+            strokeColor: color,
+            strokeWeight: 2
+          });
+        });
+
+	/*
+        map.data.setStyle(function(feature) {
+          fillColor: 'green',
+          strokeWeight: 1
+        });
+	*/
+
+        
+
+
+    	map.data.addListener('click', function(event) {
+		//window.alert(event.feature.getProperty('COUNTY'));
+		console.log(event);
+		//iwindow.setContent(event.feature.getProperty('OBJECTID'));
+		try {
+		var source = event['feature'].getProperty('data')['service'];
+		if (source == 'f') {
+			source = 'facebook'
+		} 
+		if (source == 't') {
+			source = 'twitter'
+		}
+		if (source == 'a') {
+			source = 'app'
+		}
+              var contentString = '<html><head><style>.button1 {background-color: #4CAf50;} .button2{background-color: #f44336;}</style></head><body><div id="content">'+
+            '<div id="siteNotice">'+
+            '</div>'+
+	    '<div id="obj" style="display: none;">'+event['feature'].getProperty('OBJECTID').toString()+'</div>'+
+            '<h1 id="firstHeading" class="firstHeading">Information</h1>'+
+            '<div id="bodyContent" align="center">'+
+            '<p>msg: '+event['feature'].getProperty('data')['msg']+'</p>'+
+            '<p>source: '+source+'</p>'+
+	    'cnt: ' + event['feature'].getProperty('cnt') + '</b><p>'+
+	    '<textarea align="center" id="notes" rows="3" onblur="onBlur(this)" onfocus="onFocus(this)" cols="50">Enter (optional) notes here.</textarea><p>'+
+	    '<button onclick="vote(\'up\')" class="button1" type="button">My power is bad as well!</button>'+
+	    '<button onclick="vote(\'down\')" class="button2" type="button">This map is wrong!</button>'+
+            '</div>'+
+            '</div>';
+	}
+		catch (e) {
+              var contentString = '<div id="content">'+
+            '<div id="siteNotice">'+
+            '</div>'+
+	    '<div id="obj" style="display: none;">'+event['feature'].getProperty('OBJECTID').toString()+'</div>'+
+            '<h1 id="firstHeading" class="firstHeading">Information</h1>'+
+            '<div id="bodyContent" align="center">'+
+	    '<p> We do not have any information about power in this area. </p>'+
+	    '<textarea align="center" id="notes" rows="3" onblur="onBlur(this)" onfocus="onFocus(this)" cols="50">Enter (optional) notes here.</textarea><p>'+
+	    '<button onclick="vote(\'up\')" class="button1" type="button">My power is bad here!</button>'+
+            '</div>'+
+            '</div> </body> </html>';
+	}
+		iwindow.setContent(contentString);
+		iwindow.setPosition(event.latLng);
+		iwindow.open(map);
+
+        });
+}	
+
+
+    //todo add in app id to uniquely identify client
+
+function onBlur(el) {
+    if (el.value == '') {
+        el.value = el.defaultValue;
+    }
+}
+function onFocus(el) {
+    if (el.value == el.defaultValue) {
+        el.value = '';
+    }
+}
+
+      function vote(direction){
+       var note = (document.getElementById('notes').value);
+       var shp_idx = (document.getElementById('obj').innerHTML);
+//	console.log(msg['OBJECTID']) 
+	/*
+        if (navigator.geolocation) {
+           console.log(navigator.geolocation.getCurrentPosition(showPosition));
+        }
+	*/
+        socket.emit('vote', {direction,note,shp_idx});
+      }
+      //}
+    </script>
+
+    <script async="" defer="" src="./outagemap_files/js">
+    </script>
+  
+
+</body></html>
