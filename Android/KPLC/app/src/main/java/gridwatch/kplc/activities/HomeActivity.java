@@ -69,6 +69,8 @@ public class HomeActivity extends AppCompatActivity
     private TextView cur_payment_label_text;
 
     private boolean am_online;
+    private boolean is_prepaid;
+
 
     private TextView welcomeTv;
     private TextView dateTv;
@@ -92,12 +94,12 @@ public class HomeActivity extends AppCompatActivity
         setContentView(R.layout.activity_home);
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-        
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-
-        annon = prefs.getBoolean(String.valueOf(SettingsConfig.ANNON), false);
+        is_prepaid = prefs.getBoolean(SettingsConfig.IS_PREPAID, false);
+        annon = prefs.getBoolean(SettingsConfig.ANNON, false);
 
         cur_balance_label_text = (TextView) findViewById(R.id.cur_balance_label_text);
         cur_payment_label_text = (TextView) findViewById(R.id.cur_payment_date_label_text);
@@ -212,7 +214,7 @@ public class HomeActivity extends AppCompatActivity
 
     private void check_kplc(String SERVER, final String ACCOUNT, boolean headless) {
         boolean logic_good = account_logic_check(headless);
-        if (logic_good) {
+        if (logic_good && !is_prepaid) {
         Log.e("check kplc", "hit");
             String url = SERVER;
             Log.e("url", url);
