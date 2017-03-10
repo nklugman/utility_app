@@ -176,10 +176,13 @@ public class LoginActivity extends AppCompatActivity {
                 if (loginPrePayRadioButton.isChecked()) {
                     check_if_valid_account(loginPrePayEditText.getText().toString());
                     editor.putString("setting_key_meter_number", loginPrePayEditText.getText().toString());
+                    editor.putBoolean(SettingsConfig.IS_PREPAID, true);
                 }
                 if (loginPostPayRadioButton.isChecked()) {
                     check_if_valid_account(loginPrePayEditText.getText().toString());
                     editor.putString("setting_key_account_number", loginPostPayEditText.getText().toString());
+                    editor.putBoolean(SettingsConfig.IS_PREPAID, false);
+
                 }
                 editor.apply();
                 replaceActivityWithHome();

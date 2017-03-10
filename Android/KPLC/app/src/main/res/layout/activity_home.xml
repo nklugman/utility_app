@@ -29,7 +29,7 @@
         app:itemTextColor="@color/colorPrimary"
         app:itemIconTint="@color/colorPrimary"
         android:theme="@style/AppTheme.NavigationView"
-
         />
+
 
 </android.support.v4.widget.DrawerLayout>

@@ -5,13 +5,13 @@
     <EditTextPreference
         android:title="Application host server"
         android:key="setting_key_application_host_server"
-        android:defaultValue="http://141.212.11.206"
+        android:defaultValue="graphs.grid.watch"
         android:inputType="textUri" />
 
     <EditTextPreference
         android:title="Application host port"
         android:key="setting_key_application_host_port"
-        android:defaultValue="3000"
+        android:defaultValue="3100"
         android:inputType="number" />
 
 </PreferenceScreen>

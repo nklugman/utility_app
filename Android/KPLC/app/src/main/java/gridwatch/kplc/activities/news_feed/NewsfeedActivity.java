@@ -33,7 +33,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Locale;
 
 import gridwatch.kplc.R;
 import io.realm.Realm;
@@ -65,9 +64,10 @@ public class NewsfeedActivity extends AppCompatActivity{
         inputSearch = (EditText) findViewById(R.id.inputSearch);
 
         final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        final String application_host_server = prefs.getString("setting_key_application_host_server", "141.212.11.206");
+        final String application_host_server = prefs.getString("setting_key_application_host_server", "graphs.grid.watch");
         final String application_host_port = prefs.getString("setting_key_application_host_port", "3100");
-        final String SERVER = "http://" + application_host_server + ":" + application_host_port;
+
+        final String SERVER = application_host_server + ":" + application_host_port;
         //final String SERVER = "http://192.168.1.10:3100";
         Realm.init(this);
         realm = Realm.getDefaultInstance();
@@ -269,8 +269,8 @@ public class NewsfeedActivity extends AppCompatActivity{
     }
 
     private String connectToServer(String time, String server) throws IOException {
-        Log.i("max_time", "server");
         URL url = new URL(server + "/newsfeed?time=" + time);
+        Log.e("url", url.toString());
         InputStream stream = null;
         HttpURLConnection connection = null;
         String result = null;

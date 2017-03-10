@@ -94,6 +94,10 @@ public class SettingsConfig {
     public static final String CHECK_KPLC = "CHECK_KPLC";
     public static final String CHECK_LAST_STATEMENT = "CHECK_LAST_STATEMENT";
     public static final String GRIDWATCH = "GRIDWATCH";
+    public static final String NAME = "NAME";
+    public static final String DUE_DATE = "DUE_DATE";
+    public static final String BALANCE = "BALANCE";
+    public static final String IS_PREPAID = "IS_PREPAID";
 
 
     public class NUM_WD {

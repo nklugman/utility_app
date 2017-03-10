@@ -8,7 +8,10 @@
             android:id="@+id/nav_balance"
                 android:icon="@drawable/ic_format_list_bulleted_black_24dp"
             android:title="Balance Histories" />
-
+            <item
+                android:id="@+id/nav_check_tokens"
+                android:icon="@drawable/ic_format_list_bulleted_black_24dp"
+                android:title="Check Tokens" />
             <!--
             <item
             android:id="@+id/nav_statement"

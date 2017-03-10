@@ -22,6 +22,8 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -35,7 +37,9 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 
 import gridwatch.kplc.R;
 import gridwatch.kplc.activities.billing.BalanceHistoryActivity;
@@ -73,6 +77,8 @@ public class HomeActivity extends AppCompatActivity
     private boolean annon;
     private SharedPreferences prefs;
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,11 +87,14 @@ public class HomeActivity extends AppCompatActivity
         final String application_host_port = prefs.getString("setting_key_application_host_port", "3100");
         final String kplc_host_port = prefs.getString("setting_key_kplc_host_port", "3331");
         final String SERVER = "http://" + application_host_server + ":" + application_host_port;
-        final String KPLC_SERVER = "http://" + application_host_server + ":" + kplc_host_port;
+        final String KPLC_SERVER =  application_host_server + ":" + kplc_host_port;
         final String ACCOUNT = prefs.getString("setting_key_account_number", "3202667");
         setContentView(R.layout.activity_home);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+
         annon = prefs.getBoolean(String.valueOf(SettingsConfig.ANNON), false);
 
         cur_balance_label_text = (TextView) findViewById(R.id.cur_balance_label_text);
@@ -103,6 +112,7 @@ public class HomeActivity extends AppCompatActivity
         cur_balance = (TextView) findViewById(R.id.cur_balance_text);
         cur_due_date = (TextView) findViewById(R.id.cur_payment_text);
         cur_name = (TextView) findViewById(R.id.name_text);
+
         //cbTv = (TextView) findViewById(R.id.balance);
         //last_cbTv = (TextView) findViewById(R.id.balance_last_time);
         //mpTv = (TextView) findViewById(R.id.payment);
@@ -130,8 +140,8 @@ public class HomeActivity extends AppCompatActivity
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
+
+
 
         Button btn_balance = (Button) findViewById(R.id.check_balance);
         btn_balance.setOnClickListener(new View.OnClickListener() {
@@ -167,7 +177,9 @@ public class HomeActivity extends AppCompatActivity
         check_last_statement(SERVER, ACCOUNT, true);
         check_balance(SERVER, ACCOUNT, true);
 
+
         showWelcome();
+        update_ui();
 
     }
 
@@ -196,22 +208,25 @@ public class HomeActivity extends AppCompatActivity
         return false;
     }
 
-    private void check_kplc(String SERVER, String ACCOUNT, boolean headless) {
+    private void check_kplc(String SERVER, final String ACCOUNT, boolean headless) {
         boolean logic_good = account_logic_check(headless);
         if (logic_good) {
-        Log.e("check last statement", "hit");
-            String url = SERVER + "/?account=" + ACCOUNT;
-            StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+        Log.e("check kplc", "hit");
+            String url = SERVER;
+            Log.e("url", url);
+            final StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
                     new Response.Listener<String>() {
                         @Override
                         public void onResponse(String response) {
                             String result = response.toString();
-                            JSONArray json = null;
+                            JSONObject json = null;
                             try {
                                 String timeStamp = new SimpleDateFormat("yyyy/MM").format(Calendar.getInstance().getTime());
-                                json = new JSONArray(result);
-                                JSONObject oj = json.getJSONObject(0);
-                                Log.e("resp", json.toString());
+                                json = new JSONObject(result);
+                                prefs.edit().putString(SettingsConfig.BALANCE, json.getString("amount")).apply();
+                                prefs.edit().putString(SettingsConfig.DUE_DATE, json.getString("due_date")).apply();
+                                prefs.edit().putString(SettingsConfig.NAME, json.getString("name")).apply();
+                                update_ui();
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
@@ -221,8 +236,55 @@ public class HomeActivity extends AppCompatActivity
                 public void onErrorResponse(VolleyError error) {
                     Log.e("resp", error.toString());
                 }
-            });
+            }){
+                @Override
+                protected Map<String,String> getParams(){
+                    Map<String,String> params = new HashMap<String, String>();
+                    params.put("account",ACCOUNT);
+                    return params;
+                }
+
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    Map<String,String> params = new HashMap<String, String>();
+                    params.put("Content-Type","application/x-www-form-urlencoded");
+                    return params;
+                }
+            };
+            stringRequest.setRetryPolicy(new DefaultRetryPolicy(
+                    10000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
             Singletons.getInstance(getBaseContext()).addToRequestQueue(stringRequest);
+        }
+    }
+
+    private void update_ui() {
+        String name = prefs.getString(SettingsConfig.NAME, "");
+        if (name.length() != 0) {
+            cur_name.setVisibility(View.VISIBLE);
+            cur_name.setText(name);
+            cur_name.setTextSize(20);
+        } else {
+            cur_name.setVisibility(View.GONE);
+        }
+
+        String balance = prefs.getString(SettingsConfig.BALANCE, "");
+        if (balance.length() != 0) {
+            cur_balance.setVisibility(View.VISIBLE);
+            cur_balance_label_text.setVisibility(View.VISIBLE);
+            cur_balance.setText(balance);
+        } else {
+            cur_balance.setVisibility(View.GONE);
+            cur_balance_label_text.setVisibility(View.GONE);
+        }
+
+        String due_date = prefs.getString(SettingsConfig.DUE_DATE, "");
+        if (due_date.length() != 0) {
+            cur_due_date.setVisibility(View.VISIBLE);
+            cur_payment_label_text.setVisibility(View.VISIBLE);
+            cur_due_date.setText(due_date);
+        } else {
+            cur_due_date.setVisibility(View.GONE);
+            cur_payment_label_text.setVisibility(View.GONE);
         }
     }
 
@@ -373,18 +435,13 @@ public class HomeActivity extends AppCompatActivity
 
         boolean logic_good = false;
 
-
-
         if (id == R.id.nav_balance) {
             logic_good = account_logic_check(false);
             if (logic_good) {
                 launch_class(BalanceHistoryActivity.class);
             }
         }
-        /*else if (id == R.id.nav_statement) {
-            launch_class(StatementHistoryActivity.class);
-        }
-        */
+
         else if (id == R.id.nav_payment) {
             logic_good = account_logic_check(false);
             if (logic_good) {
