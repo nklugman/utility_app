@@ -171,7 +171,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/outage_btn"
-        android:background="@android:color/holo_red_light"
+        android:background="@color/colorYellow"
         android:layout_weight="1"
         android:layout_below="@+id/divider"
         android:layout_alignParentLeft="true"

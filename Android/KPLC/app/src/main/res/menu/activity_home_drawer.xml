@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    >
     <item android:title="@string/billing">
         <menu>
             <item
             android:id="@+id/nav_balance"
-
+                android:icon="@drawable/ic_format_list_bulleted_black_24dp"
             android:title="Balance Histories" />
 
             <!--
@@ -15,7 +16,7 @@
             -->
             <item
                 android:id="@+id/nav_usage"
-
+                android:icon="@drawable/ic_poll_black_24dp"
                 android:title="Usage Charts" />
 
         </menu>
@@ -24,41 +25,43 @@
         <menu>
             <item
                 android:id="@+id/nav_payment"
-
+                android:icon="@drawable/ic_local_atm_black_24dp"
                 android:title="@string/make_a_payment" />
             <item
                 android:id="@+id/nav_token"
-
+                android:icon="@drawable/ic_power_black_24dp"
                 android:title="@string/buy_tokens" />
-
-
         </menu>
 
     </item>
     <item
         android:id="@+id/nav_outage_map"
+        android:icon="@drawable/ic_public_black_24dp"
         android:title="@string/outage_map">
     </item>
 
-    <item
-        android:id="@+id/nav_newsfeed"
-        android:title="@string/social_media">
-    </item>
-    <item
-    android:id="@+id/nav_settings"
+    <item android:id="@+id/nav_newsfeed"
+        android:icon="@drawable/ic_today_black_24dp"
+        android:title="@string/social_media"></item>
 
-    android:title="@string/settings" />
+    <item android:id="@+id/nav_settings"
+        android:icon="@drawable/ic_settings_black_24dp"
+        android:title="@string/settings" />
+
     <item android:title="@string/advanced_settings"
+        android:icon="@drawable/ic_settings_black_24dp"
         android:id="@+id/nav_advanced_settings" />
+
     <item android:title="@string/developer_settings"
+        android:icon="@drawable/ic_settings_black_24dp"
         android:id="@+id/nav_developer_settings" />
     <item
         android:id="@+id/nav_contact"
-
+        android:icon="@drawable/ic_record_voice_over_black_24dp"
         android:title="@string/contact" />
     <item
         android:id="@+id/logout"
-
+        android:icon="@drawable/ic_person_outline_black_24dp"
         android:title="@string/logout" />
 
 

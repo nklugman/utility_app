@@ -153,7 +153,7 @@ public class HomeActivity extends AppCompatActivity
         btn_pay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                boolean logic_good = accout_logic_check(false);
+                boolean logic_good = account_logic_check(false);
                 if (logic_good) {
                     Intent intent = new Intent(HomeActivity.this, MakePaymentActivity.class);
                     startActivity(intent);
@@ -181,7 +181,7 @@ public class HomeActivity extends AppCompatActivity
         }
     }
 
-    private boolean accout_logic_check(boolean headless) {
+    private boolean account_logic_check(boolean headless) {
         if (annon && !headless) {
             show_not_logged_in_warning();
             return false;
@@ -197,7 +197,7 @@ public class HomeActivity extends AppCompatActivity
     }
 
     private void check_kplc(String SERVER, String ACCOUNT, boolean headless) {
-        boolean logic_good = accout_logic_check(headless);
+        boolean logic_good = account_logic_check(headless);
         if (logic_good) {
         Log.e("check last statement", "hit");
             String url = SERVER + "/?account=" + ACCOUNT;
@@ -228,8 +228,7 @@ public class HomeActivity extends AppCompatActivity
 
     private void check_last_statement(String SERVER, String ACCOUNT, boolean headless) {
         Log.e("check last statement", "hit");
-
-        boolean logic_good = accout_logic_check(headless);
+        boolean logic_good = account_logic_check(headless);
         if (logic_good) {
             String url = SERVER + "/payment?account=" + ACCOUNT;
             StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
@@ -279,7 +278,7 @@ public class HomeActivity extends AppCompatActivity
     }
 
     private void check_balance(String SERVER, String ACCOUNT, boolean headless) {
-        boolean logic_good = accout_logic_check(headless);
+        boolean logic_good = account_logic_check(headless);
         if (logic_good) {
         String url = SERVER + "/balance?account=" + ACCOUNT;
             StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
@@ -364,6 +363,7 @@ public class HomeActivity extends AppCompatActivity
         DateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
         return format.format(date);
     }
+
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
@@ -371,9 +371,12 @@ public class HomeActivity extends AppCompatActivity
         int id = item.getItemId();
 
 
-        boolean logic_good = accout_logic_check(false);
+        boolean logic_good = false;
+
+
 
         if (id == R.id.nav_balance) {
+            logic_good = account_logic_check(false);
             if (logic_good) {
                 launch_class(BalanceHistoryActivity.class);
             }
@@ -383,14 +386,17 @@ public class HomeActivity extends AppCompatActivity
         }
         */
         else if (id == R.id.nav_payment) {
+            logic_good = account_logic_check(false);
             if (logic_good) {
                 launch_class(MakePaymentActivity.class);
             }
         } else if (id == R.id.nav_token) {
+            logic_good = account_logic_check(false);
             if (logic_good) {
                 launch_class(BuyTokensActivity.class);
             }
         } else if (id == R.id.nav_usage) {
+            logic_good = account_logic_check(false);
             if (logic_good) {
                 launch_class(UsageChartsActivity.class);
             }
