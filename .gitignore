@@ -9,3 +9,4 @@ data/Tweet_Collect_and_Update/__pycache__
 data/.DS_Store
 outage_map/Map_Main/__pycache__/region_define.cpython-35.pyc
 outage_map/Map_Main/__pycache__/
+data/social_media_Main/__pycache__

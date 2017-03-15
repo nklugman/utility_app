@@ -33,7 +33,7 @@ def region_check(event_list, shpfile):
         except IndexError:
             cur.execute('INSERT INTO unrecognized(area) VALUES (\'%s\')' % event[0])
             location_undefined.append(event[0])
-    print("Areas google map don't recognize: ", location_undefined)
+    print("Areas google map doesn't recognize: ", location_undefined)
     
     ##Check which pieces of shapefile contain points given   
     shp_idx = 0

@@ -12,7 +12,6 @@ This is a temporary script file.
 import requests
 import json
 import fiona
-import datetime
 
 #kenya_constituency = fiona.open("../Kenya_Shapefiles/Constituency Boundaries/constituencies.shp") #Suggested by Jay
 kenya_constituency = fiona.open("../Kenya_Shapefiles/Constituency_Simplified/constituencies_simplified.shp") #Simplified by QFIS

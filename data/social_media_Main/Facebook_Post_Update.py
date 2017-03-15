@@ -36,7 +36,7 @@ def fetch(user):
 def get_data(posts):
     data=[]
     for post in posts['data']:
-        print(post['id'])
+        #print(post['id'])
         data.append([post['message'], post['id'], post['created_time']])
     print("Posts from Facebook are fetched.")
     latest_post_time = timeStamp_parsing(posts['data'][-1]['created_time'])
