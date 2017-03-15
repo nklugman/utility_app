@@ -11,7 +11,7 @@
 
 
     <TextView
-        android:text="Your Current Token Balance:"
+        android:text="Your Current Token Amount:"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
 

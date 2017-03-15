@@ -1,15 +1,20 @@
 package gridwatch.kplc.activities;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.Settings.Secure;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.DialogFragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -17,6 +22,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -37,6 +43,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -47,20 +54,21 @@ import java.util.Map;
 import gridwatch.kplc.R;
 import gridwatch.kplc.activities.billing.BalanceHistoryActivity;
 import gridwatch.kplc.activities.billing.Postpaid;
-import gridwatch.kplc.activities.billing.UsageChartsActivity;
+import gridwatch.kplc.activities.config.IntentConfig;
 import gridwatch.kplc.activities.config.SettingsConfig;
+import gridwatch.kplc.activities.dialogs.ReportDialog;
 import gridwatch.kplc.activities.gridwatch.GridWatch;
+import gridwatch.kplc.activities.gridwatch.GridWatchService;
 import gridwatch.kplc.activities.news_feed.NewsfeedActivity;
 import gridwatch.kplc.activities.outage_map.OutageMapActivity;
 import gridwatch.kplc.activities.payment.BuyTokensActivity;
 import gridwatch.kplc.activities.payment.MakePaymentActivity;
-import gridwatch.kplc.activities.settings.SettingsActivity;
-import gridwatch.kplc.activities.settings.SettingsAdvancedActivity;
-import gridwatch.kplc.activities.settings.SettingsDeveloperActivity;
 import io.realm.Realm;
 
 public class HomeActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener,  ReportDialog.ReportDialogListener{
+    private static final int ACCESS_COURSE_LOCATION = 1;
+    private static final int ACCESS_FINE_LOCATION = 2;
     private Realm realm;
     //private TextView cbTv;
     //private TextView last_cbTv;
@@ -85,13 +93,19 @@ public class HomeActivity extends AppCompatActivity
     private boolean annon;
     private SharedPreferences prefs;
 
+    private String iemi;
 
+    private void startGWService() {
+        Intent intent = new Intent(this, GridWatchService.class);
+        intent.putExtra(IntentConfig.IEMI, iemi);
+        startService(intent);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        final String application_host_server = prefs.getString("setting_key_application_host_server", "graphs.grid.watch");
+        final String application_host_server = prefs.getString("setting_key_application_host_server", "http://141.212.11.206");
         final String application_host_port = prefs.getString("setting_key_application_host_port", "3100");
         final String kplc_host_port = prefs.getString("setting_key_kplc_host_port", "3331");
         final String SERVER = "http://" + application_host_server + ":" + application_host_port;
@@ -100,15 +114,34 @@ public class HomeActivity extends AppCompatActivity
         setContentView(R.layout.activity_home);
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        Menu menu = navigationView.getMenu();
+
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         FirebaseApp.initializeApp(getApplicationContext());
-        FirebaseDatabase.getInstance();
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+
+        startGWService();
+        iemi = Secure.getString(this.getContentResolver(), Secure.ANDROID_ID);
+
+
 
         is_prepaid = prefs.getBoolean(SettingsConfig.IS_PREPAID, false);
+
+        if (!is_prepaid) {
+            menu.findItem(R.id.nav_check_tokens).setVisible(false);
+            menu.findItem(R.id.nav_token).setVisible(false);
+        } else {
+            menu.findItem(R.id.nav_balance).setVisible(false);
+            menu.findItem(R.id.nav_payment).setVisible(false);
+        }
+
+
         annon = prefs.getBoolean(SettingsConfig.ANNON, false);
+
+        prefs.edit().putInt(SettingsConfig.VERSION_NUM, version_num).apply();
 
         cur_balance_label_text = (TextView) findViewById(R.id.cur_balance_label_text);
         cur_payment_label_text = (TextView) findViewById(R.id.cur_payment_date_label_text);
@@ -135,7 +168,7 @@ public class HomeActivity extends AppCompatActivity
         payDueTv = (TextView) findViewById(R.id.cur_payment_text);
 
         /*
-        btn_report.setOnClickListener(new View.OnClickListener() {
+        btn_ort.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(HomeActivity.this, OutageMapActivity.class);
@@ -155,7 +188,7 @@ public class HomeActivity extends AppCompatActivity
 
 
 
-
+        /*
         Button btn_balance = (Button) findViewById(R.id.check_balance);
         btn_balance.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -163,6 +196,7 @@ public class HomeActivity extends AppCompatActivity
                 check_balance(SERVER, ACCOUNT, false);
             }
         });
+        */
 
         Button btn_report_outage = (Button) findViewById(R.id.outage_btn);
         btn_report_outage.setOnClickListener(new View.OnClickListener() {
@@ -187,14 +221,18 @@ public class HomeActivity extends AppCompatActivity
         realm = Realm.getDefaultInstance();
 
         check_kplc(KPLC_SERVER, ACCOUNT, true);
-        check_last_statement(SERVER, ACCOUNT, true);
-        check_balance(SERVER, ACCOUNT, true);
+        //check_last_statement(SERVER, ACCOUNT, true);
+        //check_balance(SERVER, ACCOUNT, true);
 
 
         showWelcome();
         update_ui();
 
+        invalidateOptionsMenu();
     }
+
+
+
 
     @Override
     public void onBackPressed() {
@@ -221,11 +259,58 @@ public class HomeActivity extends AppCompatActivity
         return false;
     }
 
+    private void save_result_into_realm(JSONObject json, String account) {
+        try {
+            if (!json.getString("name").contains("Error")) {
+                final Postpaid cur = new Postpaid();
+                cur.setAccount(account);
+                cur.setBalance(Double.valueOf(json.getString("amount")));
+                String date_str = json.getString("due_date");
+                cur.setMonth(getDateFromString(date_str));
+                cur.setDueDate(getDateFromString(date_str));
+                cur.setPayDate(getDateFromString(date_str));
+                realm.beginTransaction();
+                realm.where(Postpaid.class).equalTo("month", getDateFromString(date_str)).findAll().deleteAllFromRealm(); //hack for now...
+                realm.commitTransaction();
+
+                realm.executeTransactionAsync(new Realm.Transaction() {
+                    @Override
+                    public void execute(Realm realm) {
+                        realm.copyToRealm(cur);
+                    }
+                }, new Realm.Transaction.OnSuccess() {
+                    @Override
+                    public void onSuccess() {
+
+                    }
+                }, new Realm.Transaction.OnError() {
+                    @Override
+                    public void onError(Throwable error) {
+
+                    }
+                });
+
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private Date getDateFromString(String date) {
+        DateFormat format = new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH);
+        try {
+            return format.parse(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     private void check_kplc(String SERVER, final String ACCOUNT, boolean headless) {
         boolean logic_good = account_logic_check(headless);
         if (logic_good && !is_prepaid) {
         Log.e("check kplc", "hit");
-            String url = SERVER;
+            String url = "http://"+SERVER;
             Log.e("url", url);
             final StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
                     new Response.Listener<String>() {
@@ -240,6 +325,7 @@ public class HomeActivity extends AppCompatActivity
                                 prefs.edit().putString(SettingsConfig.DUE_DATE, json.getString("due_date")).apply();
                                 prefs.edit().putString(SettingsConfig.NAME, json.getString("name")).apply();
                                 update_ui();
+                                save_result_into_realm(json, ACCOUNT);
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
@@ -272,7 +358,8 @@ public class HomeActivity extends AppCompatActivity
 
     private void update_ui() {
         String name = prefs.getString(SettingsConfig.NAME, "");
-        if (name.length() != 0) {
+        Log.e("name", name);
+        if (name.length() != 0 && !name.contains("Error")) {
             cur_name.setVisibility(View.VISIBLE);
             cur_name.setText(name);
             cur_name.setTextSize(20);
@@ -346,7 +433,8 @@ public class HomeActivity extends AppCompatActivity
 
     private void report_outage() {
         if (am_online) {
-            do_gridwatch();
+            DialogFragment dialog = new ReportDialog();
+            dialog.show(getSupportFragmentManager(), "ReportDialogFragment");
         } else {
             show_sms_warning(SettingsConfig.GRIDWATCH);
         }
@@ -439,12 +527,13 @@ public class HomeActivity extends AppCompatActivity
         return format.format(date);
     }
 
+
+
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-
 
         boolean logic_good = false;
 
@@ -465,12 +554,13 @@ public class HomeActivity extends AppCompatActivity
             if (logic_good) {
                 launch_class(BuyTokensActivity.class);
             }
-        } else if (id == R.id.nav_usage) {
+        }
+        /*else if (id == R.id.nav_usage) {
             logic_good = account_logic_check(false);
             if (logic_good) {
                 launch_class(UsageChartsActivity.class);
             }
-        } else if (id == R.id.nav_outage_map) {
+        } */else if (id == R.id.nav_outage_map) {
             if (am_online) {
                 launch_class(OutageMapActivity.class);
             } else {
@@ -482,15 +572,18 @@ public class HomeActivity extends AppCompatActivity
             } else {
                 show_not_online_err();
             }
-        } else if (id == R.id.nav_settings) {
+        } /* else if (id == R.id.nav_settings) {
             launch_class(SettingsActivity.class);
         } else if (id == R.id.nav_advanced_settings) {
             launch_class(SettingsAdvancedActivity.class);
         } else if (id == R.id.nav_developer_settings) {
             launch_class(SettingsDeveloperActivity.class);
-        } else if (id == R.id.nav_contact) {
+        } */else if (id == R.id.nav_contact) {
             launch_class(ContactActivity.class);
-        } else if (id == R.id.logout) {
+        } else if (id == R.id.outage_report) {
+            report_outage();
+        }
+        else if (id == R.id.logout) {
             do_logout();
         }
 
@@ -502,6 +595,9 @@ public class HomeActivity extends AppCompatActivity
     private void do_logout() {
         final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         prefs.edit().putString("setting_key_account_number", "").putString("setting_key_meter_number", "").apply();
+        prefs.edit().putString(SettingsConfig.BALANCE, "").apply();
+        prefs.edit().putString(SettingsConfig.DUE_DATE, "").apply();
+        prefs.edit().putString(SettingsConfig.NAME, "").apply();
         Intent intent = new Intent(HomeActivity.this, LoginActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_TASK_ON_HOME);
         startActivity(intent);
@@ -574,12 +670,30 @@ public class HomeActivity extends AppCompatActivity
     }
 
     private void do_gridwatch() {
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_COARSE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},
+                    ACCESS_COURSE_LOCATION);
+        }
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                    ACCESS_FINE_LOCATION);
+        }
 
-        String iemi = Secure.getString(this.getContentResolver(), Secure.ANDROID_ID);
+        GridWatch a = new GridWatch(this,iemi,String.valueOf(version_num), "MANUAL");
+        a.run();
+    }
 
-
-        GridWatch a = new GridWatch(this,iemi,String.valueOf(version_num));
-
+    @Override
+    public void onDialogReturnValue(Boolean result) {
+        if (result) {
+            do_gridwatch();
+        }
     }
 }
 

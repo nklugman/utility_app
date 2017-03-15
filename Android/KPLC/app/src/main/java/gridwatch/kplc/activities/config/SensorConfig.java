@@ -6,8 +6,8 @@ package gridwatch.kplc.activities.config;
 
 public class SensorConfig {
 
-    public final static int ACCEL_TIME = 2;
-    public final static int AUDIO_TIME = 2;
+    public final static int ACCEL_TIME = 10;
+    public final static int AUDIO_TIME = 10;
 
     //CONFIGURE THE FFT
     public final static Boolean LOCAL_FFT_BOOL = true;

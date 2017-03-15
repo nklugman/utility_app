@@ -8,13 +8,9 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ListView;
 import android.widget.RadioGroup;
-import android.widget.SimpleAdapter;
-import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.android.volley.Request;
@@ -28,10 +24,7 @@ import org.json.JSONObject;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Locale;
 
 import gridwatch.kplc.R;
@@ -49,8 +42,10 @@ public class MakePaymentActivity extends AppCompatActivity {
     private TextView dueOnTv;
     private RadioGroup paymentRg;
     private EditText amountEt;
+    private EditText pin;
+
     private final int DEFAULT_RADIOBUTTON_ID = 2131624090;
-    private final int CUSTOM_RADIOBUTTON_ID = 2131624093;
+    private final int CUSTOM_RADIOBUTTON_ID = 2131689636;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -66,6 +61,7 @@ public class MakePaymentActivity extends AppCompatActivity {
         dueOnTv = (TextView) findViewById(R.id.currentdate);
         paymentRg = (RadioGroup) findViewById(R.id.paymentRadioGroup);
         amountEt = (EditText) findViewById(R.id.amount);
+        pin = (EditText) findViewById(R.id.pin);
         btn_pay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -73,24 +69,68 @@ public class MakePaymentActivity extends AppCompatActivity {
                 int checked = paymentRg.getCheckedRadioButtonId();
                 String payment = balanceTv.getText().toString();
                 Log.i("checked",""+checked);
+                boolean empty = false;
                 if (checked == CUSTOM_RADIOBUTTON_ID) {
                     payment = amountEt.getText().toString();
+                    Log.e("payment", String.valueOf(payment.length()));
+                    if (payment.length() == 0) {
+                        empty = true;
+                        builder.setMessage("Please select an amount to pay")
+                                .setCancelable(false)
+                                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        return;
+                                    }
+                                });
+                        AlertDialog alert = builder.create();
+                        alert.show();
+                    }
                 }
-                builder.setMessage("Please confirm your payment: KSh "+payment+" to account "+ ACCOUNT)
-                        .setCancelable(false)
-                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                Intent intent = new Intent(MakePaymentActivity.this, HomeActivity.class);
-                                startActivity(intent);
-                            }
-                        });
-                AlertDialog alert = builder.create();
-                alert.show();
+                if (checked == -1) {
+                    builder.setMessage("Please select an amount to pay")
+                            .setCancelable(false)
+                            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    return;
+                                }
+                            });
+                    AlertDialog alert = builder.create();
+                    alert.show();
+                }
+                Log.e("checked", String.valueOf(checked));
+
+                if (pin.getText().length() != 0) {
+                    builder.setMessage("Please confirm your payment: KSh " + payment + " to account " + ACCOUNT)
+                            .setCancelable(false)
+                            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    Intent intent = new Intent(MakePaymentActivity.this, HomeActivity.class);
+                                    startActivity(intent);
+                                }
+                            });
+                    AlertDialog alert = builder.create();
+                    alert.show();
+                } else {
+                    if (checked != -1 && !empty) {
+                        builder.setMessage("Please enter your MPESA pin.")
+                                .setCancelable(false)
+                                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                                    }
+                                });
+                        AlertDialog alert = builder.create();
+                        alert.show();
+                    }
+                }
 
             }
         });
         realm = Realm.getDefaultInstance();
-        Postpaid pay = realm.where(Postpaid.class).isNull("payDate").findFirst();
+        Postpaid pay = realm.where(Postpaid.class).findAllSorted("month").last();//.isNull("payDate").findFirst();
         if (pay != null) {
             balanceTv.setText(String.valueOf(pay.getBalance()));
             dueOnTv.setText(getStringFromDate(pay.getDueDate()));

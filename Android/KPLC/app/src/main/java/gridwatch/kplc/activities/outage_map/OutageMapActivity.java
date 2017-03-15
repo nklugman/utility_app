@@ -1,14 +1,13 @@
 package gridwatch.kplc.activities.outage_map;
 
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.webkit.WebView;
+import android.webkit.WebResourceError;
+import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
-import android.widget.Toast;
-
-import gridwatch.kplc.R;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 
 public class OutageMapActivity extends AppCompatActivity {
 
@@ -29,11 +28,28 @@ public class OutageMapActivity extends AppCompatActivity {
 
         webview.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
         webview.getSettings().setGeolocationEnabled(true);
-        webview.getSettings().setBuiltInZoomControls(true);
-        webview.getSettings().setSupportZoom(true);
+        webview.getSettings().setBuiltInZoomControls(false);
+        webview.getSettings().setSupportZoom(false);
         webview.setVerticalScrollBarEnabled(true);
         webview.setHorizontalScrollBarEnabled(true);
-        //webview.loadUrl("http://141.212.11.206/map/map.html");
+        webview.loadUrl("http://141.212.11.206/map/map.html");
+
+        webview.setWebViewClient(new WebViewClient() {
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                view.loadUrl(url);
+                return true;
+            }
+
+            @Override
+            public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error){
+                //Your code to do
+                Log.e("webview", error.toString());
+            }
+
+
+        });
+
+        /*
         webview.loadUrl("file:///android_asset/map.html");
 
 
@@ -43,10 +59,12 @@ public class OutageMapActivity extends AppCompatActivity {
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             WebView.setWebContentsDebuggingEnabled(true);
         }
+        */
 
 
     }
 
+    /*
     public void changeText(String someText){
         Log.v("mylog","changeText is called");
         webview.loadUrl("javascript:document.getElementById('test1').innerHTML = '<strong>"+someText+"</strong>'");
@@ -64,6 +82,7 @@ public class OutageMapActivity extends AppCompatActivity {
             }
         });
     }
+    */
 
 
 

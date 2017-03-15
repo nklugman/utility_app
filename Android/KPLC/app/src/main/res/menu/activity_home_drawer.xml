@@ -2,12 +2,13 @@
 <menu xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android"
     >
-    <item android:title="@string/billing">
+    <item android:title= "@string/billingandpayment">
         <menu>
             <item
             android:id="@+id/nav_balance"
                 android:icon="@drawable/ic_format_list_bulleted_black_24dp"
-            android:title="Balance Histories" />
+            android:title="Bill History" />
+
             <item
                 android:id="@+id/nav_check_tokens"
                 android:icon="@drawable/ic_format_list_bulleted_black_24dp"
@@ -17,15 +18,12 @@
             android:id="@+id/nav_statement"
             android:title="Statement Histories" />
             -->
+            <!--
             <item
                 android:id="@+id/nav_usage"
                 android:icon="@drawable/ic_poll_black_24dp"
-                android:title="Usage Charts" />
-
-        </menu>
-    </item>
-    <item android:title="@string/payment">
-        <menu>
+                android:title="Bill Charts" />
+                -->
             <item
                 android:id="@+id/nav_payment"
                 android:icon="@drawable/ic_local_atm_black_24dp"
@@ -35,40 +33,55 @@
                 android:icon="@drawable/ic_power_black_24dp"
                 android:title="@string/buy_tokens" />
         </menu>
+    </item>
+    <item android:title="@string/outages">
+        <menu>
+            <item
+                android:id="@+id/nav_outage_map"
+                android:icon="@drawable/ic_public_black_24dp"
+                android:title="@string/outage_map">
+            </item>
+            <item
+                android:id="@+id/outage_report"
+                android:icon="@drawable/ic_error_black_24dp"
+                android:title="@string/outage_report">
+            </item>
+
+            <item android:id="@+id/nav_newsfeed"
+                android:icon="@drawable/ic_today_black_24dp"
+                android:title="@string/social_media"></item>
+
+        </menu>
 
     </item>
-    <item
-        android:id="@+id/nav_outage_map"
-        android:icon="@drawable/ic_public_black_24dp"
-        android:title="@string/outage_map">
+
+    <item android:title="@string/settings">
+        <menu>
+
+            <item android:id="@+id/nav_settings"
+                android:icon="@drawable/ic_settings_black_24dp"
+                android:title="@string/settings" />
+
+            <!--
+            <item android:title="@string/advanced_settings"
+                android:icon="@drawable/ic_settings_black_24dp"
+                android:id="@+id/nav_advanced_settings" />
+
+            <item android:title="@string/developer_settings"
+                android:icon="@drawable/ic_settings_black_24dp"
+                android:id="@+id/nav_developer_settings" />
+                -->
+            <item
+                android:id="@+id/nav_contact"
+                android:icon="@drawable/ic_record_voice_over_black_24dp"
+                android:title="@string/contact" />
+            <item
+                android:id="@+id/logout"
+                android:icon="@drawable/ic_person_outline_black_24dp"
+                android:title="@string/logout" />
+        </menu>
+
     </item>
-
-    <item android:id="@+id/nav_newsfeed"
-        android:icon="@drawable/ic_today_black_24dp"
-        android:title="@string/social_media"></item>
-
-    <item android:id="@+id/nav_settings"
-        android:icon="@drawable/ic_settings_black_24dp"
-        android:title="@string/settings" />
-
-    <item android:title="@string/advanced_settings"
-        android:icon="@drawable/ic_settings_black_24dp"
-        android:id="@+id/nav_advanced_settings" />
-
-    <item android:title="@string/developer_settings"
-        android:icon="@drawable/ic_settings_black_24dp"
-        android:id="@+id/nav_developer_settings" />
-    <item
-        android:id="@+id/nav_contact"
-        android:icon="@drawable/ic_record_voice_over_black_24dp"
-        android:title="@string/contact" />
-    <item
-        android:id="@+id/logout"
-        android:icon="@drawable/ic_person_outline_black_24dp"
-        android:title="@string/logout" />
-
-
-
 
 
 </menu>

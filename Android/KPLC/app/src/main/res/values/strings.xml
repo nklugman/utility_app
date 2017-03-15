@@ -47,6 +47,11 @@
     <string name="time_error">时间有问题</string>
     <string name="twitter">Twitter</string>
 
+    <string name="failure_dialog">Characters Did Not Match! Report Not Sent!</string>
+    <string name="report_dialog">To report a power outage, type the following characters and press report.</string>
+    <string name="report">Report</string>
+    <string name="cancel">Cancel</string>
+
     <string name="updated_at">上次更新于%1$s前</string>
     <string name="updated_just_now">刚刚更新</string>
     <string name="logout">Logout</string>
@@ -59,4 +64,8 @@
     <string name="not_logged_in_warning">You are not logged in, so this feature will not work. Do you want to log in?</string>
     <string name="no">No</string>
     <string name="show_SMS_warning">You are not online. If you want, we can send an SMS to do this, but it will charge you standard fees for the SMS.</string>
+    <string name="contact_str">Please contact us if you have any comments or suggestions. This app is developed by the University of California Berkeley and the University of Massachusettes Amherst.</string>
+    <string name="outage_report">Report Outage</string>
+    <string name="billingandpayment">Billing and Payment</string>
+    <string name="outages">Outages</string>
 </resources>

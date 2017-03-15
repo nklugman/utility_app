@@ -201,6 +201,7 @@ public class BalanceHistoryActivity extends AppCompatActivity {
                 String payDate = oj.getString("payDate");
                 String statement = oj.getString("statement");
                 Postpaid item = realm.createObject(Postpaid.class); // Create a new object
+                Log.e("PostPaid", month);
                 item.setAccount(account);
                 item.setMonth(getDateFromString(month));
                 item.setBalance(Double.parseDouble(balance));

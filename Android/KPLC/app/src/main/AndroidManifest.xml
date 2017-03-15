@@ -5,73 +5,92 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.SEND_SMS" />
     <uses-permission android:name="android.permission.RECEIVE_SMS" />
-    <uses-permission android:name="android.permission.READ_SMS"/>
+    <uses-permission android:name="android.permission.READ_SMS" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
 
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
+        android:screenOrientation="portrait"
         android:theme="@style/MyAppTheme">
         <activity
             android:name=".activities.LoginActivity"
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <receiver android:name=".activities.recievers.UpdateReceiver" >
+
+        <receiver android:name=".activities.recievers.UpdateReceiver">
             <intent-filter>
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
             </intent-filter>
         </receiver>
+
         <activity
             android:name=".activities.HomeActivity"
             android:label="@string/app_name"
-            android:theme="@style/Theme.AppCompat.NoActionBar"/>
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
             android:name=".activities.billing.BalanceHistoryActivity"
-            android:label="Balance Histories"
-            />
+            android:screenOrientation="portrait"
+            android:label="Balance Histories" />
         <activity
             android:name=".activities.billing.StatementHistoryActivity"
-            android:label="Statement Histories"
-            />
+            android:screenOrientation="portrait"
+            android:label="Statement Histories" />
         <activity
             android:name=".activities.payment.BuyTokensActivity"
-            android:label="Buy Tokens"
-            />
+            android:screenOrientation="portrait"
+            android:label="Buy Tokens" />
         <activity
             android:name=".activities.payment.MakePaymentActivity"
-            android:label="Make A Payment"
-            />
+            android:screenOrientation="portrait"
+            android:label="Make A Payment" />
         <activity
             android:name=".activities.billing.UsageChartsActivity"
-            android:label="Usage Charts"
-            />
-        <activity android:name=".activities.outage_map.OutageMapActivity"
-            android:label="OutageMap"/>
-        <activity android:name=".activities.news_feed.NewsfeedActivity"
-            android:windowSoftInputMode="stateHidden"
-            android:label="Newsfeed"/>
-        <activity android:name=".activities.ContactActivity"
-            android:label="Contact"
-            />
-        <activity android:name=".activities.settings.SettingsActivity"
-            android:label="Settings"
-            />
-        <activity android:name=".activities.settings.SettingsAdvancedActivity"
-            android:label="Advanced Settings"
-            />
-        <activity android:name=".activities.settings.SettingsDeveloperActivity"
-            android:label="Developer Settings"
-            />
+            android:screenOrientation="portrait"
+            android:label="Usage Charts" />
+        <activity
+            android:name=".activities.outage_map.OutageMapActivity"
+            android:label="OutageMap" />
+        <activity
+            android:name=".activities.news_feed.NewsfeedActivity"
+            android:screenOrientation="portrait"
+            android:label="Newsfeed"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".activities.ContactActivity"
+            android:screenOrientation="portrait"
+            android:label="Contact" />
+        <activity
+            android:name=".activities.settings.SettingsActivity"
+            android:screenOrientation="portrait"
+            android:label="Settings" />
+        <activity
+            android:name=".activities.settings.SettingsAdvancedActivity"
+            android:screenOrientation="portrait"
+            android:label="Advanced Settings" />
+        <activity
+            android:name=".activities.settings.SettingsDeveloperActivity"
+            android:screenOrientation="portrait"
+            android:label="Developer Settings" />
 
-
-
+        <service
+            android:name=".activities.gridwatch.GridWatchService"
+            android:screenOrientation="portrait"
+            android:enabled="true"
+            android:exported="true"></service>
     </application>
 
 </manifest>

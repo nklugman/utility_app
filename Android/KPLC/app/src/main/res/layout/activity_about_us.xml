@@ -15,14 +15,16 @@
         android:paddingTop="15dp"
         android:paddingLeft="20dp">
 
+        <!--
         <ImageView
             android:layout_width="74dp"
             android:layout_height="50dp"
             app:srcCompat="@drawable/gridwatchlogo"
             android:id="@+id/imageView" />
+            -->
 
         <TextView
-            android:text="We are GridWatch team, located in California, USA. We are continously trying to improve electricity accessibility in every single country. "
+            android:text="@string/contact_str"
             android:textColor="@android:color/white"
             android:textSize="14sp"
             android:layout_width="match_parent"

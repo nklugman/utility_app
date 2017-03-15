@@ -20,6 +20,7 @@
         android:id="@+id/outage_map_webview"
         android:layout_below="@+id/reload">
 
+        <!--
         <Button
             android:text="Button"
             android:layout_width="wrap_content"
@@ -27,8 +28,10 @@
             android:layout_x="-3dp"
             android:layout_y="-6dp"
             android:id="@+id/button2" />
+            -->
     </WebView>
 
+    <!--
     <Button
         android:text="Button"
         android:layout_width="wrap_content"
@@ -37,4 +40,5 @@
         android:layout_alignParentStart="true"
         android:id="@+id/reload"
         android:layout_alignParentTop="true" />
+        -->
 </RelativeLayout>

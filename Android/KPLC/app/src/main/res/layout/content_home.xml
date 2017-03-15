@@ -126,20 +126,6 @@
         android:id="@+id/balance_payment_layout">
 
         <Button
-            android:text="Check Balance"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/check_balance"
-            android:background="@color/colorPrimary"
-            android:layout_below="@+id/last_update"
-            android:layout_alignLeft="@+id/last_update"
-            android:layout_alignStart="@+id/last_update"
-            android:layout_marginTop="0dp"
-            android:layout_marginRight="@dimen/activity_horizontal_margin"
-            android:layout_weight="1"
-            android:layout_marginLeft="10dp" />
-
-        <Button
             android:text="Make A Payment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -151,7 +137,8 @@
             android:layout_alignRight="@+id/check_balance"
             android:layout_alignEnd="@+id/check_balance"
             android:layout_weight="1"
-            android:layout_marginRight="10dp" />
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="10dp" />
     </LinearLayout>
 
     <View

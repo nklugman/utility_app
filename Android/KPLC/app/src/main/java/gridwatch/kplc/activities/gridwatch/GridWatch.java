@@ -44,7 +44,6 @@ import java.util.concurrent.TimeUnit;
 import gridwatch.kplc.activities.config.SensorConfig;
 import gridwatch.kplc.activities.config.SettingsConfig;
 import gridwatch.kplc.activities.database.GWDump;
-import gridwatch.kplc.activities.logs.LatLngWriter;
 import io.realm.Realm;
 import pl.charmas.android.reactivelocation.ReactiveLocationProvider;
 import rx.Observable;
@@ -58,6 +57,7 @@ import static gridwatch.kplc.activities.config.SensorConfig.LOCATION_TIMEOUT_IN_
 
 
 public class GridWatch {
+    private static final int ACCESS_COURSE_LOCATION = 1;
     private ReactiveSensors reactiveSensors;
     private ReactiveLocationProvider reactiveLocationProvider;
     private ReactiveNetwork reactiveNetworks;
@@ -78,18 +78,22 @@ public class GridWatch {
     private Context mContext;
     private String mPhone_id = "-1";
 
+    private String mType;
     private String mVersionNum;
 
 
 
-    public GridWatch(Context context, String phone_id,  String version_num) {
+    public GridWatch(Context context, String phone_id,  String version_num, String type) {
 
         mContext = context;
         mPhone_id = phone_id;
         mVersionNum = version_num;
+        mType = type;
         mDatabase = FirebaseDatabase.getInstance().getReference();
         sp = PreferenceManager.getDefaultSharedPreferences(mContext);
         Realm.init(mContext);
+
+
 
     }
 
@@ -397,14 +401,7 @@ public class GridWatch {
 
             double lat = 0.0;
             double lng = 0.0;
-            try {
-                LatLngWriter c = new LatLngWriter(getClass().getName());
-                String latlng = c.get_last_value();
-                lat = Double.valueOf(latlng.split(",")[0]);
-                lng = Double.valueOf(latlng.split(",")[1]);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+
 
             long time = System.currentTimeMillis();
 
@@ -451,16 +448,8 @@ public class GridWatch {
     }
 
     private JSONObject loc_transform(Location location) {
-        LatLngWriter r = new LatLngWriter(getClass().getName());
-        if (location == null) {
-            try {
-                return new JSONObject().put("lat", "-1").put("lng", "-1");
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
+
         Log.e("GridWatch ", location.toString());
-        r.log(String.valueOf(System.currentTimeMillis()), String.valueOf(location.getLatitude())+","+ String.valueOf(location.getLongitude()));
         try {
             return new JSONObject()
                     .put("lat", String.valueOf(location.getLatitude()))

@@ -63,9 +63,12 @@ public class NewsfeedActivity extends AppCompatActivity{
         list = new ArrayList<HashMap<String, Object>>();
         inputSearch = (EditText) findViewById(R.id.inputSearch);
 
+
         final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        final String application_host_server = prefs.getString("setting_key_application_host_server", "graphs.grid.watch");
+         String application_host_server = prefs.getString("setting_key_application_host_server", "http://141.212.11.206");
         final String application_host_port = prefs.getString("setting_key_application_host_port", "3100");
+
+        application_host_server = "http://141.212.11.206";
 
         final String SERVER = application_host_server + ":" + application_host_port;
         //final String SERVER = "http://192.168.1.10:3100";
@@ -75,6 +78,14 @@ public class NewsfeedActivity extends AppCompatActivity{
                 new String[] {"newsfeedlogo", "newsfeedsource", "newsfeedtime", "newsfeedcontent"},
                 new int[] {R.id.newsfeedlogo, R.id.newsfeedsource, R.id.newsfeedtime, R.id.newsfeedcontent});
         listView.setAdapter(adapter);
+
+        /*
+        if (adapter.getCount() == 0) { //reload if there are no items
+            Date max = realm.where(Newsfeed.class).maximumDate("time");
+            MAX_TIME = getStringFromDate(max);
+            new RefreshContent().execute(MAX_TIME, SERVER);
+        }
+        */
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener()
         {
@@ -124,6 +135,11 @@ public class NewsfeedActivity extends AppCompatActivity{
                         tempList.add(list.get(i));
                         Log.i("good", list.get(i).get("newsfeedcontent").toString());
                     }
+                    /*
+                    if (list.get(i).get("newsfeedsource").toString().toLowerCase().contains(cs.toString().toLowerCase())) {
+                        tempList.add(list.get(i));
+                    }
+                    */
                 }
                 adapter = new SimpleAdapter(getBaseContext(), tempList, R.layout.newsfeed_listitem,
                         new String[] {"newsfeedlogo", "newsfeedsource", "newsfeedtime", "newsfeedcontent"},
@@ -145,6 +161,9 @@ public class NewsfeedActivity extends AppCompatActivity{
                 // TODO Auto-generated method stub
             }
         });
+
+
+
 
     }
 
@@ -277,9 +296,9 @@ public class NewsfeedActivity extends AppCompatActivity{
         try {
             connection = (HttpURLConnection) url.openConnection();
             // Timeout for reading InputStream arbitrarily set to 3000ms.
-            connection.setReadTimeout(3000);
+            connection.setReadTimeout(10000);
             // Timeout for connection.connect() arbitrarily set to 3000ms.
-            connection.setConnectTimeout(3000);
+            connection.setConnectTimeout(10000);
             // For this use case, set HTTP method to GET.
             connection.setRequestMethod("GET");
             // Already true by default but setting just in case; needs to be true since this request
@@ -302,6 +321,7 @@ public class NewsfeedActivity extends AppCompatActivity{
             }
             in.close();
             result = response.toString();
+            Log.e("response", result);
         } finally {
             // Close Stream and disconnect HTTPS connection.
             if (stream != null) {

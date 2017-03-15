@@ -1,7 +1,6 @@
 package gridwatch.kplc.activities.payment;
 
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -9,12 +8,8 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ListView;
-import android.widget.SimpleAdapter;
-import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.android.volley.Request;
@@ -26,23 +21,15 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.net.URL;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Locale;
 
 import gridwatch.kplc.R;
-import gridwatch.kplc.activities.HomeActivity;
 import gridwatch.kplc.activities.Singletons;
-import gridwatch.kplc.activities.billing.Postpaid;
 import io.realm.Realm;
-import io.realm.RealmResults;
-import io.realm.Sort;
 
 /**
  * Created by guoxinyi on 1/19/17.
@@ -50,6 +37,10 @@ import io.realm.Sort;
 
 public class BuyTokensActivity extends AppCompatActivity {
     private Realm realm;
+
+    private EditText mpesa;
+    private EditText ksh;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,7 +48,7 @@ public class BuyTokensActivity extends AppCompatActivity {
 
         // NOTE: cannot call getApplicationContext() until _after_ super.onCreate(...)
         final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        final String application_host_server = prefs.getString("setting_key_application_host_server", "141.212.11.206");
+        final String application_host_server = prefs.getString("setting_key_application_host_server", "http://141.212.11.206");
         final String application_host_port = prefs.getString("setting_key_application_host_port", "3100");
         final String SERVER = "http://" + application_host_server + ":" + application_host_port;
         final String ACCOUNT = prefs.getString("setting_key_account_number", "3202667");
@@ -66,6 +57,8 @@ public class BuyTokensActivity extends AppCompatActivity {
         final EditText buyTokenPinEditText = (EditText) findViewById(R.id.buyTokenPinEditText);
         final Button buyTokenConfirmButton = (Button) findViewById(R.id.buyTokenConfirmButton);
         realm = Realm.getDefaultInstance();
+
+
         // Look up the current token balance
         buyTokenBalanceTextView.setText("Loading...");
         // FIXME: Request a string response from the provided URL.
@@ -100,17 +93,48 @@ public class BuyTokensActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(BuyTokensActivity.this);
-                String payment = buyTokenPurchaseEditText.getText().toString();
-                builder.setMessage("Please confirm your payment: KSh "+payment+" to account "+ ACCOUNT)
-                        .setCancelable(false)
-                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                Intent intent = new Intent(BuyTokensActivity.this, HomeActivity.class);
-                                startActivity(intent);
-                            }
-                        });
-                AlertDialog alert = builder.create();
-                alert.show();
+
+                boolean err = false;
+
+                if (buyTokenPurchaseEditText.getText().length() == 0) {
+                    builder.setMessage("Please set payment amount.")
+                            .setCancelable(false)
+                            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    return;
+                                }
+                            });
+                    AlertDialog alert = builder.create();
+                    alert.show();
+                    return;
+                }
+                if (buyTokenPinEditText.getText().length() == 0) {
+                    builder.setMessage("Please enter your M-Pesa Pin.")
+                            .setCancelable(false)
+                            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    return;
+
+                                }
+                            });
+                    AlertDialog alert = builder.create();
+                    alert.show();
+                    return;
+                }
+                if (!err) {
+                    String payment = buyTokenPurchaseEditText.getText().toString();
+                    builder.setMessage("Please confirm your payment: KSh " + payment + " to account " + ACCOUNT)
+                            .setCancelable(false)
+                            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    return;
+                                }
+                            });
+                    AlertDialog alert = builder.create();
+                    alert.show();
+                    return;
+                }
+
             }
         });
     }

@@ -32,4 +32,5 @@ public class IntentConfig {
     public static final String CRASH_PLUGWATCH_SERVICE = "CRASH_PLUGWATCH_SERVICE";
     public static final String AUDIO_DONE = "DONE";
     public static final String FILENAME = "FILENAME";
+    public static final String IEMI = "IEMI";
 }

@@ -1,5 +1,6 @@
 package gridwatch.kplc.activities.logs;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.util.Log;
@@ -20,14 +21,14 @@ public class LatLngWriter {
 	private static File mLogFile;
 	SharedPreferences prefs = null;
 
-	public LatLngWriter(String calling_class) {
-		String secStore = System.getenv("SECONDARY_STORAGE");
-		File root = new File(secStore);
-		if (!root.exists()) {
-			boolean result = root.mkdir();
-			Log.i("TTT", "Results: " + result);
+	public LatLngWriter(String calling_class, Context mcontext) {
+		if (mcontext == null) {
+			Log.e("LATLNG", "HELP");
+			return;
 		}
-		mLogFile = new File(root, LOG_NAME);
+		File file = new File(mcontext.getFilesDir(), LOG_NAME);
+
+
 	}
 
 	public static void log(String time, String num) {

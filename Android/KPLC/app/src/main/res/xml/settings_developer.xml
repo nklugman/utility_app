@@ -5,7 +5,6 @@
     <EditTextPreference
         android:title="Application host server"
         android:key="setting_key_application_host_server"
-        android:defaultValue="graphs.grid.watch"
         android:inputType="textUri" />
 
     <EditTextPreference
