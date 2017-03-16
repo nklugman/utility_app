@@ -7,7 +7,6 @@ Created on Fri Feb 17 21:00:50 2017
 """
 import re
 import psycopg2
-import Facebook_Post_Update
 
 def puzzle(wordList,i): #this phrase has i+1 words
     length=len(wordList)

@@ -24,7 +24,6 @@ def fetch(user):
         last_time = data[last_post_csv].loc[0]
     except Exception as e:
         last_time = '2017-03-01 06:24:57'
-
     feed = graph.get_object('/KenyaPowerLtd/' +'posts', since='%s'%last_time, until='%s'%now_kenya, limit=100)
 
     if(len(feed['data']) > 0):
@@ -43,7 +42,7 @@ def get_data(posts):
     dataframe=pd.DataFrame([latest_post_time],columns=[last_post_csv])
     dataframe.to_csv(last_post_csv+'.csv',index=False)
     print(latest_post_time)
-    #post_to_database(data)
+    post_to_database(data)
     get_comment(data)
     return latest_post_time
 
