@@ -24,7 +24,6 @@ def fetch(user):
         last_time = data[last_post_csv].loc[0]
     except Exception as e:
         last_time = '2017-03-01 06:24:57'
-
     feed = graph.get_object('/KenyaPowerLtd/' +'posts', since='%s'%last_time, until='%s'%now_kenya, limit=100)
 
     if(len(feed['data']) > 0):
