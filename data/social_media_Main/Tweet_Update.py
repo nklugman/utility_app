@@ -68,7 +68,7 @@ def get_latest_tweets(screen_name):
     dataframe=pd.DataFrame(new_data,columns=['tweet', 'tweet_date', 'tweet_time'])
 
     newest_id=pd.DataFrame([next_since_ID],columns=[id_csv])
-    newest_id.to_csv(id_csv ,index=False)
+    newest_id.to_csv(id_csv+'.csv' ,index=False)
 
     try:
         tweets_to_news_feed(dataframe)

@@ -43,7 +43,7 @@ def get_data(posts):
     dataframe=pd.DataFrame([latest_post_time],columns=[last_post_csv])
     dataframe.to_csv(last_post_csv+'.csv',index=False)
     print(latest_post_time)
-    #post_to_database(data)
+    post_to_database(data)
     get_comment(data)
     return latest_post_time
 
@@ -75,12 +75,12 @@ def facebook_posts_to_news_feed(fbposts):
     cur = con.cursor()
     outages=[]
     for i in range(len(fbposts)):
-        timeStamp = timeStamp_parsing(fbposts.iloc[i]['created_time'])
+        timeStamp = timeStamp_parsing(fbposts.iloc[i]['created_time'].encode('utf-8'))
         fbposts['time_stamp'] = timeStamp
         source = 0
-        post = str(fbposts.iloc[i]['message'])
+        post = fbposts.iloc[i]['message'].encode('utf-8')
         outages.append([timeStamp, source, post])
-    dataText = ', '.join(map(bytes.decode,(cur.mogrify('(%s,%s,%s)',outage) for outage in outages)))
+    dataText = ', '.join(cur.mogrify('(%s,%s,%s)',outage) for outage in outages)
     cur.execute('INSERT INTO news_feed (time,source,content) VALUES ' + dataText)    
     print("Posts are pushed to database.")
     

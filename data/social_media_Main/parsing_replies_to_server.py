@@ -20,7 +20,7 @@ def puzzle(wordList,i): #this phrase has i+1 words
     return puzzleList
 
 def parse_reply(reply,dict,cur,time):
-    reply = str(reply)
+    reply = str(reply).encode('utf-8')
     wordList = re.sub("[^\w]", " ",  reply).split()
     for word in wordList:
         if word in dict[0]:
