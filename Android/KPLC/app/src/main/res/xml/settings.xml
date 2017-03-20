@@ -2,57 +2,52 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
 
-    <EditTextPreference android:title="Account Number"
+    <EditTextPreference
+        android:title="Account Number"
         android:key="setting_key_account_number"
-        android:summary="Please provide your Account Number."
+        android:defaultValue="Please provide your Account Number."
         android:dialogTitle="Your Account"
         android:dialogMessage="Enter Your Account Number"
-        android:defaultValue=""
         android:inputType="textCapWords" />
 
 
-    <EditTextPreference android:title="Meter Number"
+    <EditTextPreference
+        android:title="Meter Number"
         android:key="setting_key_meter_number"
-        android:summary="Please enter your Meter Number."
+        android:defaultValue="Please enter your Meter Number."
+        android:dialogTitle="Meter Number"
+        android:dialogMessage="Enter your Meter Number"
         android:inputType= "numberDecimal"/>
 
 
     <EditTextPreference
-        android:defaultValue="Default value"
-        android:selectAllOnFocus="true"
-        android:singleLine="true"
-        android:title="Contact Name"
+        android:title="Name"
         android:key="Contact"
-        android:summary="Please enter your full name." />
-    <EditTextPreference
-        android:defaultValue="Default value"
-        android:selectAllOnFocus="true"
+        android:defaultValue="Please enter your full name."
+        android:dialogTitle="Contact"
+        android:dialogMessage="Please enter your full name."
         android:singleLine="true"
+         />
+
+    <EditTextPreference
         android:title="Contact Phone Number"
         android:key="Phone"
-        android:summary="Please enter your phone number."
+        android:defaultValue="Please enter your phone number."
+        android:dialogTitle="Phone"
+        android:dialogMessage="Please enter your phone number."
         android:phoneNumber="true" />
+
     <EditTextPreference
-        android:defaultValue="Default value"
-        android:selectAllOnFocus="true"
-        android:singleLine="true"
-        android:title="Address"
+        android:title="Home Address"
         android:key="Address"
-        android:summary="Plase enter the address associated with this account." />
-    <EditTextPreference
-        android:defaultValue="Default value"
-        android:selectAllOnFocus="true"
+        android:defaultValue="Please enter the address associated with this account."
+        android:dialogTitle="Address"
+        android:dialogMessage="Please enter the address associated with this account."
         android:singleLine="true"
-        android:title="M-PESA PIN"
-        android:key="PIN"
-        android:summary="Please enter your M-PESA PIN. "
-        android:password="true" />
-    <SwitchPreference
-        android:defaultValue="true"
-        android:title="0 Token Notification"
-        android:key="Token" />
+         />
+
     <SwitchPreference
         android:defaultValue="true"
         android:title="Power Outage Alerts"
-        android:key="Power Outage Alerts" />
+        android:key="power_outage_alerts" />
 </PreferenceScreen>

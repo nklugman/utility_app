@@ -18,6 +18,8 @@ public class GWDump extends RealmObject {
     @Required
     private String mDump;
 
+    private long mTime;
+
 
     public GWDump() {
 
@@ -26,6 +28,7 @@ public class GWDump extends RealmObject {
     public GWDump(String id, String dump) {
         mID = id;
         mDump = dump;
+        mTime = System.currentTimeMillis();
     }
 
     public String toString() {
@@ -36,7 +39,7 @@ public class GWDump extends RealmObject {
         RequestParams values = new RequestParams();
         values.put(DatabaseConfig.TYPE, mDump);
         values.put(DatabaseConfig.ID, mID);
-        values.put("wifi", "no");
+        values.put(DatabaseConfig.TIME, mTime);
         return values;
     }
 

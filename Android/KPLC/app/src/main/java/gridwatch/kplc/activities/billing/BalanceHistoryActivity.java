@@ -310,9 +310,9 @@ public class BalanceHistoryActivity extends AppCompatActivity {
             String date;
             int month = cal.get(Calendar.MONTH) + 1;
             if (month > 9) {
-                date = cal.get(Calendar.YEAR) + "" + month;
+                date = cal.get(Calendar.YEAR) + "/" +  month;
             } else {
-                date = cal.get(Calendar.YEAR) + "0" + month;
+                date = cal.get(Calendar.YEAR) + "0/" + month;
             }
             map.put("history_date", date);
             map.put("history_balance", String.valueOf((double)Math.round(item.getBalance() * 100) / 100));

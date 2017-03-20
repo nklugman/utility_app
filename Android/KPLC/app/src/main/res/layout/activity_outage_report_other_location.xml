@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_outage_report_other_location"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="gridwatch.kplc.activities.outage_reporting.OutageReportOtherLocationActivity"
+    android:weightSum="1">
+    <TextView
+        android:text="Report an Outage Elsewhere!"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView9"
+        android:textColor="@color/colorPrimary"
+        android:gravity="center"
+        android:textSize="30sp"
+        android:layout_marginTop="15dp"
+        />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp">
+
+        <EditText android:id="@+id/location_search"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="Search locations.."
+            android:inputType="textVisiblePassword"
+            android:layout_marginLeft="10dp"
+            android:layout_weight="0.57" />
+
+        <Button
+            android:text="New Location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/create_btn"
+            android:layout_weight="0.52" />
+
+    </LinearLayout>
+
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="416dp"
+        android:id="@+id/listview_locations"
+        android:layout_weight="0.74"
+        android:divider="@drawable/list_divider" android:dividerHeight="2px"/>
+
+</LinearLayout>

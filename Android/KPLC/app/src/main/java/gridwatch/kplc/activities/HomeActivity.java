@@ -9,8 +9,10 @@ import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.preference.PreferenceManager;
 import android.provider.Settings.Secure;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.DialogFragment;
@@ -27,7 +29,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
@@ -35,10 +36,12 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.places.Places;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.database.FirebaseDatabase;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -61,12 +64,14 @@ import gridwatch.kplc.activities.gridwatch.GridWatch;
 import gridwatch.kplc.activities.gridwatch.GridWatchService;
 import gridwatch.kplc.activities.news_feed.NewsfeedActivity;
 import gridwatch.kplc.activities.outage_map.OutageMapActivity;
+import gridwatch.kplc.activities.outage_reporting.OutageActivity;
 import gridwatch.kplc.activities.payment.BuyTokensActivity;
 import gridwatch.kplc.activities.payment.MakePaymentActivity;
+import gridwatch.kplc.activities.settings.SettingsActivity;
 import io.realm.Realm;
 
 public class HomeActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener,  ReportDialog.ReportDialogListener{
+        implements NavigationView.OnNavigationItemSelectedListener,  ReportDialog.ReportDialogListener, GoogleApiClient.OnConnectionFailedListener {
     private static final int ACCESS_COURSE_LOCATION = 1;
     private static final int ACCESS_FINE_LOCATION = 2;
     private Realm realm;
@@ -79,12 +84,24 @@ public class HomeActivity extends AppCompatActivity
     private TextView cur_name;
     private TextView cur_balance_label_text;
     private TextView cur_payment_label_text;
+    private TextView cur_update_text;
 
     private int version_num = 1;
+    private GoogleApiClient mGoogleApiClient;
 
     private boolean am_online;
     private boolean is_prepaid;
 
+    private TextView lastUpdateTv;
+
+    private String lat = "-1";
+    private String lng = "-1";
+    private String other_account = "-1";
+    private String notes = "-1";
+    private String address = "-1";
+    private String name = "-1";
+    private String account_number = "-1";
+    private String meter_number = "-1";
 
     private TextView welcomeTv;
     private TextView dateTv;
@@ -116,6 +133,8 @@ public class HomeActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
         Menu menu = navigationView.getMenu();
 
+        Intent intent = getIntent();
+        parse_intent(intent);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -127,6 +146,15 @@ public class HomeActivity extends AppCompatActivity
         iemi = Secure.getString(this.getContentResolver(), Secure.ANDROID_ID);
 
 
+        //
+
+
+        mGoogleApiClient = new GoogleApiClient
+                .Builder(this)
+                .addApi(Places.GEO_DATA_API)
+                .addApi(Places.PLACE_DETECTION_API)
+                //.enableAutoManage(this, this)
+                .build();
 
         is_prepaid = prefs.getBoolean(SettingsConfig.IS_PREPAID, false);
 
@@ -145,7 +173,7 @@ public class HomeActivity extends AppCompatActivity
 
         cur_balance_label_text = (TextView) findViewById(R.id.cur_balance_label_text);
         cur_payment_label_text = (TextView) findViewById(R.id.cur_payment_date_label_text);
-
+        cur_update_text = (TextView) findViewById(R.id.cur_update_text);
 
         am_online = isNetworkAvailable();
         if (!am_online) {
@@ -158,6 +186,7 @@ public class HomeActivity extends AppCompatActivity
         cur_balance = (TextView) findViewById(R.id.cur_balance_text);
         cur_due_date = (TextView) findViewById(R.id.cur_payment_text);
         cur_name = (TextView) findViewById(R.id.name_text);
+        lastUpdateTv = (TextView) findViewById(R.id.last_update_textview); //TODO
 
         //cbTv = (TextView) findViewById(R.id.balance);
         //last_cbTv = (TextView) findViewById(R.id.balance_last_time);
@@ -319,11 +348,12 @@ public class HomeActivity extends AppCompatActivity
                             String result = response.toString();
                             JSONObject json = null;
                             try {
-                                String timeStamp = new SimpleDateFormat("yyyy/MM").format(Calendar.getInstance().getTime());
+                                String timeStamp = new SimpleDateFormat("yyyy/MM/dd HH:mm").format(Calendar.getInstance().getTime());
                                 json = new JSONObject(result);
                                 prefs.edit().putString(SettingsConfig.BALANCE, json.getString("amount")).apply();
                                 prefs.edit().putString(SettingsConfig.DUE_DATE, json.getString("due_date")).apply();
                                 prefs.edit().putString(SettingsConfig.NAME, json.getString("name")).apply();
+                                prefs.edit().putString(SettingsConfig.LAST_UPDATE, timeStamp).apply();
                                 update_ui();
                                 save_result_into_realm(json, ACCOUNT);
                             } catch (JSONException e) {
@@ -386,50 +416,18 @@ public class HomeActivity extends AppCompatActivity
             cur_due_date.setVisibility(View.GONE);
             cur_payment_label_text.setVisibility(View.GONE);
         }
-    }
 
-    private void check_last_statement(String SERVER, String ACCOUNT, boolean headless) {
-        Log.e("check last statement", "hit");
-        boolean logic_good = account_logic_check(headless);
-        if (logic_good) {
-            String url = SERVER + "/payment?account=" + ACCOUNT;
-            StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
-                    new Response.Listener<String>() {
-                        @Override
-                        public void onResponse(String response) {
-                            String result = response.toString();
-                            JSONArray json = null;
-                            try {
-                                String timeStamp = new SimpleDateFormat("yyyy/MM").format(Calendar.getInstance().getTime());
-                                json = new JSONArray(result);
-                                JSONObject oj = json.getJSONObject(0);
-                                //mpTv.setText(String.valueOf(oj.get("balance")));
-                                payDueTv.setText(String.valueOf(oj.get("dueDate")));
-                                //last_mpTv.setText(timeStamp);
-                                Log.e("check_last_statement", timeStamp);
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                    }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    Log.e("buy_tokens", error.toString());
-                    //mpTv.setText("");
-                    Postpaid pay = realm.where(Postpaid.class).isNull("payDate").findFirst();
-                    if (pay != null) {
-                        Log.i("mylogpay", pay.toString());
-                        //mpTv.setText(String.valueOf(pay.getBalance()));
-                        payDueTv.setText(getStringFromDate(pay.getDueDate()));
-                        Log.e("check_last_statement", pay.toString());
-                        //last_mpTv.setText(String.valueOf(pay.getMonth()));
-                    }
-                }
-            });
-            Singletons.getInstance(getBaseContext()).addToRequestQueue(stringRequest);
+        String last_update = prefs.getString(SettingsConfig.LAST_UPDATE, "");
+        if (last_update.length() != 0) {
+            lastUpdateTv.setVisibility(View.VISIBLE);
+            cur_update_text.setVisibility(View.VISIBLE);
+            lastUpdateTv.setText(last_update);
+        } else {
+            lastUpdateTv.setVisibility(View.GONE);
+            cur_update_text.setVisibility(View.GONE);
         }
-
     }
+
 
     private void report_outage() {
         if (am_online) {
@@ -438,49 +436,6 @@ public class HomeActivity extends AppCompatActivity
         } else {
             show_sms_warning(SettingsConfig.GRIDWATCH);
         }
-    }
-
-    private void check_balance(String SERVER, String ACCOUNT, boolean headless) {
-        boolean logic_good = account_logic_check(headless);
-        if (logic_good) {
-        String url = SERVER + "/balance?account=" + ACCOUNT;
-            StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
-                    new Response.Listener<String>() {
-                        @Override
-                        public void onResponse(String response) {
-                            String result = response.toString();
-                            JSONArray json = null;
-                            String timeStamp = new SimpleDateFormat("yyyy/MM").format(Calendar.getInstance().getTime());
-                            try {
-                                json = new JSONArray(result);
-                                JSONObject oj = json.getJSONObject(0);
-                                //cbTv.setText(String.valueOf(oj.get("balance")));
-                                Log.e("check balance", timeStamp);
-                                //last_cbTv.setText(timeStamp);
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-
-
-                        }
-                    }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    Toast.makeText(getBaseContext(), "Not Connected to the Network! Many functionalities will not work!", Toast.LENGTH_SHORT);
-                    Log.e("buy_tokens", error.toString());
-//                cbTv.setText("");
-                    Date max = realm.where(Postpaid.class).maximumDate("month");
-                    if (max != null) {
-                        Log.i("mylogmax", max.toString());
-                        Postpaid balance = realm.where(Postpaid.class).equalTo("month", max).findFirst();
-                        //cbTv.setText(String.valueOf(balance.getBalance()));
-                        //last_cbTv.setText(String.valueOf(balance.getMonth()));
-                    }
-                }
-            });
-            Singletons.getInstance(getBaseContext()).addToRequestQueue(stringRequest);
-        }
-
     }
 
     private void showWelcome() {
@@ -495,6 +450,7 @@ public class HomeActivity extends AppCompatActivity
         } else {
             welcomeTv.setText((welcomeText[2]));
         }
+        lastUpdateTv.setText(format.format(now.getTime()));
 
         if (annon) {
             cur_name.setText("");
@@ -505,6 +461,8 @@ public class HomeActivity extends AppCompatActivity
             cur_balance.setVisibility(View.GONE);
             cur_balance_label_text.setVisibility(View.GONE);
             cur_payment_label_text.setVisibility(View.GONE);
+            lastUpdateTv.setVisibility(View.GONE);
+            cur_update_text.setVisibility(View.GONE);
         }
         if (!am_online) {
             cur_name.setText("");
@@ -515,6 +473,8 @@ public class HomeActivity extends AppCompatActivity
             cur_balance.setVisibility(View.GONE);
             cur_balance_label_text.setVisibility(View.GONE);
             cur_payment_label_text.setVisibility(View.GONE);
+            lastUpdateTv.setVisibility(View.GONE);
+            cur_update_text.setVisibility(View.GONE);
         }
 
     }
@@ -572,16 +532,17 @@ public class HomeActivity extends AppCompatActivity
             } else {
                 show_not_online_err();
             }
-        } /* else if (id == R.id.nav_settings) {
+        }  else if (id == R.id.nav_settings) {
             launch_class(SettingsActivity.class);
-        } else if (id == R.id.nav_advanced_settings) {
+        }
+        /*else if (id == R.id.nav_advanced_settings) {
             launch_class(SettingsAdvancedActivity.class);
         } else if (id == R.id.nav_developer_settings) {
             launch_class(SettingsDeveloperActivity.class);
         } */else if (id == R.id.nav_contact) {
             launch_class(ContactActivity.class);
         } else if (id == R.id.outage_report) {
-            report_outage();
+            launch_class(OutageActivity.class);
         }
         else if (id == R.id.logout) {
             do_logout();
@@ -592,12 +553,19 @@ public class HomeActivity extends AppCompatActivity
         return true;
     }
 
+    @Override
+    public void onCreate(Bundle savedInstanceState, PersistableBundle persistentState) {
+        super.onCreate(savedInstanceState, persistentState);
+        Log.e("onCreate", savedInstanceState.keySet().toString());
+    }
+
     private void do_logout() {
         final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         prefs.edit().putString("setting_key_account_number", "").putString("setting_key_meter_number", "").apply();
         prefs.edit().putString(SettingsConfig.BALANCE, "").apply();
         prefs.edit().putString(SettingsConfig.DUE_DATE, "").apply();
         prefs.edit().putString(SettingsConfig.NAME, "").apply();
+        prefs.edit().putString(SettingsConfig.LAST_UPDATE, "").apply();
         Intent intent = new Intent(HomeActivity.this, LoginActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_TASK_ON_HOME);
         startActivity(intent);
@@ -667,9 +635,68 @@ public class HomeActivity extends AppCompatActivity
 
     private void send_sms(String msg) {
         Log.e("send sms", msg);
+    } //TODO
+
+
+    private void parse_intent(Intent intent) {
+
+        if (intent != null) {
+            prefs.edit().putString(SettingsConfig.OTHER_ACCOUNT, "").apply();
+            prefs.edit().putString(SettingsConfig.OTHER_ADDRESS, "").apply();
+            prefs.edit().putString(SettingsConfig.OTHER_NAME, "").apply();
+            prefs.edit().putString(SettingsConfig.OTHER_NOTES, "").apply();
+            prefs.edit().putString(SettingsConfig.OTHER_LAT, "").apply();
+            prefs.edit().putString(SettingsConfig.OTHER_LNG, "").apply();
+
+            if (intent.getStringExtra(IntentConfig.OTHER_ACCOUNT) != null) {
+                other_account = intent.getStringExtra(IntentConfig.OTHER_ACCOUNT);
+                prefs.edit().putString(SettingsConfig.OTHER_ACCOUNT, other_account).apply();
+                Log.e("gw: other_account", other_account);
+            }
+            if (intent.getStringExtra(IntentConfig.OTHER_ADDRESS) != null) {
+                address = intent.getStringExtra(IntentConfig.OTHER_ADDRESS);
+                prefs.edit().putString(SettingsConfig.OTHER_ADDRESS, address).apply();
+                Log.e("gw: address", address);
+            }
+            if (intent.getStringExtra(IntentConfig.OTHER_NAME) != null) {
+                name = intent.getStringExtra(IntentConfig.OTHER_NAME);
+                prefs.edit().putString(SettingsConfig.OTHER_NAME, name).apply();
+                Log.e("gw: name", name);
+            }
+            if (intent.getStringExtra(IntentConfig.OTHER_NOTES) != null) {
+                notes = intent.getStringExtra(IntentConfig.OTHER_NOTES);
+                prefs.edit().putString(SettingsConfig.OTHER_NOTES, notes).apply();
+                Log.e("gw: notes", notes);
+            }
+            if (intent.getStringExtra(IntentConfig.OTHER_LAT) != null) {
+                lat = intent.getStringExtra(IntentConfig.OTHER_LAT);
+                prefs.edit().putString(SettingsConfig.OTHER_LAT, lat).apply();
+                Log.e("gw: lat", lat);
+            }
+            if (intent.getStringExtra(IntentConfig.OTHER_LNG) != null) {
+                lng = intent.getStringExtra(IntentConfig.OTHER_LNG);
+                prefs.edit().putString(SettingsConfig.OTHER_LNG, lng).apply();
+                Log.e("gw: lng", lng);
+            }
+        }
+
+    };
+
+    @Override
+    protected void onStop() {
+        super.onStop();
     }
 
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        startGWService();
+    }
+
+
     private void do_gridwatch() {
+        //report_outage();
         if (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.ACCESS_COARSE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
@@ -684,7 +711,6 @@ public class HomeActivity extends AppCompatActivity
                     new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
                     ACCESS_FINE_LOCATION);
         }
-
         GridWatch a = new GridWatch(this,iemi,String.valueOf(version_num), "MANUAL");
         a.run();
     }
@@ -693,6 +719,118 @@ public class HomeActivity extends AppCompatActivity
     public void onDialogReturnValue(Boolean result) {
         if (result) {
             do_gridwatch();
+        }
+    }
+
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+        Log.e("google api", "connection err: " + connectionResult.getErrorMessage());
+    }
+
+    public void initPermissions() {
+        if (ContextCompat.checkSelfPermission(this,
+                android.Manifest.permission.INTERNET)
+                != PackageManager.PERMISSION_GRANTED) {
+
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.INTERNET},
+                    IntentConfig.PERMISSIONS_REQUEST_ACCESS_INTERNET);
+        }
+        if (ContextCompat.checkSelfPermission(this,
+                android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                    IntentConfig.PERMISSIONS_REQUEST_ACCESS_WRITE_EXTERNAL_STORAGE);
+        }
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                    IntentConfig.PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
+        }
+        if (ContextCompat.checkSelfPermission(this,
+                android.Manifest.permission.ACCESS_WIFI_STATE)
+                != PackageManager.PERMISSION_GRANTED) {
+
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.ACCESS_WIFI_STATE},
+                    IntentConfig.PERMISSIONS_REQUEST_ACCESS_WIFI_STATE);
+        }
+        if (ContextCompat.checkSelfPermission(this,
+                android.Manifest.permission.WAKE_LOCK)
+                != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.WAKE_LOCK},
+                    IntentConfig.PERMISSIONS_REQUEST_ACCESS_WAKE_LOCK);
+        }
+        if (ContextCompat.checkSelfPermission(this,
+                android.Manifest.permission.RECEIVE_BOOT_COMPLETED)
+                != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.RECEIVE_BOOT_COMPLETED},
+                    IntentConfig.PERMISSIONS_REQUEST_ACCESS_RECEIVE_BOOT_COMPLETED);
+        }
+        if (ContextCompat.checkSelfPermission(this,
+                android.Manifest.permission.RECORD_AUDIO)
+                != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.RECORD_AUDIO},
+                    IntentConfig.PERMISSIONS_REQUEST_ACCESS_RECORD_AUDIO);
+        }
+        if (ContextCompat.checkSelfPermission(this,
+                android.Manifest.permission.SYSTEM_ALERT_WINDOW)
+                != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.SYSTEM_ALERT_WINDOW},
+                    IntentConfig.PERMISSIONS_REQUEST_ACCESS_SYSTEM_ALERT_WINDOW);
+        }
+        if (ContextCompat.checkSelfPermission(this,
+                android.Manifest.permission.VIBRATE)
+                != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.VIBRATE},
+                    IntentConfig.PERMISSIONS_REQUEST_ACCESS_VIBRATE);
+        }
+        if (ContextCompat.checkSelfPermission(this,
+                android.Manifest.permission.READ_PHONE_STATE)
+                != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.READ_PHONE_STATE},
+                    IntentConfig.PERMISSIONS_REQUEST_ACCESS_READ_PHONE_STATE);
+        }
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                    IntentConfig.PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
+        }
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_NETWORK_STATE)
+                != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.ACCESS_NETWORK_STATE},
+                    IntentConfig.PERMISSIONS_REQUEST_ACCESS_NETWORK_STATE);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case IntentConfig.PERMISSIONS_REQUEST_ACCESS_LOC: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                } else {
+                    // permission denied, boo!
+                }
+                return;
+            }
         }
     }
 }

@@ -41,9 +41,11 @@ import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.TimeUnit;
 
+import gridwatch.kplc.activities.config.DatabaseConfig;
 import gridwatch.kplc.activities.config.SensorConfig;
 import gridwatch.kplc.activities.config.SettingsConfig;
 import gridwatch.kplc.activities.database.GWDump;
+import gridwatch.kplc.activities.database.GWFirebase;
 import io.realm.Realm;
 import pl.charmas.android.reactivelocation.ReactiveLocationProvider;
 import rx.Observable;
@@ -172,15 +174,28 @@ public class GridWatch {
         //* observed by:
         //*    gridwatch stream
         //***********************
-        ReactiveLocationProvider locationProvider = new ReactiveLocationProvider(mContext);
+        /*
         locationProvider.getLastKnownLocation()
+                .doOnError(new Action1<Throwable>() {
+                    @Override
+                    public void call(Throwable throwable) {
+                        Log.e("Loc err 1", throwable.toString());
+                    }
+                })
+                .onErrorResumeNext(new Func1<Throwable, Observable<? extends Location>>() {
+                    @Override
+                    public Observable<? extends Location> call(Throwable throwable) {
+                        return null;
+                    }
+                })
                 .subscribe(new Action1<Location>() {
                     @Override
                     public void call(Location location) {
                         Log.e("GridWatch : " , location.toString());
                     }
                 });
-
+                */
+        ReactiveLocationProvider locationProvider = new ReactiveLocationProvider(mContext);
         LocationRequest req = LocationRequest.create()
                 .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
                 .setExpirationDuration(TimeUnit.SECONDS.toMillis(SensorConfig.LOCATION_TIMEOUT_IN_SECONDS))
@@ -194,7 +209,16 @@ public class GridWatch {
                 .doOnError(new Action1<Throwable>() {
                     @Override
                     public void call(Throwable throwable) {
-                        Log.e("Loc err", throwable.toString());
+                        Log.e("Loc err 2", throwable.toString());
+                    }
+                })
+                .onErrorReturn(new Func1<Throwable, Location>() {
+                    @Override
+                    public Location call(Throwable throwable) {
+                        Location bad = new Location("");
+                        bad.setLatitude(0.0d);
+                        bad.setLongitude(0.0d);
+                        return bad;
                     }
                 })
                 .map(new Func1<Location, JSONObject>() {
@@ -289,29 +313,12 @@ public class GridWatch {
             }
         });
 
+
+
+
         //*************************
         //* GridWatch
         //*************************
-        /*
-         gridwatch_stream = Observable
-                .zip(
-                        loc,
-                        meta,
-                        settings,
-                        accel,
-                        cell,
-                        network,
-                        wifi,
-                        new Func7<JSONObject, JSONObject, JSONObject, JSONObject, JSONObject, JSONObject, JSONObject, JSONObject>() {
-                            @Override
-                            public JSONObject call(JSONObject o, JSONObject o2, JSONObject o3, JSONObject o4, JSONObject o5, JSONObject o6, JSONObject o7) {
-                                take_audio_recording(); //I HATE THIS
-                                Log.e("GridWatch", "subscribe");
-                                return merge(o, o2, o3, o4, o5, o6, o7);
-                            }
-                        });
-                        */
-
         gridwatch_stream = Observable
                 .zip(
                         loc,
@@ -375,7 +382,7 @@ public class GridWatch {
                             public void onSuccess() {
                                 Log.e("GridWatch", "event saved in realm");
                                 realm.close();
-                                send_report();
+                                send_report(mPhone_id, o.toString());
                             }
                         }, new Realm.Transaction.OnError() {
 
@@ -389,37 +396,21 @@ public class GridWatch {
 
     }
 
-    private void send_report() {
+    private void send_report(String id, String text) {
         try {
-            String phone_id = "-1";
-            String experiment_id = "-1";
-
             IntentFilter ifilter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
             Intent batteryStatus = mContext.registerReceiver(null, ifilter);
             int level = batteryStatus.getIntExtra(BatteryManager.EXTRA_LEVEL, -1);
             int scale = batteryStatus.getIntExtra(BatteryManager.EXTRA_SCALE, -1);
-
-            double lat = 0.0;
-            double lng = 0.0;
-
-
             long time = System.currentTimeMillis();
-
             double battery = level / (double) scale;
             String version_num = mVersionNum;
+            String battery_str = String.valueOf(battery);
 
-            /*
-            GWRetrofit a = new GWRetrofit(event_type, time, lat, lng,
-                    phone_id, experiment_id, version_num,
-                    cur_size, last, battery);
-            */
-
-            /*
-            Ack gw = new Ack(System.currentTimeMillis(), a.toString(), phone_id, experiment_id);
+            GWFirebase a = new GWFirebase(time, text, id, version_num, battery_str, mType);
             int new_gw_num = sp.getInt(SettingsConfig.GW, 0) + 1;
-            sp.edit().putInt(SettingsConfig.GW, new_gw_num).commit();
-            mDatabase.child(phone_id).child(DatabaseConfig.GW).child(String.valueOf(new_gw_num)).setValue(gw);
-            */
+            sp.edit().putInt(SettingsConfig.GW, new_gw_num).apply();
+            mDatabase.child(id).child(DatabaseConfig.GW).child(String.valueOf(new_gw_num)).setValue(a);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -511,8 +502,34 @@ public class GridWatch {
     //notes
     private JSONObject meta_transform() {
         try {
+
+            String account_num = sp.getString("setting_key_account_number", "-1");
+            String meter_number = sp.getString("setting_key_meter_number", "-1");
+            String contact_name = sp.getString("Contact", "-1");
+            String contact_phone = sp.getString("Phone", "-1");
+            String address = sp.getString("Address", "-1");
+
+            String other_account_num = sp.getString(SettingsConfig.OTHER_ACCOUNT, "-1");
+            String other_name = sp.getString(SettingsConfig.OTHER_NAME, "-1");
+            String other_address = sp.getString(SettingsConfig.OTHER_ADDRESS, "-1");
+            String other_note = sp.getString(SettingsConfig.OTHER_NOTES, "-1");
+            String other_lat = sp.getString(SettingsConfig.OTHER_LAT, "-1");
+            String other_lng = sp.getString(SettingsConfig.OTHER_LNG, "-1");
+
             return new JSONObject()
+                    .put("type", mType)
                     .put("phone_id", mPhone_id)
+                    .put("other_account_num", other_account_num)
+                    .put("other_name", other_name)
+                    .put("other_address", other_address)
+                    .put("other_note", other_note)
+                    .put("other_lat", other_lat)
+                    .put("other_lng", other_lng)
+                    .put("account_num", account_num)
+                    .put("meter_num", meter_number)
+                    .put("name", contact_name)
+                    .put("phone_num", contact_phone)
+                    .put("address", address)
                     .put("meta_time", System.currentTimeMillis());
         } catch (JSONException e) {
             e.printStackTrace();

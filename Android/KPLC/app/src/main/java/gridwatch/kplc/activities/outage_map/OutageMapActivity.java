@@ -3,11 +3,16 @@ package gridwatch.kplc.activities.outage_map;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.webkit.WebResourceError;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+
+import gridwatch.kplc.R;
 
 public class OutageMapActivity extends AppCompatActivity {
 
@@ -17,6 +22,7 @@ public class OutageMapActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
 
 
 
@@ -63,6 +69,27 @@ public class OutageMapActivity extends AppCompatActivity {
 
 
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater(); //ERROR<-----------
+        inflater.inflate(R.menu.web_refresh, menu);
+        return super.onCreateOptionsMenu(menu); // in Fragment cannot be applied <------------
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_refresh:
+
+                // Complete with your code
+                webview.reload();
+                Log.e("webview", "reloading");
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
 
     /*
     public void changeText(String someText){

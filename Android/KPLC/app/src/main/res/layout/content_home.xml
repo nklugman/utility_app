@@ -121,7 +121,32 @@
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/due_date"
+        android:layout_below="@id/due_date"
+        android:id="@+id/update_time">
+
+        <TextView
+            android:text="Last Updated:"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/cur_update_text"
+            android:textColor="@color/common_google_signin_btn_text_light"
+            android:layout_marginLeft="10dp" />
+
+        <TextView
+            android:text="TextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/last_update_textview"
+            android:layout_weight="1"
+            android:textColor="@color/common_google_signin_btn_text_light"
+            android:layout_marginLeft="10dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/update_time"
         android:layout_marginTop="20dp"
         android:id="@+id/balance_payment_layout">
 
@@ -141,26 +166,14 @@
             android:layout_marginLeft="10dp" />
     </LinearLayout>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="2px"
-        android:background="@color/colorGrey"
-        android:id="@+id/divider"
-        android:layout_below="@+id/balance_payment_layout"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp" />
-
     <Button
         android:text="Report an Outage"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/outage_btn"
         android:background="@color/colorYellow"
+        android:layout_below="@+id/balance_payment_layout"
         android:layout_weight="1"
-        android:layout_below="@+id/divider"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_marginTop="10dp"

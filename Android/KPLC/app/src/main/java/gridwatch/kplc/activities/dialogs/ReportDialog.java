@@ -24,15 +24,17 @@ public class ReportDialog extends DialogFragment {
         // Use the Builder class for convenient dialog construction
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         final String tag = "all:ReportDialog:onCreateDialog";
+        setStyle(DialogFragment.STYLE_NO_TITLE, R.style.dialog);
 
         // UUID.randomUUID().toString().substring(0,4);
         int randomPIN = (int)(Math.random()*9000)+1000;
         final String random = String.valueOf(randomPIN);
 
         final EditText edittext= new EditText(this.getActivity().getApplicationContext());
+        edittext.offsetLeftAndRight(10);
         edittext.setTextColor(Color.RED);
-        edittext.setBackgroundColor(Color.WHITE);
         builder.setView(edittext);
+
         edittext.setInputType(InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
 
         edittext.addTextChangedListener(new TextWatcher() {
@@ -78,6 +80,7 @@ public class ReportDialog extends DialogFragment {
                         activity.onDialogReturnValue(result);
                     }
                 });
+
         return builder.create();
     }
 

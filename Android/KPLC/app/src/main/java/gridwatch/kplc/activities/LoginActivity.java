@@ -184,8 +184,12 @@ public class LoginActivity extends AppCompatActivity {
                     editor.putBoolean(SettingsConfig.IS_PREPAID, false);
 
                 }
-                editor.apply();
-                replaceActivityWithHome();
+                if (isNetworkAvailable()) {
+                    editor.apply();
+                    replaceActivityWithHome();
+                } else {
+                    show_not_online_err();
+                }
             }
         });
     }
@@ -224,6 +228,17 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
         builder.setNegativeButton(R.string.go_back, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+            }
+        });
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+    private void show_not_online_err() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage(R.string.not_online_dialog);
+        builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
             }
         });

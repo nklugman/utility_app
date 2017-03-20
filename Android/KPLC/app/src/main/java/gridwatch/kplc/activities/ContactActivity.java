@@ -30,7 +30,6 @@ public class ContactActivity extends AppCompatActivity {
                 email.putExtra(android.content.Intent.EXTRA_SUBJECT, "KPLC Contact Us");
                 email.putExtra(android.content.Intent.EXTRA_TEXT,
                         name.getText().toString());
-
                 startActivity(Intent.createChooser(email, "Send mail..."));
             }
         });

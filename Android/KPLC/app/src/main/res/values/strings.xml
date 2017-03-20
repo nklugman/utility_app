@@ -68,4 +68,13 @@
     <string name="outage_report">Report Outage</string>
     <string name="billingandpayment">Billing and Payment</string>
     <string name="outages">Outages</string>
+    <string name="refresh_button">Refresh</string>
+    <string name="reload">Reload</string>
+    <string name="title_activity_outage">OutageActivity</string>
+    <string name="set">Set</string>
+    <string name="prompt_set_address">Your home address is not set! To report an outage at home, please set your address!</string>
+    <string name="prompt_set_account">Your meter number or account number is not set! To report an outage, please set your meter number or account number!</string>
+    <string name="show_need_account_numer_or_address">Please enter a location and an account number!</string>
+    <string name="show_need_account">Please enter an account number!</string>
+    <string name="show_need_location">Please enter a location!</string>
 </resources>

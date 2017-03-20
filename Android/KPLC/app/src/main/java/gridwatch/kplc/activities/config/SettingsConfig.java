@@ -98,6 +98,13 @@ public class SettingsConfig {
     public static final String DUE_DATE = "DUE_DATE";
     public static final String BALANCE = "BALANCE";
     public static final String IS_PREPAID = "IS_PREPAID";
+    public static final String LAST_UPDATE = "LAST_UPDATE";
+    public static final String OTHER_ACCOUNT = "OTHER_ACCOUNT";
+    public static final String OTHER_ADDRESS = "OTHER_ADDRESS";
+    public static final String OTHER_NAME = "OTHER_NAME";
+    public static final String OTHER_NOTES = "OTHER_NOTES";
+    public static final String OTHER_LAT = "OTHER_LAT";
+    public static final String OTHER_LNG = "OTHER_LNG";
 
 
     public class NUM_WD {
