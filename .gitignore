@@ -10,3 +10,7 @@ data/.DS_Store
 outage_map/Map_Main/__pycache__/region_define.cpython-35.pyc
 outage_map/Map_Main/__pycache__/
 data/social_media_Main/__pycache__
+data/social_media_Main/__pycache__/Facebook_Post_Update.cpython-35.pyc
+data/social_media_Main/__pycache__/parsing_replies_to_server.cpython-35.pyc
+data/social_media_Main/__pycache__/Tweet_Update.cpython-35.pyc
+data/.DS_Store

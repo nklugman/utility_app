@@ -16,13 +16,28 @@ twitter_KPLC = 'kenyapower_care'
 facebook_KPLC = 'KenyaPowerLtd'
 def start_fetching():
     Tweet_Update.get_latest_tweets(twitter_KPLC)
-    Tweet_Reply_Update.get_latest_replies(twitter_KPLC)
     Facebook_Post_Update.fetch(facebook_KPLC)
-    time_now = datetime.datetime.now()
-    print("Now: ", time_now)
+    if(not data_limited):
+        Tweet_Reply_Update.get_latest_replies(twitter_KPLC)
+    
+def periodical_loop(minutes_interval): ##Don't be shorter than 15 minutes.
+    global data_limited
+    data_limited = False
+    count = 0
+    while(True):
+        count += 1
+        print("Now: ", datetime.datetime.now())
+        try:
+            start_fetching();
+        except Exception as e:
+            data_limited = True
+            limited_event = count
+            print(e)
+        if(((count - limited_event)*minutes_interval) > 25*60):
+            data_limited = False
+        time.sleep(minutes_interval*60) 
 
 if __name__=='__main__':
+    periodical_loop(20)
     #start_fetching();
-    while(True):
-        start_fetching();
-        time.sleep(15*60) #15 minutes, don't be shorter than this.
+    
