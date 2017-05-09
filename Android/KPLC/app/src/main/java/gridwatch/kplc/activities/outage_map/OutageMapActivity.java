@@ -28,7 +28,10 @@ public class OutageMapActivity extends AppCompatActivity {
 
         //webview = (WebView) findViewById(R.id.outage_map_webview);
         webview = new WebView(this);
-        setContentView(webview);
+
+        setContentView(R.layout.activity_outage_map); // only for testing
+        //setContentView(webview); // for actual app
+
         WebSettings webSettings = webview.getSettings();
         webSettings.setJavaScriptEnabled(true);
 

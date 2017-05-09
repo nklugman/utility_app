@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/activity_settings">
 
     <EditTextPreference
+        android:id="@+id/editSettings"
         android:title="Account Number"
         android:key="setting_key_account_number"
         android:defaultValue="Please provide your Account Number."

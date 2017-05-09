@@ -18,6 +18,7 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //setContentView(R.layout.activity_settings);
         addPreferencesFromResource(R.xml.settings);
         PreferenceCategory fakeHeader = new PreferenceCategory(this);
 
