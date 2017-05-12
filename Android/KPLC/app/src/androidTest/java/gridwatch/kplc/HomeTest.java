@@ -2,16 +2,20 @@ package gridwatch.kplc;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.support.test.filters.LargeTest;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
+import org.junit.FixMethodOrder;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.junit.runners.MethodSorters;
 
 import gridwatch.kplc.activities.ContactActivity;
 import gridwatch.kplc.activities.HomeActivity;
+import gridwatch.kplc.activities.LoginActivity;
 import gridwatch.kplc.activities.billing.BalanceHistoryActivity;
 import gridwatch.kplc.activities.news_feed.NewsfeedActivity;
 import gridwatch.kplc.activities.outage_map.OutageMapActivity;
@@ -40,6 +44,7 @@ import static org.hamcrest.core.AllOf.allOf;
  */
 @RunWith(AndroidJUnit4.class)
 @LargeTest
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class HomeTest {
 
     @Rule
@@ -58,6 +63,10 @@ public class HomeTest {
     public final ActivityTestRule<NewsfeedActivity> NewsfeedActivityRule =
             new ActivityTestRule<>(NewsfeedActivity.class, true, false);
 
+    @Rule
+    public final ActivityTestRule<LoginActivity> LoginActivityRule =
+            new ActivityTestRule<>(LoginActivity.class, true, false);
+
 //    @Rule
 //    public final ActivityTestRule<BuyTokensActivity> TokensActivityRule =
 //            new ActivityTestRule<>(BuyTokensActivity.class, true, false);
@@ -66,14 +75,8 @@ public class HomeTest {
 //    public final ActivityTestRule<SettingsActivity> SettingActivityRule =
 //            new ActivityTestRule<>(SettingsActivity.class, true, false);
 
-
-
-
-
-
-
     @Test
-    public void clicksOutageMapButton_opensOutageMap() { // works with workaround
+    public void AclicksOutageMapButton_opensOutageMap() { // works with workaround
         // click on the outage map button
         OutageMapActivityRule.launchActivity(null);
 
@@ -82,7 +85,7 @@ public class HomeTest {
     }
 
     @Test
-    public void clicksContactButton_opensContact() { // working
+    public void BclicksContactButton_opensContact() { // working
         // click on the contact button
         ContactActivityRule.launchActivity(null);
 
@@ -91,7 +94,7 @@ public class HomeTest {
     }
 
     @Test
-    public void clicksOutageReportButton_opensOutageReport() { // working
+    public void CclicksOutageReportButton_opensOutageReport() { // working
         // click on the outage report button
         ReportActivityRule.launchActivity(null);
 
@@ -100,13 +103,23 @@ public class HomeTest {
     }
 
     @Test
-    public void clicksNewsfeedButton_opensNewsfeed() { //working
+    public void CclicksNewsfeedButton_opensNewsfeed() { //working
         // click on the newsfeed button
         NewsfeedActivityRule.launchActivity(null);
 
         // check if the news feed screen is displayed
         onView(withId(R.id.inputSearch)).check(matches(allOf(isDescendantOfA(withId(R.id.activity_newsfeed)), isDisplayed())));
     }
+
+//    @Test
+//    public void EclicksLogoutButton_opensLoginPage() {
+//        // click on the logout button
+//        LoginActivityRule.launchActivity(null);
+//
+//        // check if the login screen is displayed
+//        onView(withId(R.id.loginPrePayRadio)).perform(click());
+//        onView(withId(R.id.loginPrePayRadio)).check(matches(isChecked()));
+//    }
 
 //    @Test
 //    public void clicksBuyTokenButton_opensBuyToken() { // can only work if logged in
@@ -127,15 +140,6 @@ public class HomeTest {
 //        //onView(withId(R.id.editSettings)).check(matches(allOf(isDescendantOfA(withId(R.xml.settings)), isDisplayed())));
 //    }
 
-    @Rule
-    public ActivityTestRule<HomeActivity> activityRule = new ActivityTestRule<>(HomeActivity.class);
-
-    @Test
-    public void AclickPrePayButton() {
-        // report an outage
-        onView(withId(R.id.outage_btn)).perform(click());
-
-    }
 
 }
 
