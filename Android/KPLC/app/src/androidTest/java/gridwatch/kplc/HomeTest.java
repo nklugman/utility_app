@@ -22,12 +22,15 @@ import gridwatch.kplc.activities.settings.SettingsActivity;
 
 import static android.support.test.espresso.Espresso.onData;
 import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.matcher.ViewMatchers.isChecked;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDescendantOfA;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 //import static android.support.v4.content.ContextCompat.startActivity;
+import static org.hamcrest.Matchers.not;
 import static org.hamcrest.core.AllOf.allOf;
 
 /**
@@ -65,40 +68,7 @@ public class HomeTest {
 
 
 
-//    @Override
-//    private void launch_class(Class to_launch) {
-//        Intent e = new Intent(this, to_launch);
-//        Intent getStartedActivityIntent(e);
-//        startActivity(e);
-//    }
 
-//
-//    @Test
-//    public void clicksPaymentButton_opensPayment() {
-//        // click on the payment button
-//        launch_class(MakePaymentActivity.class);
-//
-//        // check if the payment screen is displayed
-//        onView(withId(R.id.paymentRadioGroup)).check(matches(allOf(isDescendantOfA(withId(R.id.activity_payment)), isDisplayed())));
-//    }
-//
-//    @Test
-//    public void clicksBalanceButton_opensBalance() {
-//        // click on the balance button
-//        launch_class(BalanceHistoryActivity.class);
-//
-//        // check if the payment screen is displayed
-//        onView(withId(R.id.textView4).check(matches(allOf(isDescendantOfA(withId(R.id.activity_balance)), isDisplayed())));
-//    }
-//
-//    @Test
-//    public void clicksUsageButton_opensUsage() {
-//        // click on the balance button
-//        launch_class(UsageChartsActivity.class);
-//
-//        // check if the payment screen is displayed
-//        onView(withId(R.id.textView4).check(matches(allOf(isDescendantOfA(withId(R.id.activity_usage)), isDisplayed())));
-//    }
 
 
 
@@ -156,6 +126,16 @@ public class HomeTest {
 //        onView(withId(R.id.editSettings)).check(matches(withId(R.xml.settings)));
 //        //onView(withId(R.id.editSettings)).check(matches(allOf(isDescendantOfA(withId(R.xml.settings)), isDisplayed())));
 //    }
+
+    @Rule
+    public ActivityTestRule<HomeActivity> activityRule = new ActivityTestRule<>(HomeActivity.class);
+
+    @Test
+    public void AclickPrePayButton() {
+        // report an outage
+        onView(withId(R.id.outage_btn)).perform(click());
+
+    }
 
 }
 
