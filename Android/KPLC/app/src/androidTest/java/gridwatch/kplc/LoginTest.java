@@ -85,6 +85,7 @@ public class LoginTest { // you must be logged out for these tests to work
         onView(withId(R.id.loginPrePayEditText)).perform(typeText(exampleNumber));
         // example confirming this number has been successfully typed
         onView(withText(exampleNumber)).check(matches(isDisplayed()));
+        closeSoftKeyboard();
     }
 
     @Test
@@ -95,11 +96,12 @@ public class LoginTest { // you must be logged out for these tests to work
         onView(withId(R.id.loginPostPayEditText)).perform(typeText(exampleNumber));
         // example confirming this number has been successfully typed
         onView(withText(exampleNumber)).check(matches(isDisplayed()));
+        closeSoftKeyboard();
     }
 
     @Test
     public void EtestPrePayText_thenClear() {
-        // check that if you enter a meter number, it appears in the meter number box under PrePay
+        // check that if you enter a meter number then clear it, the text field is empty today
         String exampleNumber = "1111";
         onView(withId(R.id.loginPrePayRadio)).perform(click());
         onView(withId(R.id.loginPrePayEditText)).perform(typeText(exampleNumber));
@@ -109,11 +111,12 @@ public class LoginTest { // you must be logged out for these tests to work
         onView(withId(R.id.loginPrePayEditText)).perform(clearText());
         // check if field is empty
         onView(withId(R.id.loginPrePayEditText)).check(matches(withText("")));
+        closeSoftKeyboard();
     }
 
     @Test
     public void FtestPostPayText_thenClear() {
-        // check that if you enter an account number, it appears in the account number box under PostPay
+        // check that if you enter an account number then clear it, the text field is empty again
         String exampleNumber = "2222";
         onView(withId(R.id.loginPostPayRadio)).perform(click());
         onView(withId(R.id.loginPostPayEditText)).perform(typeText(exampleNumber));
@@ -123,6 +126,7 @@ public class LoginTest { // you must be logged out for these tests to work
         onView(withId(R.id.loginPostPayEditText)).perform(clearText());
         // check if field is empty
         onView(withId(R.id.loginPostPayEditText)).check(matches(withText("")));
+        closeSoftKeyboard();
     }
 
     @Test
@@ -138,6 +142,7 @@ public class LoginTest { // you must be logged out for these tests to work
         onView(withId(R.id.loginPrePayEditText)).perform(replaceText(replaceNumber));
         // check if text has been replaced
         onView(allOf(withId(R.id.loginPrePayEditText), withText(replaceNumber))).check(matches(isDisplayed()));
+        closeSoftKeyboard();
     }
 
     @Test
@@ -153,16 +158,18 @@ public class LoginTest { // you must be logged out for these tests to work
         onView(withId(R.id.loginPostPayEditText)).perform(replaceText(replaceNumber));
         // check if text has been replaced
         onView(allOf(withId(R.id.loginPostPayEditText), withText(replaceNumber))).check(matches(isDisplayed()));
+        closeSoftKeyboard();
     }
 
     @Test
     public void IwhenDeviceRotates_sameLoginTextInputIsRetained() {
-        // check that if you enter a meter number, it appears in the meter number box under PrePay
+        // check that if you enter a meter number, the text remains when the phone is rotated
         String exampleNumber = "1111";
         onView(withId(R.id.loginPrePayRadio)).perform(click());
         onView(withId(R.id.loginPrePayEditText)).perform(typeText(exampleNumber));
         rotateDevice();
         onView(withId(R.id.loginPrePayEditText)).check(matches(withText(exampleNumber)));
+        closeSoftKeyboard();
     }
 
     @Test
@@ -205,16 +212,18 @@ public class LoginTest { // you must be logged out for these tests to work
 
     @Test
     public void MtestSubmit() {
-        // test to open pre pay edit box then close the keyboard
+        // test to submit the login and see if you end up on the home page
         String exampleNumber = "1111";
         onView(withId(R.id.loginPrePayRadio)).perform(click());
         onView(withId(R.id.loginPrePayEditText)).perform(typeText(exampleNumber));
         closeSoftKeyboard();
         onView(withId(R.id.login_submit)).perform(click());
+        // check if you are on the home page
         onView(withId(R.id.welcome)).check(matches(AllOf.allOf(isDescendantOfA(withId(R.id.content_home)), isDisplayed())));
     }
 
     private void rotateDevice() {
+        // rotates the device
         activityRule.getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
     }
 }
